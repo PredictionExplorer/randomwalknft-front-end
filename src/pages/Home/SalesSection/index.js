@@ -97,7 +97,7 @@ const SalesSection = () => {
       </Grid>
       <Box display="flex" justifyContent="center" mt={3}>
         <Button
-          href="https://testnets.opensea.io/collection/pedestrians-ctnr5i1dch"
+          href="https://opensea.io/"
           target="_blank"
           variant="contained"
           color="secondary"

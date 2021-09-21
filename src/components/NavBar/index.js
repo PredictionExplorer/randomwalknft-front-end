@@ -5,18 +5,16 @@ import {
   AppBar,
   Box,
   Toolbar,
-  Button,
   IconButton,
   Drawer,
   List,
   ListItem,
-  Chip,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
 import NAV_SECTIONS from "config/nav";
 import useStyles from "config/styles";
-import { formatAddress } from "utils/web3";
+import ConnectWalletButton from "components/ConnectWalletButton";
 
 const NavBar = () => {
   const classes = useStyles();
@@ -43,27 +41,6 @@ const NavBar = () => {
     };
   }, []);
 
-  const renderWalletButton = () => {
-    const wallet = null;
-    return wallet ? (
-      <Chip
-        variant="outlined"
-        color="secondary"
-        label={formatAddress(wallet)}
-      />
-    ) : (
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={(e) => {
-          console.log(e);
-        }}
-      >
-        Connect To Wallet
-      </Button>
-    );
-  };
-
   const renderDesktop = () => {
     return (
       <Toolbar>
@@ -77,7 +54,7 @@ const NavBar = () => {
               </Box>
             )
         )}
-        <div className={classes.toolbarButtons}>{renderWalletButton()}</div>
+        <ConnectWalletButton />
       </Toolbar>
     );
   };
@@ -119,7 +96,7 @@ const NavBar = () => {
           </List>
         </Drawer>
 
-        <div className={classes.toolbarButtons}>{renderWalletButton()}</div>
+        <ConnectWalletButton />
       </Toolbar>
     );
   };

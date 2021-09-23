@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import axios from "axios";
 
 import {
   Grid,
@@ -7,63 +9,85 @@ import {
   Button,
   Typography,
   Box,
+  Snackbar,
+  IconButton,
 } from "@material-ui/core";
+import CloseIcon from "@material-ui/icons/Close";
 
 import useStyles from "config/styles";
+import abi from "abis/contract";
+import { CONTRACT_ADDRESS } from "constants/app";
+import { useActiveWeb3React } from "hooks/web3";
 
 const SalesCard = (props) => {
   const classes = useStyles();
-  const { title, count, amount, onMintNow } = props;
+  const { title, price, onMintNow } = props;
   return (
     <Card className={classes.salesCard}>
       <CardContent>
-        <Box className={classes.salesTitle}>
+        <Box mb={1} className={classes.salesTitle}>
           <Typography color="textSecondary" align="center" variant="h6">
             {title}
           </Typography>
         </Box>
+        <Typography variant="body2" align="center">
+          .001 ETH
+        </Typography>
         <Box display="flex" flexDirection="column" justifyContent="center">
           <Button className={classes.salesButton} onClick={onMintNow}>
-            Mint {count}
+            Mint
           </Button>
-          <Typography component="p" align="center">
-            {amount.toFixed(2)} ETH
-          </Typography>
         </Box>
-        <Typography
-          variant="body2"
-          align="center"
-          className={classes.salesInfo}
-        >
-          {parseFloat(amount / count).toFixed(2)} ETH / Pedestrian
-        </Typography>
       </CardContent>
     </Card>
   );
 };
 
 const SalesSection = () => {
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
   const classes = useStyles();
-  const [maxSupply, setMaxSupply] = useState(null);
-  const [remainingSupply, setRemainingSupply] = useState(null);
 
-  const mintPedestrians = (count) => async () => {
-    console.log(count);
+  const { library, account } = useActiveWeb3React();
+
+  const handleClose = () => setOpen(false);
+
+  const handleMint = async () => {
+    if (library && account) {
+      try {
+        const signer = library.getSigner();
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+        const mintPrice = await contract.getMintPrice();
+
+        const receipt = await contract
+          .mint({ value: mintPrice })
+          .then((tx) => tx.wait());
+
+        const tokenId = receipt.events[0].args.tokenId.toNumber();
+
+        setOpen(true);
+        setMessage("Generating Random Walk NFT image...");
+        axios
+          .get(
+            `https://hbtk5s7xeb.execute-api.us-east-2.amazonaws.com/api?token_id=${tokenId}`
+          )
+          .then((res) => {
+            console.log(res);
+            setMessage("Random Walk NFT image has been generated.");
+          })
+          .catch((err) => {
+            console.log(err);
+            setMessage("Random Walk NFT image has been generated.");
+          });
+      } catch (err) {
+        console.log(err);
+      }
+    }
   };
-
-  useEffect(() => {
-    setMaxSupply(10000);
-    setRemainingSupply(9956);
-  }, []);
 
   return (
     <Box className={classes.gridContainer}>
-      {maxSupply !== null && remainingSupply !== null && (
-        <Typography variant="h5" component="p" align="center" gutterBottom>
-          {maxSupply} unique NFTs.
-          <br /> {remainingSupply} available for minting
-        </Typography>
-      )}
       <Grid
         container
         justifyContent="center"
@@ -71,28 +95,7 @@ const SalesSection = () => {
         className={classes.salesSection}
       >
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SalesCard
-            title="Single"
-            count={1}
-            amount={0.1}
-            onMintNow={mintPedestrians(1)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SalesCard
-            title="Triple"
-            count={3}
-            amount={0.27}
-            onMintNow={mintPedestrians(3)}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SalesCard
-            title="A Crew"
-            count={5}
-            amount={0.4}
-            onMintNow={mintPedestrians(5)}
-          />
+          <SalesCard title="Random Walk NFT" onMintNow={handleMint} />
         </Grid>
       </Grid>
       <Box display="flex" justifyContent="center" mt={3}>
@@ -107,6 +110,21 @@ const SalesSection = () => {
           View on OpenSea
         </Button>
       </Box>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={open}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+        message={message}
+      />
     </Box>
   );
 };

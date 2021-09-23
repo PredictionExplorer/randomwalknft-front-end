@@ -1,4 +1,5 @@
 import arbitrumLogoUrl from "assets/svg/arbitrum_logo.svg";
+import optimismLogoUrl from "assets/svg/optimism_logo.svg";
 
 export enum SupportedChainId {
   ARBITRUM_ONE = 42161,
@@ -30,7 +31,7 @@ export interface L2ChainInfo extends L1ChainInfo {
   readonly logoUrl: string;
 }
 
-type ChainInfo = { readonly [chainId: number]: L2ChainInfo } & {
+type ChainInfo = { readonly [chainId: number]: L1ChainInfo | L2ChainInfo } & {
   readonly [chainId in SupportedL2ChainId]: L2ChainInfo;
 };
 

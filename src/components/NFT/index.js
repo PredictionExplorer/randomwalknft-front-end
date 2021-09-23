@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   Typography,
@@ -10,6 +10,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import { useNFTByIndex } from "hooks/useNFT";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -20,68 +22,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NFT = ({ account, index }) => {
+const NFT = ({ type, index }) => {
   const classes = useStyles();
-
-  const [loading, setLoading] = useState(true);
-  const pedestrian = {
-    owner: "",
-    image: "",
-    description: "",
-    id: "",
-  };
-  const { owner, image, description, id } = pedestrian;
-
-  useEffect(() => {
-    if (pedestrian.image) {
-      setLoading(false);
-    }
-  }, [pedestrian]);
+  const nft = useNFTByIndex(type, index);
 
   return (
     <Card>
-      <CardActionArea component={Link} to={`/detail/${id}`}>
-        {/* {!account && (
-          <CardHeader
-            titleTypographyProps={{ variant: "body2", color: "secondary" }}
-            title={
-              loading ? (
-                <Skeleton
-                  animation="wave"
-                  height={10}
-                  width="40%"
-                  style={{ marginBottom: 6 }}
-                />
-              ) : (
-                "Owned By"
-              )
-            }
-            subheader={
-              loading ? (
-                <Skeleton animation="wave" height={10} width="80%" />
-              ) : (
-                formatAddress(owner)
-              )
-            }
-            subheaderTypographyProps={{ variant: "body2", color: "secondary" }}
-          />
-        )} */}
-        {loading ? (
+      <CardActionArea component={Link} to={nft ? `/detail/${nft.id}` : "#"}>
+        {!nft ? (
           <Skeleton animation="wave" variant="rect" className={classes.media} />
         ) : (
-          <CardMedia
-            className={classes.media}
-            image={image}
-            title={description}
-          />
+          <CardMedia className={classes.media} image={nft.image} />
         )}
         <CardContent>
-          <Typography variant="body1">
-            {loading ? (
-              <Skeleton animation="wave" />
-            ) : (
-              `#${id.toString().padStart(4, "0")}`
-            )}
+          <Typography
+            color="secondary"
+            variant="body2"
+            style={{ overflowWrap: "anywhere" }}
+          >
+            {!nft ? <Skeleton animation="wave" /> : nft.seed}
           </Typography>
         </CardContent>
       </CardActionArea>

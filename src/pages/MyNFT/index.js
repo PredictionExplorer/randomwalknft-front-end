@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
+import { Container, Typography, Box } from "@material-ui/core";
 
 import abi from "abis/contract";
 import { CONTRACT_ADDRESS } from "constants/app";
@@ -8,12 +8,11 @@ import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import PaginationGrid from "components/PaginationGrid";
 
-const Gallery = () => {
+const MyNFTs = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
-  const [collection, setCollection] = useState([]);
-
-  const { library } = useActiveWeb3React();
+  const [nftIds, setNftIds] = useState([]);
+  const { account, library } = useActiveWeb3React();
 
   useEffect(() => {
     let isSubscribed = true;
@@ -21,14 +20,14 @@ const Gallery = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const tokenIds = [];
+        const nftIds = [];
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
-        const balance = await contract.totalSupply();
+        const balance = await contract.balanceOf(account);
         for (let i = 0; i < balance.toNumber(); i++) {
-          tokenIds.push(i);
+          nftIds.push(i);
         }
         if (isSubscribed) {
-          setCollection(tokenIds);
+          setNftIds(nftIds);
           setLoading(false);
         }
       } catch (err) {
@@ -37,7 +36,9 @@ const Gallery = () => {
       }
     };
 
-    getTokens();
+    if (account) {
+      getTokens();
+    }
 
     return () => (isSubscribed = false);
   }, []);
@@ -46,12 +47,12 @@ const Gallery = () => {
     <Container className={classes.root}>
       <Box pt={6}>
         <Typography variant="h4" gutterBottom>
-          Random Walk NFT Gallery
+          My Random Walk NFTs
         </Typography>
-        <PaginationGrid loading={loading} type="gallery" data={collection} />
+        <PaginationGrid loading={loading} type={"owner"} data={nftIds} />
       </Box>
     </Container>
   );
 };
 
-export default Gallery;
+export default MyNFTs;

@@ -8,13 +8,14 @@ import {
   CircularProgress,
   MenuItem,
   FormControl,
+  Typography,
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import NFT from "components/NFT";
 
-const PaginationGrid = ({ filter, loading, account, data }) => {
-  const [pedestrianId, setPedestrianId] = useState("");
+const PaginationGrid = ({ loading, type, data }) => {
+  const [nftId, setNftId] = useState("");
   const [searchActive, setSearchActive] = useState(false);
   const [searchResult, setSearchResult] = useState(false);
   const [collection, setCollection] = useState([]);
@@ -22,7 +23,7 @@ const PaginationGrid = ({ filter, loading, account, data }) => {
   const [curPage, setCurPage] = useState(1);
 
   const handleSearchChange = async (e) => {
-    setPedestrianId(e.target.value);
+    setNftId(e.target.value);
     if (!e.target.value) {
       setCollection(data);
       setSearchActive(false);
@@ -30,7 +31,7 @@ const PaginationGrid = ({ filter, loading, account, data }) => {
   };
 
   const handleSearch = async () => {
-    setSearchActive(!!pedestrianId);
+    setSearchActive(!!nftId);
     setSearchResult(true);
   };
 
@@ -40,7 +41,7 @@ const PaginationGrid = ({ filter, loading, account, data }) => {
 
   return (
     <>
-      {filter && (
+      {type == "gallery" && (
         <Box display="flex" pb={4} justifyContent="flex-end">
           <TextField
             variant="filled"
@@ -64,18 +65,18 @@ const PaginationGrid = ({ filter, loading, account, data }) => {
           <Grid spacing={2} container>
             {searchActive ? (
               !searchResult ? (
-                <>Nothing found</>
+                <Typography variant="h4">Nothing Found!</Typography>
               ) : (
-                <Grid item xs={6} sm={4} md={3} lg={2}>
-                  <NFT account={account} index={pedestrianId} />
+                <Grid item xs={6} sm={4} md={3}>
+                  <NFT id={nftId} />
                 </Grid>
               )
             ) : (
               collection
                 .slice((curPage - 1) * perPage, curPage * perPage)
                 .map((index) => (
-                  <Grid key={index} item xs={6} sm={4} md={3} lg={2}>
-                    <NFT account={account} index={index} />
+                  <Grid key={index} item xs={6} sm={4} md={3}>
+                    <NFT type={type} index={index} />
                   </Grid>
                 ))
             )}
@@ -104,7 +105,9 @@ const PaginationGrid = ({ filter, loading, account, data }) => {
           )}
         </>
       )}
-      {!loading && !data.length && <h4>Nothing found!</h4>}
+      {!loading && !data.length && (
+        <Typography variant="h4">Nothing Found!</Typography>
+      )}
     </>
   );
 };

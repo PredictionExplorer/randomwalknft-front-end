@@ -13,9 +13,8 @@ const ConnectWalletButton = () => {
 
   const handleConnectWallet = useCallback(async () => {
     const connector = isMobile ? walletconnect : injected;
-
     await activate(connector, (err) => {
-      console.log(err);
+      alert("Please switch your MetaMask to Arbitrum network");
     });
   }, [activate]);
 

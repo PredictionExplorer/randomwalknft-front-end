@@ -15,6 +15,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import NAV_SECTIONS from "config/nav";
 import useStyles from "config/styles";
 import ConnectWalletButton from "components/ConnectWalletButton";
+import { useActiveWeb3React } from "hooks/web3";
 
 const NavBar = () => {
   const classes = useStyles();
@@ -22,6 +23,7 @@ const NavBar = () => {
     mobileView: false,
     drawerOpen: false,
   });
+  const { account } = useActiveWeb3React();
 
   const { mobileView, drawerOpen } = state;
 
@@ -46,7 +48,7 @@ const NavBar = () => {
       <Toolbar>
         {NAV_SECTIONS.map(
           (nav, i) =>
-            !nav.auth && (
+            (!nav.auth || account) && (
               <Box ml={3} key={i}>
                 <Link className={classes.navItem} to={nav.route}>
                   {nav.title}

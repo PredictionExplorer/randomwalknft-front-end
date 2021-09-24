@@ -1,7 +1,7 @@
 const ROUTES = [
   { path: "/gallery", name: "Gallery" },
-  { path: "/detail", name: "Detail" },
-  { path: "/my-nfts", name: "MyNFTs", auth: true },
+  { path: "/detail/:id", name: "Detail" },
+  { path: "/my-nfts", name: "My NFTs", auth: true },
   { path: "/rarity", name: "Rarity" },
   { path: "/faq", name: "FAQ" },
   { path: "/", name: "Home" },

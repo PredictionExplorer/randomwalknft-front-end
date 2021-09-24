@@ -14,9 +14,9 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import NFT from "components/NFT";
 
-const PaginationGrid = ({ loading, type, data }) => {
+const PaginationGrid = ({ loading, data }) => {
   const [nftId, setNftId] = useState("");
-  const [searchActive, setSearchActive] = useState(false);
+  const [searchId, setSearchId] = useState(null);
   const [searchResult, setSearchResult] = useState(false);
   const [collection, setCollection] = useState([]);
   const [perPage, setPerPage] = useState(20);
@@ -25,14 +25,14 @@ const PaginationGrid = ({ loading, type, data }) => {
   const handleSearchChange = async (e) => {
     setNftId(e.target.value);
     if (!e.target.value) {
-      setCollection(data);
-      setSearchActive(false);
+      setSearchId(null);
+      setSearchResult(false);
     }
   };
 
   const handleSearch = async () => {
-    setSearchActive(!!nftId);
-    setSearchResult(true);
+    setSearchId(nftId);
+    setSearchResult(collection.includes(parseInt(nftId)));
   };
 
   useEffect(() => {
@@ -41,20 +41,19 @@ const PaginationGrid = ({ loading, type, data }) => {
 
   return (
     <>
-      {type == "gallery" && (
-        <Box display="flex" pb={4} justifyContent="flex-end">
-          <TextField
-            variant="filled"
-            placeholder="Enter your NFT Id"
-            style={{ marginRight: 10 }}
-            color="secondary"
-            onChange={handleSearchChange}
-          />
-          <Button variant="outlined" onClick={handleSearch}>
-            Search
-          </Button>
-        </Box>
-      )}
+      <Box display="flex" pb={4} justifyContent="flex-end">
+        <TextField
+          variant="filled"
+          placeholder="Enter NFT Id"
+          style={{ marginRight: 10 }}
+          color="secondary"
+          value={nftId}
+          onChange={handleSearchChange}
+        />
+        <Button variant="outlined" onClick={handleSearch}>
+          Search
+        </Button>
+      </Box>
       {loading && (
         <Box display="flex" justifyContent="center">
           <CircularProgress color="secondary" />
@@ -63,12 +62,14 @@ const PaginationGrid = ({ loading, type, data }) => {
       {data.length > 0 && (
         <>
           <Grid spacing={2} container>
-            {searchActive ? (
+            {searchId ? (
               !searchResult ? (
-                <Typography variant="h4">Nothing Found!</Typography>
+                <Grid item>
+                  <Typography variant="h4">Nothing Found!</Typography>
+                </Grid>
               ) : (
                 <Grid item xs={6} sm={4} md={3}>
-                  <NFT id={nftId} />
+                  <NFT tokenId={searchId} />
                 </Grid>
               )
             ) : (
@@ -76,12 +77,12 @@ const PaginationGrid = ({ loading, type, data }) => {
                 .slice((curPage - 1) * perPage, curPage * perPage)
                 .map((index) => (
                   <Grid key={index} item xs={6} sm={4} md={3}>
-                    <NFT type={type} index={index} />
+                    <NFT tokenId={index} />
                   </Grid>
                 ))
             )}
           </Grid>
-          {!searchActive && (
+          {!searchId && (
             <Box display="flex" justifyContent="center" py={3}>
               <FormControl style={{ minWidth: 120 }}>
                 <Select

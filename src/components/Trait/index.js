@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { ethers } from "ethers";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
@@ -7,7 +9,12 @@ import {
   CardMedia,
   CardContent,
   Button,
+  TextField,
 } from "@material-ui/core";
+
+import { useActiveWeb3React } from "hooks/web3";
+import abi from "abis/contract";
+import { CONTRACT_ADDRESS } from "constants/app";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,14 +28,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     padding: theme.spacing(2),
-    width: "40%",
-    [theme.breakpoints.down("sm")]: {
-      padding: theme.spacing(1),
-      width: "60%",
-    },
+    width: "60%",
     [theme.breakpoints.down("xs")]: {
-      paddingLeft: theme.spacing(4),
-      paddingRight: theme.spacing(4),
       width: "100%",
     },
   },
@@ -45,39 +46,76 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Trait = ({ pedestrian }) => {
+export const Trait = ({ nft }) => {
+  const [address, setAddress] = useState("");
   const classes = useStyles();
-  const { description, attributes, image, owner } = pedestrian;
+  const { account, library } = useActiveWeb3React();
+  const history = useHistory();
+  const { seed, image, owner, id } = nft;
+
+  const handleTransfer = async () => {
+    const signer = library.getSigner();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+    try {
+      await contract.transferFrom(account, address, id).then((tx) => tx.wait());
+      history.push("/my-nfts");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Card className={classes.root}>
-      <CardMedia className={classes.cover} image={image} title={description} />
+      <CardMedia className={classes.cover} image={image} />
       <div className={classes.details}>
         <CardContent className={classes.content}>
-          <Typography component="h6" variant="h6">
-            Owned by
-          </Typography>
-          <Typography color="secondary" component="span" variant="h6">
-            {owner}
-          </Typography>
-          <Box my={3}>
-            <Button
-              variant="outlined"
+          <Box mb={3}>
+            <Typography component="h6" variant="h6">
+              Owner
+            </Typography>
+            <Typography
               color="secondary"
-              href="https://testnets.opensea.io/collection/pedestrians-ctnr5i1dch"
-              target="_blank"
+              variant="body1"
+              gutterBottom
+              style={{ overflowWrap: "anywhere" }}
             >
-              View on OpenSea
-            </Button>
+              {owner}
+            </Typography>
           </Box>
-          <Box>
-            {attributes && attributes.map(({ trait_type, value }, i) => (
-              <Box key={i} display="flex" justifyContent="space-between" my={2}>
-                <Typography component="span">{trait_type}</Typography>
-                <Typography component="span">{value}</Typography>
+          <Box mb={3}>
+            <Typography variant="h6">Seed</Typography>
+            <Typography
+              color="secondary"
+              variant="body2"
+              gutterBottom
+              style={{ overflowWrap: "anywhere" }}
+            >
+              {seed}
+            </Typography>
+          </Box>
+          {account === nft.owner && (
+            <Box>
+              <Typography variant="h6">Transfer</Typography>
+              <Box display="flex">
+                <TextField
+                  variant="filled"
+                  color="secondary"
+                  placeholder="Enter address here"
+                  fullWidth
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                />
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleTransfer}
+                >
+                  Send
+                </Button>
               </Box>
-            ))}
-          </Box>
+            </Box>
+          )}
         </CardContent>
       </div>
     </Card>

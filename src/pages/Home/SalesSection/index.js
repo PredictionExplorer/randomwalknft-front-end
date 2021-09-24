@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ethers } from "ethers";
 import axios from "axios";
 
@@ -21,7 +21,7 @@ import { useActiveWeb3React } from "hooks/web3";
 
 const SalesCard = (props) => {
   const classes = useStyles();
-  const { title, price, onMintNow } = props;
+  const { title, onMintNow } = props;
   return (
     <Card className={classes.salesCard}>
       <CardContent>

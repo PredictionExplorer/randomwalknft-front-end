@@ -10,7 +10,8 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { useNFTByIndex } from "hooks/useNFT";
+import { useNFTById } from "hooks/useNFT";
+import { formatId } from "utils";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,9 +23,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NFT = ({ type, index }) => {
+const NFT = ({ tokenId }) => {
   const classes = useStyles();
-  const nft = useNFTByIndex(type, index);
+  const nft = useNFTById(tokenId);
 
   return (
     <Card>
@@ -35,12 +36,8 @@ const NFT = ({ type, index }) => {
           <CardMedia className={classes.media} image={nft.image} />
         )}
         <CardContent>
-          <Typography
-            color="secondary"
-            variant="body2"
-            style={{ overflowWrap: "anywhere" }}
-          >
-            {!nft ? <Skeleton animation="wave" /> : nft.seed}
+          <Typography color="secondary" variant="body1">
+            {!nft ? <Skeleton animation="wave" /> : formatId(nft.id)}
           </Typography>
         </CardContent>
       </CardActionArea>

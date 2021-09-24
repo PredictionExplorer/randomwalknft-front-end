@@ -48,7 +48,7 @@ const Gallery = () => {
         <Typography variant="h4" gutterBottom>
           Random Walk NFT Gallery
         </Typography>
-        <PaginationGrid loading={loading} type="gallery" data={collection} />
+        <PaginationGrid loading={loading} data={collection} />
       </Box>
     </Container>
   );

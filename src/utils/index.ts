@@ -7,5 +7,5 @@ export const formatAddress = (addr: string) => {
 };
 
 export const formatId = (id: number) => {
-  return `#${id.toString().padStart(4, "0")}`;
+  return `#${id.toString().padStart(6, "0")}`;
 };

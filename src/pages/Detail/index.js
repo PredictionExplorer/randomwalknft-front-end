@@ -15,23 +15,28 @@ import {
 } from "@material-ui/core";
 
 import useStyles from "config/styles";
+import { useNFTById } from "hooks/useNFT";
+import { useTransactions } from "hooks/useTransactions";
 
 import { Trait } from "components/Trait";
+import { formatId } from "utils";
 
 const Detail = () => {
   const classes = useStyles();
-  const pedestrian = {};
-  const transactions = [];
-  const { name } = pedestrian;
+  const { id } = useParams();
+  const nft = useNFTById(id);
+  const transactions = useTransactions(nft);
+
+  if (!nft) return null;
 
   return (
     <Container className={classes.root}>
       <Box pt={4}>
         <Typography variant="h4" gutterBottom>
-          {name}
+          {formatId(nft.id)}
         </Typography>
       </Box>
-      <Trait pedestrian={pedestrian} />
+      <Trait nft={nft} />
       <Box py={4}>
         <Typography variant="h4" gutterBottom>
           Transaction History

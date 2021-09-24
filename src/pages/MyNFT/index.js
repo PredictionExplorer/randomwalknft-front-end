@@ -20,12 +20,9 @@ const MyNFTs = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const nftIds = [];
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
-        const balance = await contract.balanceOf(account);
-        for (let i = 0; i < balance.toNumber(); i++) {
-          nftIds.push(i);
-        }
+        const tokens = await contract.walletOfOwner(account);
+        const nftIds = tokens.map((t) => t.toNumber());
         if (isSubscribed) {
           setNftIds(nftIds);
           setLoading(false);
@@ -41,7 +38,7 @@ const MyNFTs = () => {
     }
 
     return () => (isSubscribed = false);
-  }, []);
+  }, [library, account]);
 
   return (
     <Container className={classes.root}>
@@ -49,7 +46,7 @@ const MyNFTs = () => {
         <Typography variant="h4" gutterBottom>
           My Random Walk NFTs
         </Typography>
-        <PaginationGrid loading={loading} type={"owner"} data={nftIds} />
+        <PaginationGrid loading={loading} data={nftIds} />
       </Box>
     </Container>
   );

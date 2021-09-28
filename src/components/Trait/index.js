@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { ethers } from "ethers";
-import { makeStyles } from "@material-ui/core/styles";
 import {
   Box,
   Typography,
@@ -11,6 +10,11 @@ import {
   Button,
   TextField,
 } from "@material-ui/core";
+import PlayCircleIcon from "@material-ui/icons/PlayCircleFilled";
+import { makeStyles } from "@material-ui/core/styles";
+
+import ModalVideo from "react-modal-video";
+import "react-modal-video/css/modal-video.min.css";
 
 import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/contract";
@@ -27,8 +31,8 @@ const useStyles = makeStyles((theme) => ({
   details: {
     display: "flex",
     flexDirection: "column",
-    padding: theme.spacing(2),
     width: "60%",
+    padding: theme.spacing(2),
     [theme.breakpoints.down("xs")]: {
       width: "100%",
     },
@@ -36,22 +40,32 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flex: "1 0 auto",
     padding: theme.spacing(1),
+    [theme.breakpoints.down("xs")]: {
+      minHeight: "300px",
+    },
   },
-  cover: {
+  coverWrapper: {
     width: "40%",
     [theme.breakpoints.down("xs")]: {
-      height: 360,
       width: "100%",
     },
+  },
+  cover: {
+    width: "100%",
+    paddingTop: "64%",
+    borderRadius: theme.spacing(1),
   },
 }));
 
 export const Trait = ({ nft }) => {
   const [address, setAddress] = useState("");
+  const [open, setOpen] = useState(false);
+  const [videoPath, setVideoPath] = useState(null);
+
   const classes = useStyles();
   const { account, library } = useActiveWeb3React();
   const history = useHistory();
-  const { seed, image, owner, id } = nft;
+  const { seed, image, single_video, triple_video, owner, id } = nft;
 
   const handleTransfer = async () => {
     const signer = library.getSigner();
@@ -65,59 +79,94 @@ export const Trait = ({ nft }) => {
     }
   };
 
+  const handlePlay = (videoPath) => () => {
+    console.log(videoPath)
+    setVideoPath(videoPath);
+    setOpen(true);
+  };
+
   return (
-    <Card className={classes.root}>
-      <CardMedia className={classes.cover} image={image} />
-      <div className={classes.details}>
-        <CardContent className={classes.content}>
-          <Box mb={3}>
-            <Typography component="h6" variant="h6">
-              Owner
-            </Typography>
-            <Typography
+    <>
+      <Card className={classes.root}>
+        <div className={classes.coverWrapper}>
+          <CardMedia className={classes.cover} image={image} />
+          <Box display="flex" justifyContent="center" p={2}>
+            <Button
+              variant="outlined"
               color="secondary"
-              variant="body1"
-              gutterBottom
-              style={{ overflowWrap: "anywhere" }}
+              startIcon={<PlayCircleIcon />}
+              onClick={handlePlay(single_video)}
             >
-              {owner}
-            </Typography>
-          </Box>
-          <Box mb={3}>
-            <Typography variant="h6">Seed</Typography>
-            <Typography
+              Single
+            </Button>
+            <Button
+              variant="outlined"
               color="secondary"
-              variant="body2"
-              gutterBottom
-              style={{ overflowWrap: "anywhere" }}
+              startIcon={<PlayCircleIcon />}
+              style={{ marginLeft: 10 }}
+              onClick={handlePlay(triple_video)}
             >
-              {seed}
-            </Typography>
+              Triple
+            </Button>
+            <ModalVideo
+              channel="custom"
+              url={videoPath}
+              isOpen={open}
+              onClose={() => setOpen(false)}
+            />
           </Box>
-          {account === nft.owner && (
-            <Box>
-              <Typography variant="h6">Transfer</Typography>
-              <Box display="flex">
-                <TextField
-                  variant="filled"
-                  color="secondary"
-                  placeholder="Enter address here"
-                  fullWidth
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleTransfer}
-                >
-                  Send
-                </Button>
-              </Box>
+        </div>
+        <div className={classes.details}>
+          <CardContent className={classes.content}>
+            <Box mb={3}>
+              <Typography component="h6" variant="h6">
+                Owner
+              </Typography>
+              <Typography
+                color="secondary"
+                variant="body1"
+                gutterBottom
+                style={{ overflowWrap: "anywhere" }}
+              >
+                {owner}
+              </Typography>
             </Box>
-          )}
-        </CardContent>
-      </div>
-    </Card>
+            <Box mb={3}>
+              <Typography variant="h6">Seed</Typography>
+              <Typography
+                color="secondary"
+                variant="body2"
+                gutterBottom
+                style={{ overflowWrap: "anywhere" }}
+              >
+                {seed}
+              </Typography>
+            </Box>
+            {account === nft.owner && (
+              <Box>
+                <Typography variant="h6">Transfer</Typography>
+                <Box display="flex">
+                  <TextField
+                    variant="filled"
+                    color="secondary"
+                    placeholder="Enter address here"
+                    fullWidth
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                  />
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleTransfer}
+                  >
+                    Send
+                  </Button>
+                </Box>
+              </Box>
+            )}
+          </CardContent>
+        </div>
+      </Card>
+    </>
   );
 };

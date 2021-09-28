@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 
 import {
@@ -13,6 +14,7 @@ import {
   TableRow,
   Paper,
 } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
 
 import useStyles from "config/styles";
 import { useNFTById } from "hooks/useNFT";
@@ -24,6 +26,7 @@ import { formatId } from "utils";
 const Detail = () => {
   const classes = useStyles();
   const { id } = useParams();
+  const { location } = useHistory();
   const nft = useNFTById(id);
   const transactions = useTransactions(nft);
 
@@ -31,6 +34,13 @@ const Detail = () => {
 
   return (
     <Container className={classes.root}>
+      {location.state && location.state.message && (
+        <Box pt={4}>
+          <Alert elevation={6} variant="filled" severity="success">
+            {location.state.message}
+          </Alert>
+        </Box>
+      )}
       <Box pt={4}>
         <Typography variant="h4" gutterBottom>
           {formatId(nft.id)}

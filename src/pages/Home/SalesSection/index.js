@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import { useHistory } from "react-router";
 import { ethers } from "ethers";
 import axios from "axios";
 
@@ -9,10 +10,7 @@ import {
   Button,
   Typography,
   Box,
-  Snackbar,
-  IconButton,
 } from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
 
 import useStyles from "config/styles";
 import abi from "abis/contract";
@@ -44,13 +42,10 @@ const SalesCard = (props) => {
 };
 
 const SalesSection = () => {
-  const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   const { library, account } = useActiveWeb3React();
-
-  const handleClose = () => setOpen(false);
 
   const handleMint = async () => {
     if (library && account) {
@@ -64,22 +59,17 @@ const SalesSection = () => {
           .mint({ value: mintPrice })
           .then((tx) => tx.wait());
 
-        const tokenId = receipt.events[0].args.tokenId.toNumber();
+        const token_id = receipt.events[0].args.tokenId.toNumber();
 
-        setOpen(true);
-        setMessage("Generating Random Walk NFT image...");
-        axios
-          .get(
-            `https://hbtk5s7xeb.execute-api.us-east-2.amazonaws.com/api?token_id=${tokenId}`
-          )
-          .then((res) => {
-            console.log(res);
-            setMessage("Random Walk NFT image has been generated.");
-          })
-          .catch((err) => {
-            console.log(err);
-            setMessage("Random Walk NFT image has been generated.");
-          });
+        const { data } = await axios.post("https://randomwalknft-api.com/tasks", {
+          token_id,
+        });
+
+        console.log(data.task_id);
+        history.push(`/detail/${token_id}`, {
+          message:
+            "Media files are being generated. Please refrersh the page in a few minutes.",
+        });
       } catch (err) {
         console.log(err);
       }
@@ -110,21 +100,6 @@ const SalesSection = () => {
           View on OpenSea
         </Button>
       </Box>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
-        open={open}
-        action={
-          <IconButton
-            size="small"
-            aria-label="close"
-            color="inherit"
-            onClick={handleClose}
-          >
-            <CloseIcon fontSize="small" />
-          </IconButton>
-        }
-        message={message}
-      />
     </Box>
   );
 };

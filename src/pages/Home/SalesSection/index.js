@@ -1,50 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { ethers } from "ethers";
 import axios from "axios";
 
-import {
-  Grid,
-  Card,
-  CardContent,
-  Button,
-  Typography,
-  Box,
-} from "@material-ui/core";
+import { Grid, Button, Typography, Box } from "@material-ui/core";
 
 import useStyles from "config/styles";
 import abi from "abis/contract";
 import { CONTRACT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
-
-const SalesCard = (props) => {
-  const classes = useStyles();
-  const { title, onMintNow } = props;
-  return (
-    <Card className={classes.salesCard}>
-      <CardContent>
-        <Box mb={1} className={classes.salesTitle}>
-          <Typography color="textSecondary" align="center" variant="h6">
-            {title}
-          </Typography>
-        </Box>
-        <Typography variant="body2" align="center">
-          .001 ETH
-        </Typography>
-        <Box display="flex" flexDirection="column" justifyContent="center">
-          <Button className={classes.salesButton} onClick={onMintNow}>
-            Mint
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
-  );
-};
+import NFT from "components/NFT";
 
 const SalesSection = () => {
   const classes = useStyles();
   const history = useHistory();
 
+  const [tokenId, setTokenId] = useState(null);
   const { library, account } = useActiveWeb3React();
 
   const handleMint = async () => {
@@ -61,11 +32,10 @@ const SalesSection = () => {
 
         const token_id = receipt.events[0].args.tokenId.toNumber();
 
-        const { data } = await axios.post("https://randomwalknft-api.com/tasks", {
+        await axios.post("https://randomwalknft-api.com/tasks", {
           token_id,
         });
 
-        console.log(data.task_id);
         history.push(`/detail/${token_id}`, {
           message:
             "Media files are being generated. Please refrersh the page in a few minutes.",
@@ -76,28 +46,47 @@ const SalesSection = () => {
     }
   };
 
+  useEffect(() => {
+    const getRandom = async () => {
+      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+      try {
+        const balance = await contract.totalSupply();
+        const tokenId = Math.floor(Math.random() * balance.toNumber());
+        setTokenId(tokenId);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getRandom();
+  }, []);
+
   return (
     <Box className={classes.gridContainer}>
       <Grid
         container
         justifyContent="center"
-        spacing={4}
+        spacing={2}
         className={classes.salesSection}
       >
+        <Grid item xs={12}>
+          <Typography variant="h4" align="center">
+            Get a Random Walk NFT at .001 Ξ
+          </Typography>
+        </Grid>
         <Grid item xs={12} sm={6} md={4} lg={3}>
-          <SalesCard title="Random Walk NFT" onMintNow={handleMint} />
+          <NFT tokenId={tokenId} />
         </Grid>
       </Grid>
       <Box display="flex" justifyContent="center" mt={3}>
         <Button
-          href="https://opensea.io/"
-          target="_blank"
+          onClick={handleMint}
           variant="contained"
           color="secondary"
           size="large"
           className={classes.viewButton}
         >
-          View on OpenSea
+          Mint Now
         </Button>
       </Box>
     </Box>

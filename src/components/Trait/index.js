@@ -5,6 +5,7 @@ import {
   Box,
   Typography,
   Card,
+  CardActionArea,
   CardMedia,
   CardContent,
   Button,
@@ -12,6 +13,9 @@ import {
 } from "@material-ui/core";
 import PlayCircleIcon from "@material-ui/icons/PlayCircleFilled";
 import { makeStyles } from "@material-ui/core/styles";
+
+import Lightbox from "react-awesome-lightbox";
+import "react-awesome-lightbox/build/style.css";
 
 import ModalVideo from "react-modal-video";
 import "react-modal-video/css/modal-video.min.css";
@@ -60,6 +64,7 @@ const useStyles = makeStyles((theme) => ({
 export const Trait = ({ nft }) => {
   const [address, setAddress] = useState("");
   const [open, setOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
   const [videoPath, setVideoPath] = useState(null);
 
   const classes = useStyles();
@@ -80,7 +85,6 @@ export const Trait = ({ nft }) => {
   };
 
   const handlePlay = (videoPath) => () => {
-    console.log(videoPath)
     setVideoPath(videoPath);
     setOpen(true);
   };
@@ -89,7 +93,12 @@ export const Trait = ({ nft }) => {
     <>
       <Card className={classes.root}>
         <div className={classes.coverWrapper}>
-          <CardMedia className={classes.cover} image={image} />
+          <CardActionArea onClick={() => setImageOpen(true)}>
+            <CardMedia className={classes.cover} image={image} />
+          </CardActionArea>
+          {imageOpen && (
+            <Lightbox image={image} onClose={() => setImageOpen(false)} />
+          )}
           <Box display="flex" justifyContent="center" p={2}>
             <Button
               variant="outlined"

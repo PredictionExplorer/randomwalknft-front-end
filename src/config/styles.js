@@ -64,18 +64,7 @@ const useStyles = makeStyles(
       },
     },
     salesSection: {
-      padding: theme.spacing(8),
-      [theme.breakpoints.down("md")]: {
-        padding: theme.spacing(6),
-      },
-      [theme.breakpoints.down("sm")]: {
-        padding: theme.spacing(3),
-      },
-      [theme.breakpoints.down("xs")]: {
-        padding: theme.spacing(2),
-      },
-      paddingLeft: 0,
-      paddingRight: 0,
+      padding: theme.spacing(2),
     },
     salesCard: {
       backgroundColor: "#1E2525",

@@ -7,6 +7,7 @@ const pageComponents = {
   Home: lazy(() => import("pages/Home")),
   Gallery: lazy(() => import("pages/Gallery")),
   "My NFTs": lazy(() => import("pages/MyNFT")),
+  "Generation Code": lazy(() => import("pages/CodeViewer")),
   Detail: lazy(() => import("pages/Detail")),
   FAQ: lazy(() => import("pages/FAQ")),
   Rarity: lazy(() => import("pages/Rarity")),

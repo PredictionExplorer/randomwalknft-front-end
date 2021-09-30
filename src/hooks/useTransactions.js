@@ -14,17 +14,22 @@ export const useTransactions = (nft) => {
     const getTransactions = async () => {
       const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
       try {
-        // const filter = await contract.filters.Transfer(
-        //   null,
-        //   null,
-        //   Math.floor(nft.id)
-        // );
-        // console.log(filter);
-        // const events = await contract.queryFilter(filter);
-        // console.log(events);
-        if (isSubscribed) {
-          setTransactions([]);
-        }
+        const filter = await contract.filters.Transfer(
+          null,
+          null,
+          Math.floor(nft.id)
+        );
+        contract
+          .queryFilter(filter)
+          .then((events) => {
+            console.log(events);
+            if (isSubscribed) {
+              setTransactions(events.reverse());
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (err) {
         console.log(err);
       }

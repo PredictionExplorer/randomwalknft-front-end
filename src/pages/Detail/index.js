@@ -47,7 +47,7 @@ const Detail = () => {
         </Typography>
       </Box>
       <Trait nft={nft} />
-      <Box py={4}>
+      {/* <Box py={4}>
         <Typography variant="h4" gutterBottom>
           Transaction History
         </Typography>
@@ -77,7 +77,7 @@ const Detail = () => {
             </TableBody>
           </Table>
         </TableContainer>
-      </Box>
+      </Box> */}
     </Container>
   );
 };

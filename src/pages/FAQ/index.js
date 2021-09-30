@@ -9,7 +9,7 @@ const FAQ = () => {
     {
       question: "How do I buy Random Walk NFTs?",
       answer:
-        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum here: https://bridge.arbitrum.io",
+        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum here: <a style='color: #fff' href='https://bridge.arbitrum.io'>https://bridge.arbitrum.io</a>",
     },
     {
       question: "How are the NFT images generated?",
@@ -40,8 +40,7 @@ const FAQ = () => {
     },
     {
       question: "Who is the creator of this project?",
-      answer:
-        "https://twitter.com/TarasBob",
+      answer: "<a style='color: #fff' href='https://twitter.com/TarasBob'>https://twitter.com/TarasBob</a>",
     },
     {
       question: "Why are you doing this?",
@@ -61,7 +60,9 @@ const FAQ = () => {
             <Typography color="textSecondary" gutterBottom>
               {question}
             </Typography>
-            <Typography gutterBottom>{answer}</Typography>
+            <Typography gutterBottom>
+              <div dangerouslySetInnerHTML={{ __html: answer }} />
+            </Typography>
           </Card>
         ))}
       </Box>

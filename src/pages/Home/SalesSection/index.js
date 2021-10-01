@@ -15,7 +15,8 @@ const SalesSection = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const [tokenId, setTokenId] = useState(null);
+  const [balance, setBalance] = useState(0);
+  const [tokenIds, setTokenIds] = useState([-1, -1, -1]);
   const { library, account } = useActiveWeb3React();
 
   const handleMint = async () => {
@@ -43,23 +44,35 @@ const SalesSection = () => {
       } catch (err) {
         console.log(err);
       }
+    } else {
+      alert("Please connect your wallet on Arbitrum network");
     }
   };
 
   useEffect(() => {
-    const getRandom = async () => {
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
-      try {
-        const balance = await contract.totalSupply();
-        const tokenId = Math.floor(Math.random() * balance.toNumber());
-        setTokenId(tokenId);
-      } catch (err) {
-        console.log(err);
-      }
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+    const getBalance = async () => {
+      const balance = await contract.totalSupply();
+      setBalance(balance.toNumber());
     };
 
-    getRandom();
-  }, []);
+    getBalance();
+  }, [library]);
+
+  useEffect(() => {
+    const refreshTokenIds = async () => {
+      console.log("refresh token ids");
+      const tokenIds = [...Array(balance).keys()]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+      setTokenIds(tokenIds);
+    };
+
+    if (balance > 0) {
+      refreshTokenIds();
+      setInterval(refreshTokenIds, 6000);
+    }
+  }, [balance]);
 
   return (
     <Box className={classes.gridContainer}>
@@ -74,9 +87,11 @@ const SalesSection = () => {
             Get a Random Walk NFT at .001 Ξ
           </Typography>
         </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <NFT tokenId={tokenId} />
-        </Grid>
+        {tokenIds.map((tokenId, i) => (
+          <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
+            <NFT tokenId={tokenId} />
+          </Grid>
+        ))}
       </Grid>
       <Box display="flex" justifyContent="center" mt={3}>
         <Button

@@ -40,7 +40,7 @@ const Gallery = () => {
     getTokens();
 
     return () => (isSubscribed = false);
-  }, []);
+  }, [library]);
 
   return (
     <Container className={classes.root}>

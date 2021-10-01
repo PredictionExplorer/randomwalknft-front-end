@@ -1,5 +1,4 @@
 import arbitrumLogoUrl from "assets/svg/arbitrum_logo.svg";
-import optimismLogoUrl from "assets/svg/optimism_logo.svg";
 
 export enum SupportedChainId {
   ARBITRUM_ONE = 42161,

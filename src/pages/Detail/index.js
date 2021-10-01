@@ -2,23 +2,12 @@ import React from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 
-import {
-  Container,
-  Box,
-  Typography,
-  TableContainer,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  Paper,
-} from "@material-ui/core";
+import { Container, Box, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import useStyles from "config/styles";
 import { useNFTById } from "hooks/useNFT";
-import { useTransactions } from "hooks/useTransactions";
+// import { useTransactions } from "hooks/useTransactions";
 
 import { Trait } from "components/Trait";
 import { formatId } from "utils";
@@ -28,7 +17,7 @@ const Detail = () => {
   const { id } = useParams();
   const { location } = useHistory();
   const nft = useNFTById(id);
-  const transactions = useTransactions(nft);
+  // const transactions = useTransactions(nft);
 
   if (!nft) return null;
 

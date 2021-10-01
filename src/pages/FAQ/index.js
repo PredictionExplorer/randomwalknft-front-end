@@ -7,15 +7,14 @@ import useStyles from "config/styles";
 const FAQ = () => {
   const items = [
     {
-      question: "How do I buy Random Walk NFTs?",
+      question: "How do I mint Random Walk NFTs?",
       answer:
-        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum here: <a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a>",
+        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum using the <a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a>.",
     },
     {
       question: "How are the NFT images generated?",
       answer:
-        "When you mint, a random number is generated for each NFT. It's called a 'seed'. We use the seed in the Python script to generate a image. " +
-        "The image is then stored on IPFS.",
+        "When you mint, a random number (called a seed) is generated for each NFT by the smart contract. We use the seed in the Python script to generate an image and videos .",
     },
     {
       question: "What is a Random Walk",
@@ -26,27 +25,17 @@ const FAQ = () => {
     {
       question: "How are the colors generated?",
       answer:
-        "By doing a random walk in the color space! At each step we modify the value of red, blue and green. So we are actually doing a random walk in a 5 dimensional space.",
+        "By doing a random walk in the color space! At each step we modify the value of red, blue and green. So we are actually doing a random walk in a 5 dimensional space (2 spacial dimensions and 3 color dimensions).",
     },
     {
       question: "How many Ranom Walk NFTs will there be?",
       answer:
-        "Every time an NFT is minted, the price of the next mint increases. So there won't be substatially more than 10,000 NFTs.",
+        "Every time an NFT is minted, the price of the next mint increases. After 5,000 NFTs are minted, the mint price will be 0.24 ETH. After 10,000 NFTs are minted, mint price will be about 60 ETH.",
     },
     {
       question: "Where does the ETH go that people paid for minting?",
       answer:
         "The ETH does not go to the creator of the NFT! It is actually burned which benefits the entire Ethereum ecosystem.",
-    },
-    {
-      question: "Who is the creator of this project?",
-      answer: "<a style='color: #fff' href='https://twitter.com/TarasBob'>https://twitter.com/TarasBob</a>",
-    },
-    {
-      question: "Why are you doing this?",
-      answer:
-        "I think random walks are really cool, and counterintiutive to humans. For example, did you know that a random walk in 2D space is guaranteed to return to the orgin, but in 3D it is not? " +
-        "I like that you actually own the seed of each NFT. It is recorded in the contract. You could generate your image by pasting it into the Python script if you wanted to.",
     },
   ];
 

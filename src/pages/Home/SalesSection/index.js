@@ -9,14 +9,13 @@ import useStyles from "config/styles";
 import abi from "abis/contract";
 import { CONTRACT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
-import NFT from "components/NFT";
+import NFTImage from "components/NFTImage";
 
 const SalesSection = () => {
   const classes = useStyles();
   const history = useHistory();
 
-  const [balance, setBalance] = useState(0);
-  const [tokenIds, setTokenIds] = useState([-1, -1, -1]);
+  const [nfts, setNfts] = useState([]);
   const { library, account } = useActiveWeb3React();
 
   const handleMint = async () => {
@@ -53,26 +52,24 @@ const SalesSection = () => {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
     const getBalance = async () => {
       const balance = await contract.totalSupply();
-      setBalance(balance.toNumber());
+      const tokenIds = [...Array(balance.toNumber()).keys()]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+
+      const images = tokenIds.map((tokenId) => {
+        const fileName = tokenId.toString().padStart(6, "0");
+        return `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}.png`;
+      });
+
+      const nfts = [];
+      for (let i = 0; i < 3; i++) {
+        nfts.push({ id: tokenIds[i], image: images[i] });
+      }
+      setNfts(nfts);
     };
 
     getBalance();
   }, [library]);
-
-  useEffect(() => {
-    const refreshTokenIds = async () => {
-      console.log("refresh token ids");
-      const tokenIds = [...Array(balance).keys()]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 3);
-      setTokenIds(tokenIds);
-    };
-
-    if (balance > 0) {
-      refreshTokenIds();
-      setInterval(refreshTokenIds, 6000);
-    }
-  }, [balance]);
 
   return (
     <Box className={classes.gridContainer}>
@@ -87,11 +84,9 @@ const SalesSection = () => {
             Get a Random Walk NFT at .001 Ξ
           </Typography>
         </Grid>
-        {tokenIds.map((tokenId, i) => (
-          <Grid key={i} item xs={12} sm={6} md={4} lg={3}>
-            <NFT tokenId={tokenId} />
-          </Grid>
-        ))}
+        <Grid item xs={12} sm={6} md={4} lg={3}>
+          <NFTImage nfts={nfts} />
+        </Grid>
       </Grid>
       <Box display="flex" justifyContent="center" mt={3}>
         <Button

@@ -85,8 +85,14 @@ export const Trait = ({ nft }) => {
   };
 
   const handlePlay = (videoPath) => () => {
-    setVideoPath(videoPath);
-    setOpen(true);
+    fetch(videoPath).then((res) => {
+      if (res.ok) {
+        setVideoPath(videoPath);
+        setOpen(true);
+      } else {
+        alert("Video is being generated, come back later");
+      }
+    });
   };
 
   return (

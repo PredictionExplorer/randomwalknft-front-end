@@ -4,6 +4,7 @@ const ROUTES = [
   { path: "/my-nfts", name: "My NFTs", auth: true },
   { path: "/code", name: "Generation Code", auth: true },
   { path: "/faq", name: "FAQ" },
+  { path: "/for-sale", name: "For Sale" },
   { path: "/", name: "Home" },
 ];
 

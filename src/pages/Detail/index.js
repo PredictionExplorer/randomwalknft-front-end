@@ -6,17 +6,19 @@ import { Container, Box, Typography } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
 
 import useStyles from "config/styles";
-import { useNFTById } from "hooks/useNFT";
+import { useNFT } from "hooks/useNFT";
 // import { useTransactions } from "hooks/useTransactions";
 
 import { Trait } from "components/Trait";
+import BuyOffers from "components/BuyOffers";
+import SellOffers from "components/SellOffers";
 import { formatId } from "utils";
 
 const Detail = () => {
   const classes = useStyles();
   const { id } = useParams();
   const { location } = useHistory();
-  const nft = useNFTById(id);
+  const nft = useNFT(id);
   // const transactions = useTransactions(nft);
 
   if (!nft) return null;
@@ -36,6 +38,8 @@ const Detail = () => {
         </Typography>
       </Box>
       <Trait nft={nft} />
+      <BuyOffers tokenId={nft.id} />
+      <SellOffers tokenId={nft.id} />
       {/* <Box py={4}>
         <Typography variant="h4" gutterBottom>
           Transaction History

@@ -10,7 +10,7 @@ const pageComponents = {
   "Generation Code": lazy(() => import("pages/CodeViewer")),
   Detail: lazy(() => import("pages/Detail")),
   FAQ: lazy(() => import("pages/FAQ")),
-  Rarity: lazy(() => import("pages/Rarity")),
+  "For Sale": lazy(() => import("pages/ForSale")),
 };
 
 const Routes = () => (

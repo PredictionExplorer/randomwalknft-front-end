@@ -16,7 +16,7 @@ const getNFTById = async (contract, tokenId) => {
   return { id: tokenId, owner, seed, image, single_video, triple_video };
 };
 
-export const useNFTById = (tokenId) => {
+export const useNFT = (tokenId) => {
   const { library } = useActiveWeb3React();
   const [nft, setNft] = useState(null);
 

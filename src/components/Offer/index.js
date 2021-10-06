@@ -10,7 +10,7 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import Skeleton from "@material-ui/lab/Skeleton";
 
-import { useNFT } from "hooks/useNFT";
+import { useOffer } from "hooks/useOffer";
 import { formatId } from "utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,21 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const NFT = ({ tokenId }) => {
+const Offer = ({ offerId }) => {
   const classes = useStyles();
-  const nft = useNFT(tokenId);
+  const offer = useOffer(offerId);
 
   return (
     <Card>
-      <CardActionArea component={Link} to={nft ? `/detail/${nft.id}` : "#"}>
-        {!nft ? (
+      <CardActionArea
+        component={Link}
+        to={offer ? `/detail/${offer.tokenId}` : "#"}
+      >
+        {!offer ? (
           <Skeleton animation="wave" variant="rect" className={classes.media} />
         ) : (
-          <CardMedia className={classes.media} image={nft.image} />
+          <CardMedia className={classes.media} image={offer.image} />
         )}
         <CardContent>
           <Typography color="secondary" variant="body1">
-            {!nft ? <Skeleton animation="wave" /> : formatId(nft.id)}
+            {!offer ? <Skeleton animation="wave" /> : formatId(offer.tokenId)}
           </Typography>
         </CardContent>
       </CardActionArea>
@@ -45,4 +48,4 @@ const NFT = ({ tokenId }) => {
   );
 };
 
-export default NFT;
+export default Offer;

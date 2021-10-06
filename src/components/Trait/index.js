@@ -22,7 +22,8 @@ import "react-modal-video/css/modal-video.min.css";
 
 import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import marketABI from "abis/market";
+import { MARKET_CONTRACT_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,7 +71,50 @@ export const Trait = ({ nft }) => {
   const classes = useStyles();
   const { account, library } = useActiveWeb3React();
   const history = useHistory();
+
   const { seed, image, single_video, triple_video, owner, id } = nft;
+
+  const handleBuy = async () => {
+    const signer = library.getSigner();
+    const contract = new ethers.Contract(
+      MARKET_CONTRACT_ADDRESS,
+      marketABI,
+      signer
+    );
+
+    try {
+      await contract.makeBuyOffer(id).then((tx) => tx.wait());
+      history.push("/for-sale");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSell = async () => {
+    const signer = library.getSigner();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+    const marketContract = new ethers.Contract(
+      MARKET_CONTRACT_ADDRESS,
+      marketABI,
+      signer
+    );
+
+    try {
+      const approvedAll = await contract.isApprovedForAll(
+        account,
+        MARKET_CONTRACT_ADDRESS
+      );
+      if (!approvedAll) {
+        await contract
+          .setApprovalForAll(MARKET_CONTRACT_ADDRESS, true)
+          .then((tx) => tx.wait());
+      }
+      await marketContract.makeSellOffer(id, 1).then((tx) => tx.wait());
+      history.push("/for-sale");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleTransfer = async () => {
     const signer = library.getSigner();
@@ -158,7 +202,7 @@ export const Trait = ({ nft }) => {
               </Typography>
             </Box>
             {account === nft.owner && (
-              <Box>
+              <Box mb={3}>
                 <Typography variant="h6">Transfer</Typography>
                 <Box display="flex">
                   <TextField
@@ -179,6 +223,25 @@ export const Trait = ({ nft }) => {
                 </Box>
               </Box>
             )}
+            <Box>
+              {account !== nft.owner ? (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleBuy}
+                >
+                  Buy
+                </Button>
+              ) : (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleSell}
+                >
+                  Sell
+                </Button>
+              )}
+            </Box>
           </CardContent>
         </div>
       </Card>

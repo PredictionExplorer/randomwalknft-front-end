@@ -5,6 +5,11 @@
         "internalType": "string",
         "name": "baseURI",
         "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_saleTime",
+        "type": "uint256"
       }
     ],
     "stateMutability": "nonpayable",

@@ -14,7 +14,7 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
   } else {
     return (
       <Box>
-        <Typography align="center" variant="h4">
+        <Typography align="center" variant="h4" gutterBottom>
           Withdrawal opens in
         </Typography>
         <Box display="flex" justifyContent="center">

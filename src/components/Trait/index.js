@@ -245,7 +245,7 @@ export const Trait = ({ nft }) => {
                     variant="contained"
                     onClick={handleBuyOrSell}
                   >
-                    {account !== nft.owner ? "Buy" : "Sell"}
+                    {account !== nft.owner ? "Make Offer" : "Sell"}
                   </Button>
                 </Box>
               </Grid>

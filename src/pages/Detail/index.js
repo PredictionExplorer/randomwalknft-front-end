@@ -34,7 +34,7 @@ const Detail = () => {
       )}
       <Box pt={4}>
         <Typography variant="h4" gutterBottom>
-          {formatId(nft.id)}
+          {nft.name || formatId(nft.id)}
         </Typography>
       </Box>
       <Trait nft={nft} />

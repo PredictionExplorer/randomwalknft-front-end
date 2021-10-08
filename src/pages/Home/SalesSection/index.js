@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { Grid, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
-import axios from "axios";
-
-import { Grid, Button, Typography, Box } from "@material-ui/core";
 
 import useStyles from "config/styles";
 import abi from "abis/contract";
@@ -13,40 +10,10 @@ import NFTImage from "components/NFTImage";
 
 const SalesSection = () => {
   const classes = useStyles();
-  const history = useHistory();
 
   const [nfts, setNfts] = useState([]);
-  const { library, account } = useActiveWeb3React();
 
-  const handleMint = async () => {
-    if (library && account) {
-      try {
-        const signer = library.getSigner();
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
-
-        const mintPrice = await contract.getMintPrice();
-
-        const receipt = await contract
-          .mint({ value: mintPrice })
-          .then((tx) => tx.wait());
-
-        const token_id = receipt.events[0].args.tokenId.toNumber();
-
-        await axios.post("https://randomwalknft-api.com/tasks", {
-          token_id,
-        });
-
-        history.push(`/detail/${token_id}`, {
-          message:
-            "Media files are being generated. Please refrersh the page in a few minutes.",
-        });
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      alert("Please connect your wallet on Arbitrum network");
-    }
-  };
+  const { library } = useActiveWeb3React();
 
   useEffect(() => {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
@@ -62,7 +29,7 @@ const SalesSection = () => {
       });
 
       const nfts = [];
-      for (let i = 0; i < 3; i++) {
+      for (let i = 0; i < Math.min(tokenIds.length, 3); i++) {
         nfts.push({ id: tokenIds[i], image: images[i] });
       }
       setNfts(nfts);
@@ -72,34 +39,21 @@ const SalesSection = () => {
   }, [library]);
 
   return (
-    <Box className={classes.gridContainer}>
-      <Grid
-        container
-        justifyContent="center"
-        spacing={2}
-        className={classes.salesSection}
-      >
-        <Grid item xs={12}>
-          <Typography variant="h4" align="center">
-            Get a Random Walk NFT at .001 Ξ
-          </Typography>
-        </Grid>
-        <Grid item xs={12} sm={6} md={4} lg={3}>
-          <NFTImage nfts={nfts} />
-        </Grid>
+    <Grid
+      container
+      justifyContent="center"
+      spacing={2}
+      className={classes.salesSection}
+    >
+      <Grid item xs={12}>
+        <Typography variant="h4" align="center">
+          Get a Random Walk NFT at .001 Ξ
+        </Typography>
       </Grid>
-      <Box display="flex" justifyContent="center" mt={3}>
-        <Button
-          onClick={handleMint}
-          variant="contained"
-          color="secondary"
-          size="large"
-          className={classes.viewButton}
-        >
-          Mint Now
-        </Button>
-      </Box>
-    </Box>
+      <Grid item xs={12} sm={6} md={4} lg={3}>
+        <NFTImage nfts={nfts} />
+      </Grid>
+    </Grid>
   );
 };
 

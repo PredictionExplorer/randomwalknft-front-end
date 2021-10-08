@@ -10,6 +10,7 @@ import {
   CardContent,
   Button,
   TextField,
+  Grid,
 } from "@material-ui/core";
 import PlayCircleIcon from "@material-ui/icons/PlayCircleFilled";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,7 +24,7 @@ import "react-modal-video/css/modal-video.min.css";
 import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/contract";
 import marketABI from "abis/market";
-import { MARKET_CONTRACT_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
+import { MARKET_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,6 +65,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const Trait = ({ nft }) => {
   const [address, setAddress] = useState("");
+  const [price, setPrice] = useState("");
+  const [tokenName, setTokenName] = useState(nft.name);
   const [open, setOpen] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
   const [videoPath, setVideoPath] = useState(null);
@@ -74,42 +77,29 @@ export const Trait = ({ nft }) => {
 
   const { seed, image, single_video, triple_video, owner, id } = nft;
 
-  const handleBuy = async () => {
-    const signer = library.getSigner();
-    const contract = new ethers.Contract(
-      MARKET_CONTRACT_ADDRESS,
-      marketABI,
-      signer
-    );
-
-    try {
-      await contract.makeBuyOffer(id).then((tx) => tx.wait());
-      history.push("/for-sale");
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const handleSell = async () => {
+  const handleBuyOrSell = async () => {
     const signer = library.getSigner();
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
-    const marketContract = new ethers.Contract(
-      MARKET_CONTRACT_ADDRESS,
-      marketABI,
-      signer
-    );
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    const isBuy = account !== nft.owner;
 
     try {
-      const approvedAll = await contract.isApprovedForAll(
-        account,
-        MARKET_CONTRACT_ADDRESS
-      );
-      if (!approvedAll) {
-        await contract
-          .setApprovalForAll(MARKET_CONTRACT_ADDRESS, true)
+      if (isBuy) {
+        await market.makeBuyOffer(id).then((tx) => tx.wait());
+      } else {
+        const approvedAll = await contract.isApprovedForAll(
+          account,
+          MARKET_ADDRESS
+        );
+        if (!approvedAll) {
+          await contract
+            .setApprovalForAll(MARKET_ADDRESS, true)
+            .then((tx) => tx.wait());
+        }
+        await market
+          .makeSellOffer(id, ethers.utils.parseEther(price))
           .then((tx) => tx.wait());
       }
-      await marketContract.makeSellOffer(id, 1).then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
       console.log(err);
@@ -122,6 +112,18 @@ export const Trait = ({ nft }) => {
 
     try {
       await contract.transferFrom(account, address, id).then((tx) => tx.wait());
+      history.push("/my-nfts");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleSetTokenName = async () => {
+    const signer = library.getSigner();
+    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+
+    try {
+      await contract.setTokenName(id, tokenName).then((tx) => tx.wait());
       history.push("/my-nfts");
     } catch (err) {
       console.log(err);
@@ -210,6 +212,7 @@ export const Trait = ({ nft }) => {
                     color="secondary"
                     placeholder="Enter address here"
                     fullWidth
+                    size="small"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                   />
@@ -223,25 +226,53 @@ export const Trait = ({ nft }) => {
                 </Box>
               </Box>
             )}
-            <Box>
-              {account !== nft.owner ? (
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleBuy}
-                >
-                  Buy
-                </Button>
-              ) : (
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleSell}
-                >
-                  Sell
-                </Button>
+            <Grid container spacing={4}>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Trade</Typography>
+                <Box display="flex">
+                  <TextField
+                    type="number"
+                    variant="filled"
+                    color="secondary"
+                    placeholder="Enter ETH price here"
+                    value={price}
+                    size="small"
+                    fullWidth
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleBuyOrSell}
+                  >
+                    {account !== nft.owner ? "Buy" : "Sell"}
+                  </Button>
+                </Box>
+              </Grid>
+              {account === nft.owner && (
+                <Grid item xs={12} sm={6}>
+                  <Typography variant="h6">Token Name</Typography>
+                  <Box display="flex">
+                    <TextField
+                      variant="filled"
+                      color="secondary"
+                      placeholder="Enter token name here"
+                      value={tokenName}
+                      size="small"
+                      fullWidth
+                      onChange={(e) => setTokenName(e.target.value)}
+                    />
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      onClick={handleSetTokenName}
+                    >
+                      Update
+                    </Button>
+                  </Box>
+                </Grid>
               )}
-            </Box>
+            </Grid>
           </CardContent>
         </div>
       </Card>

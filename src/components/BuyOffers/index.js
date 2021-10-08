@@ -26,7 +26,7 @@ const BuyOfferRow = ({ offerId }) => {
     <TableRow>
       <TableCell>{offer.id}</TableCell>
       <TableCell>{offer.buyer}</TableCell>
-      <TableCell>{offer.price}</TableCell>
+      <TableCell>{offer.price} Ξ</TableCell>
     </TableRow>
   );
 };

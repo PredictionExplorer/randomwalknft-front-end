@@ -3,7 +3,7 @@ import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import abi from "abis/market";
-import { MARKET_CONTRACT_ADDRESS } from "constants/app";
+import { MARKET_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import PaginationOfferGrid from "components/PaginationOfferGrid";
@@ -23,7 +23,7 @@ const ForSale = () => {
         setLoading(true);
         const offerIds = [];
         const contract = new ethers.Contract(
-          MARKET_CONTRACT_ADDRESS,
+          MARKET_ADDRESS,
           abi,
           library
         );

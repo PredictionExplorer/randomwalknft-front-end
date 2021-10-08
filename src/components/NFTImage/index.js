@@ -28,7 +28,10 @@ const NFTImage = ({ nfts }) => {
 
   useEffect(() => {
     if (nfts.length > 0) {
-      setInterval(() => setIndex((index) => (index + 1) % 3), 3000);
+      setInterval(
+        () => setIndex((index) => Math.min(nfts.length - 1, (index + 1) % 3)),
+        3000
+      );
     }
   }, [nfts]);
 

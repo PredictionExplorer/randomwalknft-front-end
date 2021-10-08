@@ -24,7 +24,7 @@ const SellOfferRow = ({ offerId }) => {
     <TableRow>
       <TableCell>{offer.id}</TableCell>
       <TableCell>{offer.seller}</TableCell>
-      <TableCell>{offer.price}</TableCell>
+      <TableCell>{offer.price} Ξ</TableCell>
     </TableRow>
   );
 };

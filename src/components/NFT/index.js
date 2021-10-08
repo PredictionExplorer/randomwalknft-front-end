@@ -37,7 +37,11 @@ const NFT = ({ tokenId }) => {
         )}
         <CardContent>
           <Typography color="secondary" variant="body1">
-            {!nft ? <Skeleton animation="wave" /> : formatId(nft.id)}
+            {!nft ? (
+              <Skeleton animation="wave" />
+            ) : (
+              nft.name || formatId(nft.id)
+            )}
           </Typography>
         </CardContent>
       </CardActionArea>

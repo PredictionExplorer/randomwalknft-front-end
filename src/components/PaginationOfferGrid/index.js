@@ -33,8 +33,8 @@ const PaginationOfferGrid = ({ loading, data }) => {
           <Grid spacing={2} container>
             {collection
               .slice((curPage - 1) * perPage, curPage * perPage)
-              .map((index) => (
-                <Offer key={index} offerId={index} />
+              .map((offer, i) => (
+                <Offer key={i} offer={offer} />
               ))}
           </Grid>
           <Box display="flex" justifyContent="center" py={3}>

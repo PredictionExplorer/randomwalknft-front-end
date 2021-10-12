@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
-import abi from "abis/market";
-import { MARKET_ADDRESS } from "constants/app";
+import abi from "abis/contract";
+import marketABI from "abis/market";
+import { CONTRACT_ADDRESS, MARKET_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
+import { getOfferById } from "hooks/useOffer";
 import PaginationOfferGrid from "components/PaginationOfferGrid";
 
 const ForSale = () => {
@@ -21,18 +23,21 @@ const ForSale = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const offerIds = [];
-        const contract = new ethers.Contract(
-          MARKET_ADDRESS,
-          abi,
-          library
+        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+        const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
+        const numOffers = await market.numOffers();
+        const offerIds = [...Array(numOffers.toNumber()).keys()];
+        let offers = await Promise.all(
+          offerIds.map((offerId) => getOfferById(contract, market, offerId))
         );
-        const numOffers = await contract.numOffers();
-        for (let i = 0; i < numOffers.toNumber(); i++) {
-          offerIds.push(i);
-        }
+        offers = offers
+          .filter(
+            ({ active, buyer }) =>
+              active && buyer === "0x0000000000000000000000000000000000000000"
+          )
+          .sort((x, y) => x.price - y.price);
         if (isSubscribed) {
-          setCollection(offerIds);
+          setCollection(offers);
           setLoading(false);
         }
       } catch (err) {

@@ -6,7 +6,7 @@ import marketABI from "abis/market";
 import { CONTRACT_ADDRESS, MARKET_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "./web3";
 
-const getOfferById = async (contract, market, offerId) => {
+export const getOfferById = async (contract, market, offerId) => {
   const offer = await market.offers(offerId);
   const tokenId = offer.tokenId.toNumber();
   const tokenName = await contract.tokenNames(tokenId);
@@ -18,7 +18,7 @@ const getOfferById = async (contract, market, offerId) => {
     active: offer.active,
     buyer: offer.buyer,
     seller: offer.seller,
-    price: ethers.utils.formatEther(offer.price),
+    price: parseFloat(ethers.utils.formatEther(offer.price)),
     tokenId,
     tokenName,
     image,
@@ -82,6 +82,34 @@ export const useTokenBuyOffers = (tokenId) => {
   return buyOffers;
 };
 
+export const useTokenBuyOffersBy = (address) => {
+  const { library } = useActiveWeb3React();
+  const [buyOffers, setBuyOffers] = useState([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+    const getOffersBy = async () => {
+      try {
+        const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
+        const buyOfferIds = await market.getBuyOffersBy(address);
+        if (isSubscribed) {
+          setBuyOffers(buyOfferIds.map((id) => id.toNumber()));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (address != null) {
+      getOffersBy();
+    }
+
+    return () => (isSubscribed = false);
+  }, [library, address]);
+
+  return buyOffers;
+};
+
 export const useTokenSellOffers = (tokenId) => {
   const { library } = useActiveWeb3React();
   const [sellOffers, setSellOffers] = useState([]);
@@ -106,6 +134,34 @@ export const useTokenSellOffers = (tokenId) => {
 
     return () => (isSubscribed = false);
   }, [library, tokenId]);
+
+  return sellOffers;
+};
+
+export const useTokenSellOffersBy = (address) => {
+  const { library } = useActiveWeb3React();
+  const [sellOffers, setSellOffers] = useState([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+    const getOffersBy = async () => {
+      try {
+        const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
+        const sellOfferIds = await market.getSellOffersBy(address);
+        if (isSubscribed) {
+          setSellOffers(sellOfferIds.map((id) => id.toNumber()));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (address != null) {
+      getOffersBy();
+    }
+
+    return () => (isSubscribed = false);
+  }, [library, address]);
 
   return sellOffers;
 };

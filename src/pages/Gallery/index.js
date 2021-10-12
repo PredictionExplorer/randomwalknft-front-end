@@ -21,12 +21,9 @@ const Gallery = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const tokenIds = [];
         const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
         const balance = await contract.totalSupply();
-        for (let i = 0; i < balance.toNumber(); i++) {
-          tokenIds.push(i);
-        }
+        const tokenIds = [...Array(balance.toNumber()).keys()];
         if (isSubscribed) {
           setCollection(tokenIds);
           setLoading(false);

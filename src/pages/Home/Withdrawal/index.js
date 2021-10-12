@@ -92,7 +92,9 @@ const Withdrawal = () => {
       setLastMinter(lastMinter);
 
       const amount = await contract.withdrawalAmount();
-      setWithdrawalAmount(ethers.utils.formatEther(amount));
+      setWithdrawalAmount(
+        parseFloat(ethers.utils.formatEther(amount)).toFixed(2)
+      );
     };
 
     getData();

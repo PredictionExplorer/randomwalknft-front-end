@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { Button, Box, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
-import axios from "axios";
 import Countdown from "react-countdown";
 
 import useStyles from "config/styles";
 import abi from "abis/contract";
 import { CONTRACT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
+import nftService from "services/nft";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
   if (completed) {
@@ -79,9 +79,7 @@ const Mint = () => {
 
         const token_id = receipt.events[0].args.tokenId.toNumber();
 
-        await axios.post("https://randomwalknft-api.com/tasks", {
-          token_id,
-        });
+        await nftService.create(token_id);
 
         history.push(`/detail/${token_id}`, {
           message:
@@ -98,12 +96,12 @@ const Mint = () => {
   useEffect(() => {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
 
-    const getTimes = async () => {
-      let seconds = (await contract.timeUntilSale()).toNumber();
+    const getData = async () => {
+      const seconds = (await contract.timeUntilSale()).toNumber();
       setSaleSeconds(seconds);
     };
 
-    getTimes();
+    getData();
   }, [library]);
 
   return (

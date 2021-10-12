@@ -12,12 +12,16 @@ const SalesSection = () => {
   const classes = useStyles();
 
   const [nfts, setNfts] = useState([]);
+  const [mintPrice, setMintPrice] = useState(0);
 
   const { library } = useActiveWeb3React();
 
   useEffect(() => {
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
-    const getBalance = async () => {
+    const getData = async () => {
+      const mintPrice = await contract.getMintPrice();
+      setMintPrice(parseFloat(ethers.utils.formatEther(mintPrice)).toFixed(4));
+
       const balance = await contract.totalSupply();
       const tokenIds = [...Array(balance.toNumber()).keys()]
         .sort(() => 0.5 - Math.random())
@@ -35,7 +39,7 @@ const SalesSection = () => {
       setNfts(nfts);
     };
 
-    getBalance();
+    getData();
   }, [library]);
 
   return (
@@ -47,7 +51,7 @@ const SalesSection = () => {
     >
       <Grid item xs={12}>
         <Typography variant="h4" align="center">
-          Get a Random Walk NFT at .001 Ξ
+          Get a Random Walk NFT at {mintPrice} Ξ
         </Typography>
       </Grid>
       <Grid item xs={12} sm={6} md={4} lg={3}>

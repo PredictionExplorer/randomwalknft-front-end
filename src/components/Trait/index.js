@@ -25,6 +25,12 @@ import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/contract";
 import marketABI from "abis/market";
 import { MARKET_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
+import {
+  useTokenSellOffersBy,
+  useTokenSellOffers,
+  useTokenBuyOffersBy,
+  useTokenBuyOffers,
+} from "hooks/useOffer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,46 +69,81 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Trait = ({ nft }) => {
-  const [address, setAddress] = useState("");
+const Market = ({ nft, account, library }) => {
   const [price, setPrice] = useState("");
   const [tokenName, setTokenName] = useState(nft.name);
-  const [open, setOpen] = useState(false);
-  const [imageOpen, setImageOpen] = useState(false);
-  const [videoPath, setVideoPath] = useState(null);
-
-  const classes = useStyles();
-  const { account, library } = useActiveWeb3React();
+  const [address, setAddress] = useState("");
   const history = useHistory();
 
-  const { seed, image, single_video, triple_video, owner, id } = nft;
+  const sellOffers = useTokenSellOffersBy(account);
+  const buyOffers = useTokenBuyOffersBy(account);
+  const tokenSellOffers = useTokenSellOffers(nft.id);
+  const tokenBuyOffers = useTokenBuyOffers(nft.id);
 
-  const handleBuyOrSell = async () => {
+  const sellOfferId = tokenSellOffers.find((x) => sellOffers.includes(x));
+  const buyOfferId = tokenBuyOffers.find((x) => buyOffers.includes(x));
+
+  console.log(sellOfferId, buyOfferId);
+
+  if (!account || !nft) return null;
+
+  const { id } = nft;
+
+  const handleSell = async () => {
     const signer = library.getSigner();
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
-    const isBuy = account !== nft.owner;
 
     try {
-      if (isBuy) {
-        await market.makeBuyOffer(id).then((tx) => tx.wait());
-      } else {
-        const approvedAll = await contract.isApprovedForAll(
-          account,
-          MARKET_ADDRESS
-        );
-        if (!approvedAll) {
-          await contract
-            .setApprovalForAll(MARKET_ADDRESS, true)
-            .then((tx) => tx.wait());
-        }
-        await market
-          .makeSellOffer(id, ethers.utils.parseEther(price))
+      const approvedAll = await contract.isApprovedForAll(
+        account,
+        MARKET_ADDRESS
+      );
+      if (!approvedAll) {
+        await contract
+          .setApprovalForAll(MARKET_ADDRESS, true)
           .then((tx) => tx.wait());
       }
+      await market
+        .makeSellOffer(id, ethers.utils.parseEther(price))
+        .then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
-      console.log(err);
+      alert("Please connect your MetaMask to Arbitrum network");
+    }
+  };
+
+  const handleBuy = async () => {
+    const signer = library.getSigner();
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+
+    try {
+      await market.makeBuyOffer(id).then((tx) => tx.wait());
+      history.push("/for-sale");
+    } catch (err) {
+      alert("Please connect your MetaMask to Arbitrum network");
+    }
+  };
+
+  const handleCancelSell = async () => {
+    const signer = library.getSigner();
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    try {
+      await market.cancelSellOffer(sellOfferId).then((tx) => tx.wait());
+      history.push("/for-sale");
+    } catch (err) {
+      alert("Please connect your MetaMask to Arbitrum network");
+    }
+  };
+
+  const handleCancelBuy = async () => {
+    const signer = library.getSigner();
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    try {
+      await market.cancelBuyOffer(buyOfferId).then((tx) => tx.wait());
+      history.push("/for-sale");
+    } catch (err) {
+      alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 
@@ -129,6 +170,114 @@ export const Trait = ({ nft }) => {
       console.log(err);
     }
   };
+
+  return (
+    <Grid container spacing={4}>
+      {account === nft.owner ? (
+        <>
+          <Grid item xs={12}>
+            <Typography variant="h6">Transfer</Typography>
+            <Box display="flex">
+              <TextField
+                variant="filled"
+                color="secondary"
+                placeholder="Enter address here"
+                fullWidth
+                size="small"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+              />
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleTransfer}
+              >
+                Send
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">Trade</Typography>
+            <Box display="flex">
+              <TextField
+                type="number"
+                variant="filled"
+                color="secondary"
+                placeholder="Enter ETH price here"
+                value={price}
+                size="small"
+                style={{ flex: 1 }}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleSell}
+              >
+                Sell
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <Typography variant="h6">Token Name</Typography>
+            <Box display="flex">
+              <TextField
+                variant="filled"
+                color="secondary"
+                placeholder="Enter token name here"
+                value={tokenName}
+                size="small"
+                fullWidth
+                onChange={(e) => setTokenName(e.target.value)}
+              />
+              <Button
+                color="secondary"
+                variant="contained"
+                onClick={handleSetTokenName}
+              >
+                Update
+              </Button>
+            </Box>
+          </Grid>
+        </>
+      ) : (
+        <Grid item xs={12} sm={6}>
+          {sellOfferId !== undefined ? (
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={handleCancelSell}
+            >
+              Cancel Sell Offer
+            </Button>
+          ) : buyOfferId !== undefined ? (
+            <Button
+              color="secondary"
+              variant="contained"
+              onClick={handleCancelBuy}
+            >
+              Cancel Buy Offer
+            </Button>
+          ) : nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() ? (
+            <Button color="secondary" variant="contained" onClick={handleBuy}>
+              Make Offer
+            </Button>
+          ) : null}
+        </Grid>
+      )}
+    </Grid>
+  );
+};
+
+export const Trait = ({ nft }) => {
+  const [open, setOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
+  const [videoPath, setVideoPath] = useState(null);
+
+  const classes = useStyles();
+  const { account, library } = useActiveWeb3React();
+
+  const { seed, image, single_video, triple_video, owner } = nft;
 
   const handlePlay = (videoPath) => () => {
     fetch(videoPath).then((res) => {
@@ -203,76 +352,7 @@ export const Trait = ({ nft }) => {
                 {seed}
               </Typography>
             </Box>
-            {account === nft.owner && (
-              <Box mb={3}>
-                <Typography variant="h6">Transfer</Typography>
-                <Box display="flex">
-                  <TextField
-                    variant="filled"
-                    color="secondary"
-                    placeholder="Enter address here"
-                    fullWidth
-                    size="small"
-                    value={address}
-                    onChange={(e) => setAddress(e.target.value)}
-                  />
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    onClick={handleTransfer}
-                  >
-                    Send
-                  </Button>
-                </Box>
-              </Box>
-            )}
-            <Grid container spacing={4}>
-              <Grid item xs={12} sm={6}>
-                <Typography variant="h6">Trade</Typography>
-                <Box display="flex">
-                  <TextField
-                    type="number"
-                    variant="filled"
-                    color="secondary"
-                    placeholder="Enter ETH price here"
-                    value={price}
-                    size="small"
-                    fullWidth
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                  <Button
-                    color="secondary"
-                    variant="contained"
-                    onClick={handleBuyOrSell}
-                  >
-                    {account !== nft.owner ? "Make Offer" : "Sell"}
-                  </Button>
-                </Box>
-              </Grid>
-              {account === nft.owner && (
-                <Grid item xs={12} sm={6}>
-                  <Typography variant="h6">Token Name</Typography>
-                  <Box display="flex">
-                    <TextField
-                      variant="filled"
-                      color="secondary"
-                      placeholder="Enter token name here"
-                      value={tokenName}
-                      size="small"
-                      fullWidth
-                      onChange={(e) => setTokenName(e.target.value)}
-                    />
-                    <Button
-                      color="secondary"
-                      variant="contained"
-                      onClick={handleSetTokenName}
-                    >
-                      Update
-                    </Button>
-                  </Box>
-                </Grid>
-              )}
-            </Grid>
+            <Market nft={nft} account={account} library={library} />
           </CardContent>
         </div>
       </Card>

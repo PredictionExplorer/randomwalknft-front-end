@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import { useOffer } from "hooks/useOffer";
 import { formatId } from "utils";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,13 +23,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Offer = ({ offerId }) => {
+const Offer = ({ offer }) => {
   const classes = useStyles();
-  const offer = useOffer(offerId);
-
-  if (!offer || offer.seller === "0x0000000000000000000000000000000000000000") {
-    return null;
-  }
 
   return (
     <Grid item xs={6} sm={4} md={3}>
@@ -47,7 +41,7 @@ const Offer = ({ offerId }) => {
                 {offer.tokenName || formatId(offer.tokenId)}
               </Typography>
               <Typography color="secondary" variant="body2">
-                {parseFloat(offer.price).toFixed(4)} Ξ
+                {offer.price.toFixed(2)} Ξ
               </Typography>
             </Box>
           </CardContent>

@@ -64,7 +64,7 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
     <TableRow>
       <TableCell>{offer.id}</TableCell>
       <TableCell>{isBuy ? offer.buyer : offer.seller}</TableCell>
-      <TableCell>{offer.price.toFixed(2)} Ξ</TableCell>
+      <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
       {isBuy && (
         <TableCell>
           {isOwner ? (

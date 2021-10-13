@@ -41,7 +41,7 @@ const Offer = ({ offer }) => {
                 {offer.tokenName || formatId(offer.tokenId)}
               </Typography>
               <Typography color="secondary" variant="body2">
-                {offer.price.toFixed(2)} Ξ
+                {offer.price.toFixed(4)} Ξ
               </Typography>
             </Box>
           </CardContent>

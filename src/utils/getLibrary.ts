@@ -4,6 +4,7 @@ import { SupportedChainId } from "constants/chains";
 
 const NETWORK_POLLING_INTERVALS: { [chainId: number]: number } = {
   [SupportedChainId.ARBITRUM_ONE]: ms`1s`,
+  [SupportedChainId.ARBITRUM_RINKEBY]: ms`1s`,
 };
 
 export default function getLibrary(provider: any): Web3Provider {

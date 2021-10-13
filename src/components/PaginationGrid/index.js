@@ -32,7 +32,7 @@ const PaginationGrid = ({ loading, data }) => {
 
   const handleSearch = async () => {
     setSearchId(nftId);
-    setSearchResult(collection.includes(nftId));
+    setSearchResult(collection.includes(parseInt(nftId)));
   };
 
   useEffect(() => {

@@ -93,7 +93,7 @@ const Withdrawal = () => {
 
       const amount = await contract.withdrawalAmount();
       setWithdrawalAmount(
-        parseFloat(ethers.utils.formatEther(amount)).toFixed(2)
+        parseFloat(ethers.utils.formatEther(amount)).toFixed(4)
       );
     };
 

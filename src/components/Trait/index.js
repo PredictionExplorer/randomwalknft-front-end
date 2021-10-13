@@ -25,12 +25,7 @@ import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/contract";
 import marketABI from "abis/market";
 import { MARKET_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
-import {
-  useTokenSellOffersBy,
-  useTokenSellOffers,
-  useTokenBuyOffersBy,
-  useTokenBuyOffers,
-} from "hooks/useOffer";
+import { useSellTokenIds, useSellOfferIds } from "hooks/useOffer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -70,26 +65,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Market = ({ nft, account, library }) => {
+  const { id, name } = nft;
   const [price, setPrice] = useState("");
-  const [tokenName, setTokenName] = useState(nft.name);
+  const [tokenName, setTokenName] = useState(name);
   const [address, setAddress] = useState("");
   const history = useHistory();
 
-  const sellOffers = useTokenSellOffersBy(account);
-  const buyOffers = useTokenBuyOffersBy(account);
-  const tokenSellOffers = useTokenSellOffers(nft.id);
-  const tokenBuyOffers = useTokenBuyOffers(nft.id);
-
-  const sellOfferId = tokenSellOffers.find((x) => sellOffers.includes(x));
-  const buyOfferId = tokenBuyOffers.find((x) => buyOffers.includes(x));
-
-  console.log(sellOfferId, buyOfferId);
+  const sellOfferIds = useSellOfferIds(id);
+  const sellTokenIds = useSellTokenIds(account);
 
   if (!account || !nft) return null;
 
-  const { id } = nft;
-
-  const handleSell = async () => {
+  const handleMakeSell = async () => {
     const signer = library.getSigner();
     const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
@@ -113,14 +100,17 @@ const Market = ({ nft, account, library }) => {
     }
   };
 
-  const handleBuy = async () => {
+  const handleMakeBuy = async () => {
     const signer = library.getSigner();
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
 
     try {
-      await market.makeBuyOffer(id).then((tx) => tx.wait());
+      await market
+        .makeBuyOffer(id, { value: ethers.utils.parseEther(price) })
+        .then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
+      console.log(err);
       alert("Please connect your MetaMask to Arbitrum network");
     }
   };
@@ -129,20 +119,28 @@ const Market = ({ nft, account, library }) => {
     const signer = library.getSigner();
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
     try {
-      await market.cancelSellOffer(sellOfferId).then((tx) => tx.wait());
+      await market.cancelSellOffer(sellOfferIds[0]).then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
       alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 
-  const handleCancelBuy = async () => {
+  const handleAcceptSell = async () => {
     const signer = library.getSigner();
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+
     try {
-      await market.cancelBuyOffer(buyOfferId).then((tx) => tx.wait());
-      history.push("/for-sale");
+      const offerId = sellOfferIds[0];
+      const offer = await market.offers(offerId);
+      await market
+        .acceptSellOffer(offerId, {
+          value: ethers.utils.formatEther(offer.price),
+        })
+        .then((tx) => tx.wait());
+      history.push("/my-nfts");
     } catch (err) {
+      console.log(err);
       alert("Please connect your MetaMask to Arbitrum network");
     }
   };
@@ -212,7 +210,7 @@ const Market = ({ nft, account, library }) => {
               <Button
                 color="secondary"
                 variant="contained"
-                onClick={handleSell}
+                onClick={handleMakeSell}
               >
                 Sell
               </Button>
@@ -242,7 +240,7 @@ const Market = ({ nft, account, library }) => {
         </>
       ) : (
         <Grid item xs={12} sm={6}>
-          {sellOfferId !== undefined ? (
+          {sellTokenIds.includes(id) ? (
             <Button
               color="secondary"
               variant="contained"
@@ -250,19 +248,38 @@ const Market = ({ nft, account, library }) => {
             >
               Cancel Sell Offer
             </Button>
-          ) : buyOfferId !== undefined ? (
+          ) : nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() ? (
             <Button
               color="secondary"
               variant="contained"
-              onClick={handleCancelBuy}
+              onClick={handleAcceptSell}
             >
-              Cancel Buy Offer
+              Buy
             </Button>
-          ) : nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() ? (
-            <Button color="secondary" variant="contained" onClick={handleBuy}>
-              Make Offer
-            </Button>
-          ) : null}
+          ) : (
+            <>
+              <Typography variant="h6">Trade</Typography>
+              <Box display="flex">
+                <TextField
+                  type="number"
+                  variant="filled"
+                  color="secondary"
+                  placeholder="Enter ETH price here"
+                  value={price}
+                  size="small"
+                  style={{ flex: 1 }}
+                  onChange={(e) => setPrice(e.target.value)}
+                />
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleMakeBuy}
+                >
+                  Make Offer
+                </Button>
+              </Box>
+            </>
+          )}
         </Grid>
       )}
     </Grid>

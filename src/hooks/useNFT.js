@@ -14,7 +14,15 @@ const getNFTById = async (contract, tokenId) => {
   const single_video = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_single.mp4`;
   const triple_video = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_triple.mp4`;
 
-  return { id: tokenId, name, owner, seed, image, single_video, triple_video };
+  return {
+    id: parseInt(tokenId),
+    name,
+    owner,
+    seed,
+    image,
+    single_video,
+    triple_video,
+  };
 };
 
 export const useNFT = (tokenId) => {

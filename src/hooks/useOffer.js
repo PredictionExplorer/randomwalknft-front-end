@@ -54,18 +54,18 @@ export const useOffer = (offerId) => {
   return offer;
 };
 
-export const useTokenBuyOffers = (tokenId) => {
+export const useBuyOfferIds = (tokenId) => {
   const { library } = useActiveWeb3React();
-  const [buyOffers, setBuyOffers] = useState([]);
+  const [buyOfferIds, setBuyOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOffers = async () => {
+    const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const buyOfferIds = await market.getBuyOffers(parseInt(tokenId));
+        const buyOfferIds = await market.getBuyOffers(tokenId);
         if (isSubscribed) {
-          setBuyOffers(buyOfferIds.map((id) => id.toNumber()));
+          setBuyOfferIds(buyOfferIds.map((id) => id.toNumber()));
         }
       } catch (err) {
         console.log(err);
@@ -73,27 +73,27 @@ export const useTokenBuyOffers = (tokenId) => {
     };
 
     if (tokenId != null) {
-      getOffers();
+      getOfferIds();
     }
 
     return () => (isSubscribed = false);
   }, [library, tokenId]);
 
-  return buyOffers;
+  return buyOfferIds;
 };
 
-export const useTokenBuyOffersBy = (address) => {
+export const useBuyTokenIds = (address) => {
   const { library } = useActiveWeb3React();
-  const [buyOffers, setBuyOffers] = useState([]);
+  const [buyOfferIds, setBuyOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOffersBy = async () => {
+    const getOfferIdsBy = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const buyOfferIds = await market.getBuyOffersBy(address);
         if (isSubscribed) {
-          setBuyOffers(buyOfferIds.map((id) => id.toNumber()));
+          setBuyOfferIds(buyOfferIds.map((id) => id.toNumber()));
         }
       } catch (err) {
         console.log(err);
@@ -101,27 +101,27 @@ export const useTokenBuyOffersBy = (address) => {
     };
 
     if (address != null) {
-      getOffersBy();
+      getOfferIdsBy();
     }
 
     return () => (isSubscribed = false);
   }, [library, address]);
 
-  return buyOffers;
+  return buyOfferIds;
 };
 
-export const useTokenSellOffers = (tokenId) => {
+export const useSellOfferIds = (tokenId) => {
   const { library } = useActiveWeb3React();
-  const [sellOffers, setSellOffers] = useState([]);
+  const [sellOfferIds, setSellOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOffers = async () => {
+    const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const sellOfferIds = await market.getSellOffers(parseInt(tokenId));
+        const sellOfferIds = await market.getSellOffers(tokenId);
         if (isSubscribed) {
-          setSellOffers(sellOfferIds.map((id) => id.toNumber()));
+          setSellOfferIds(sellOfferIds.map((id) => id.toNumber()));
         }
       } catch (err) {
         console.log(err);
@@ -129,27 +129,27 @@ export const useTokenSellOffers = (tokenId) => {
     };
 
     if (tokenId != null) {
-      getOffers();
+      getOfferIds();
     }
 
     return () => (isSubscribed = false);
   }, [library, tokenId]);
 
-  return sellOffers;
+  return sellOfferIds;
 };
 
-export const useTokenSellOffersBy = (address) => {
+export const useSellTokenIds = (address) => {
   const { library } = useActiveWeb3React();
-  const [sellOffers, setSellOffers] = useState([]);
+  const [sellOfferIds, setSellOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOffersBy = async () => {
+    const getOfferIdsBy = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const sellOfferIds = await market.getSellOffersBy(address);
         if (isSubscribed) {
-          setSellOffers(sellOfferIds.map((id) => id.toNumber()));
+          setSellOfferIds(sellOfferIds.map((id) => id.toNumber()));
         }
       } catch (err) {
         console.log(err);
@@ -157,11 +157,11 @@ export const useTokenSellOffersBy = (address) => {
     };
 
     if (address != null) {
-      getOffersBy();
+      getOfferIdsBy();
     }
 
     return () => (isSubscribed = false);
   }, [library, address]);
 
-  return sellOffers;
+  return sellOfferIds;
 };

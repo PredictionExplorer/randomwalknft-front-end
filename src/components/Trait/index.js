@@ -96,7 +96,7 @@ const Market = ({ nft, account, library }) => {
         .then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
-      alert("Please connect your MetaMask to Arbitrum network");
+      console.log(err);
     }
   };
 
@@ -111,7 +111,6 @@ const Market = ({ nft, account, library }) => {
       history.push("/for-sale");
     } catch (err) {
       console.log(err);
-      alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 
@@ -122,7 +121,7 @@ const Market = ({ nft, account, library }) => {
       await market.cancelSellOffer(sellOfferIds[0]).then((tx) => tx.wait());
       history.push("/for-sale");
     } catch (err) {
-      alert("Please connect your MetaMask to Arbitrum network");
+      console.log(err);
     }
   };
 
@@ -135,13 +134,12 @@ const Market = ({ nft, account, library }) => {
       const offer = await market.offers(offerId);
       await market
         .acceptSellOffer(offerId, {
-          value: ethers.utils.formatEther(offer.price),
+          value: ethers.BigNumber.from(offer.price),
         })
         .then((tx) => tx.wait());
       history.push("/my-nfts");
     } catch (err) {
       console.log(err);
-      alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 

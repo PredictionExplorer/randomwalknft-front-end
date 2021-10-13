@@ -41,7 +41,6 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
       history.push("/for-sale");
     } catch (err) {
       console.log(err);
-      alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 
@@ -54,7 +53,6 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
       history.push("/for-sale");
     } catch (err) {
       console.log(err);
-      alert("Please connect your MetaMask to Arbitrum network");
     }
   };
 

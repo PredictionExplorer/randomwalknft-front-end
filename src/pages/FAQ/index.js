@@ -40,7 +40,7 @@ const FAQ = () => {
     {
       question: "Does the creator of the NFT get any special privileges?",
       answer:
-        "No, once the contract is deployed, nobody has any speicial privileges. The creator of the NFT would have to buy the NFTs like everybody else. The creator does not get the ETH that people paid for minting. " +
+        "No, once the contract is deployed, nobody has any special privileges. The creator of the NFT would have to buy the NFTs like everybody else. The creator does not get the ETH that people paid for minting. " +
         "The ETH would be distributed to some of the minters as described above. " +
         "This is inspired by how Satoshi launched Bitcoin. He did not give himself any special privileges and had to mine the coin like everybody else. ",
     },

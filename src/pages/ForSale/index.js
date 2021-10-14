@@ -30,11 +30,9 @@ const ForSale = () => {
         let offers = await Promise.all(
           offerIds.map((offerId) => getOfferById(contract, market, offerId))
         );
+        const zeroAddress = ethers.constants.AddressZero;
         offers = offers
-          .filter(
-            ({ active, buyer }) =>
-              active && buyer === "0x0000000000000000000000000000000000000000"
-          )
+          .filter(({ active, buyer }) => active && buyer === zeroAddress)
           .sort((x, y) => x.price - y.price);
         if (isSubscribed) {
           setCollection(offers);

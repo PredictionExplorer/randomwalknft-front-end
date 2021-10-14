@@ -7,10 +7,11 @@ const pageComponents = {
   Home: lazy(() => import("pages/Home")),
   Gallery: lazy(() => import("pages/Gallery")),
   "My NFTs": lazy(() => import("pages/MyNFT")),
+  "For Sale": lazy(() => import("pages/ForSale")),
+  "My Offers": lazy(() => import("pages/MyOffers")),
   "Generation Code": lazy(() => import("pages/CodeViewer")),
   Detail: lazy(() => import("pages/Detail")),
   FAQ: lazy(() => import("pages/FAQ")),
-  "For Sale": lazy(() => import("pages/ForSale")),
 };
 
 const Routes = () => (

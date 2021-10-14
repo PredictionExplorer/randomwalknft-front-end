@@ -162,7 +162,7 @@ const Detail = () => {
           <Typography variant="h5" gutterBottom>
             Sell Offers
           </Typography>
-          <OfferTable offers={sellOffers} account={account} />
+          <OfferTable offers={sellOffers} />
         </Box>
       )}
     </Container>

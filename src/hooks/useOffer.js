@@ -84,11 +84,39 @@ export const useBuyOfferIds = (tokenId) => {
 
 export const useBuyTokenIds = (address) => {
   const { library } = useActiveWeb3React();
+  const [buyTokenIds, setBuyTokenIds] = useState([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+    const getTokenIds = async () => {
+      try {
+        const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
+        const buyTokenIds = await market.getBuyTokensBy(address);
+        if (isSubscribed) {
+          setBuyTokenIds(buyTokenIds.map((id) => id.toNumber()));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (address != null) {
+      getTokenIds();
+    }
+
+    return () => (isSubscribed = false);
+  }, [library, address]);
+
+  return buyTokenIds;
+};
+
+export const useAccountBuyOfferIds = (address) => {
+  const { library } = useActiveWeb3React();
   const [buyOfferIds, setBuyOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOfferIdsBy = async () => {
+    const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const buyOfferIds = await market.getBuyOffersBy(address);
@@ -101,7 +129,7 @@ export const useBuyTokenIds = (address) => {
     };
 
     if (address != null) {
-      getOfferIdsBy();
+      getOfferIds();
     }
 
     return () => (isSubscribed = false);
@@ -138,13 +166,13 @@ export const useSellOfferIds = (tokenId) => {
   return sellOfferIds;
 };
 
-export const useSellTokenIds = (address) => {
+export const useAccountSellOfferIds = (address) => {
   const { library } = useActiveWeb3React();
   const [sellOfferIds, setSellOfferIds] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
-    const getOfferIdsBy = async () => {
+    const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const sellOfferIds = await market.getSellOffersBy(address);
@@ -157,11 +185,39 @@ export const useSellTokenIds = (address) => {
     };
 
     if (address != null) {
-      getOfferIdsBy();
+      getOfferIds();
     }
 
     return () => (isSubscribed = false);
   }, [library, address]);
 
   return sellOfferIds;
+};
+
+export const useSellTokenIds = (address) => {
+  const { library } = useActiveWeb3React();
+  const [sellTokenIds, setSellTokenIds] = useState([]);
+
+  useEffect(() => {
+    let isSubscribed = true;
+    const getTokenIds = async () => {
+      try {
+        const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
+        const sellTokenIds = await market.getSellTokenBy(address);
+        if (isSubscribed) {
+          setSellTokenIds(sellTokenIds.map((id) => id.toNumber()));
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    if (address != null) {
+      getTokenIds();
+    }
+
+    return () => (isSubscribed = false);
+  }, [library, address]);
+
+  return sellTokenIds;
 };

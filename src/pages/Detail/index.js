@@ -60,6 +60,8 @@ const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
     return <TableRow></TableRow>;
   }
 
+  console.log(offer);
+
   return (
     <TableRow>
       <TableCell>{offer.id}</TableCell>
@@ -67,7 +69,8 @@ const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
       <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
       {isBuy && (
         <TableCell>
-          {isOwner || offer.seller.toLowerCase() === account.toLowerCase() ? (
+          {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
+          offer.seller.toLowerCase() === account.toLowerCase() ? (
             <Button
               variant="contained"
               color="secondary"

@@ -29,7 +29,7 @@ import { useActiveWeb3React } from "hooks/web3";
 import { Trait } from "components/Trait";
 import { formatId } from "utils";
 
-const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
+const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
   const offer = useOffer(offerId);
 
   const handleAcceptBuy = async () => {
@@ -67,7 +67,7 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
       <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
       {isBuy && (
         <TableCell>
-          {isOwner ? (
+          {isOwner || offer.seller.toLowerCase() === account.toLowerCase() ? (
             <Button
               variant="contained"
               color="secondary"
@@ -76,13 +76,15 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
               Accept
             </Button>
           ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCancelBuy}
-            >
-              Cancel
-            </Button>
+            offer.buyer.toLowerCase() === account.toLowerCase() && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCancelBuy}
+              >
+                Cancel
+              </Button>
+            )
           )}
         </TableCell>
       )}
@@ -90,7 +92,7 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
   );
 };
 
-const OfferTable = ({ offers, isBuy, isOwner, library }) => {
+const OfferTable = ({ offers, isBuy, isOwner, account, library }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
@@ -109,6 +111,7 @@ const OfferTable = ({ offers, isBuy, isOwner, library }) => {
               key={i}
               isBuy={isBuy}
               isOwner={isOwner}
+              account={account}
               library={library}
             />
           ))}
@@ -164,9 +167,10 @@ const Detail = () => {
               Buy Offers
             </Typography>
             <OfferTable
+              offers={buyOffers}
               isBuy
               isOwner={nft.owner.toLowerCase() === account.toLowerCase()}
-              offers={buyOffers}
+              account={account}
               library={library}
             />
           </Box>

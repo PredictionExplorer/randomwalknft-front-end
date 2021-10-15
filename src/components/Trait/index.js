@@ -240,48 +240,52 @@ const Market = ({ nft, account, library }) => {
         <Grid item xs={12}>
           <Typography variant="h6">Trade</Typography>
           <Grid container spacing={2}>
+            {!sellTokenIds.includes(id) && (
+              <Grid item xs={12} sm={6}>
+                <Box display="flex">
+                  <TextField
+                    type="number"
+                    variant="filled"
+                    color="secondary"
+                    placeholder="Enter ETH price here"
+                    value={price}
+                    size="small"
+                    style={{ flex: 1 }}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleMakeBuy}
+                  >
+                    Make Offer
+                  </Button>
+                </Box>
+              </Grid>
+            )}
             <Grid item xs={12} sm={6}>
-              <Box display="flex">
-                <TextField
-                  type="number"
-                  variant="filled"
-                  color="secondary"
-                  placeholder="Enter ETH price here"
-                  value={price}
-                  size="small"
-                  style={{ flex: 1 }}
-                  onChange={(e) => setPrice(e.target.value)}
-                />
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleMakeBuy}
-                >
-                  Make Offer
-                </Button>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              {sellTokenIds.includes(id) && (
+              {sellTokenIds.includes(id) ? (
                 <Button
                   color="secondary"
                   variant="contained"
                   onClick={handleCancelSell}
+                  size="large"
                   style={{ height: "100%" }}
                 >
                   Cancel Sell Offer
                 </Button>
-              )}
-              {nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() && (
-                <Button
-                  color="secondary"
-                  variant="contained"
-                  onClick={handleAcceptSell}
-                  size="large"
-                  style={{ height: "100%" }}
-                >
-                  Buy
-                </Button>
+              ) : (
+                nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() && (
+                  <Button
+                    color="secondary"
+                    variant="contained"
+                    onClick={handleAcceptSell}
+                    size="large"
+                    style={{ height: "100%" }}
+                  >
+                    Buy
+                  </Button>
+                )
               )}
             </Grid>
           </Grid>

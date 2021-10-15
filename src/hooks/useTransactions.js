@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
-import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import abi from "abis/nft";
+import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "./web3";
 
 export const useTransactions = (nft) => {
@@ -12,7 +12,7 @@ export const useTransactions = (nft) => {
   useEffect(() => {
     let isSubscribed = true;
     const getTransactions = async () => {
-      const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+      const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
       try {
         const filter = await contract.filters.Transfer(
           null,

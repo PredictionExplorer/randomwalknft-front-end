@@ -5,8 +5,8 @@ import { ethers } from "ethers";
 import Countdown from "react-countdown";
 
 import useStyles from "config/styles";
-import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import abi from "abis/nft";
+import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
 import nftService from "services/nft";
 
@@ -15,7 +15,7 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
     return null;
   } else {
     return (
-      <Box>
+      <Box mb={2}>
         <Typography align="center" variant="h4" gutterBottom>
           Sale opens in
         </Typography>
@@ -69,7 +69,7 @@ const Mint = () => {
     if (library && account) {
       try {
         const signer = library.getSigner();
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
         const mintPrice = await contract.getMintPrice();
 
@@ -87,6 +87,7 @@ const Mint = () => {
         });
       } catch (err) {
         console.log(err);
+        alert("The sale is not open yet.");
       }
     } else {
       alert("Please connect your wallet on Arbitrum network");
@@ -94,7 +95,7 @@ const Mint = () => {
   };
 
   useEffect(() => {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
 
     const getData = async () => {
       const seconds = (await contract.timeUntilSale()).toNumber();
@@ -105,9 +106,9 @@ const Mint = () => {
   }, [library]);
 
   return (
-    <Box mt={6}>
+    <Box mt={6} display="flex" flexDirection="column" alignItems="center">
       {saleSeconds > 0 && (
-        <Countdown date={Date.now() + saleSeconds * 1000} render={Counter} />
+        <Countdown date={Date.now() + saleSeconds * 1000} renderer={Counter} />
       )}
       <Button
         onClick={handleMint}

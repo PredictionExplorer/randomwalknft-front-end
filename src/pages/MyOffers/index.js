@@ -1,5 +1,4 @@
 import React from "react";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 
@@ -31,7 +30,6 @@ import { formatId } from "utils";
 
 const OfferRow = ({ offerId, library }) => {
   const offer = useOffer(offerId);
-  const history = useHistory();
 
   if (!offer) {
     return <TableRow></TableRow>;
@@ -49,7 +47,7 @@ const OfferRow = ({ offerId, library }) => {
       } else {
         await market.cancelSellOffer(offerId).then((tx) => tx.wait());
       }
-      history.push("/my-offers");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

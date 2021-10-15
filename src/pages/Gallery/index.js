@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
-import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import abi from "abis/nft";
+import { NFT_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import PaginationGrid from "components/PaginationGrid";
@@ -21,7 +21,7 @@ const Gallery = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
         const balance = await contract.totalSupply();
         const tokenIds = [...Array(balance.toNumber()).keys()];
         if (isSubscribed) {

@@ -3,8 +3,8 @@ import { Grid, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import useStyles from "config/styles";
-import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import abi from "abis/nft";
+import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
 import NFTImage from "components/NFTImage";
 
@@ -17,7 +17,7 @@ const SalesSection = () => {
   const { library } = useActiveWeb3React();
 
   useEffect(() => {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
     const getData = async () => {
       const mintPrice = await contract.getMintPrice();
       setMintPrice(parseFloat(ethers.utils.formatEther(mintPrice)).toFixed(4));

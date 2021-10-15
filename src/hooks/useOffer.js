@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
-import abi from "abis/contract";
+import abi from "abis/nft";
 import marketABI from "abis/market";
-import { CONTRACT_ADDRESS, MARKET_ADDRESS } from "constants/app";
+import { NFT_ADDRESS, MARKET_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "./web3";
 
 export const getOfferById = async (contract, market, offerId) => {
@@ -33,7 +33,7 @@ export const useOffer = (offerId) => {
     let isSubscribed = true;
     const getOffer = async () => {
       try {
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const offer = await getOfferById(contract, market, offerId);
         if (isSubscribed) {

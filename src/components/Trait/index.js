@@ -22,9 +22,9 @@ import ModalVideo from "react-modal-video";
 import "react-modal-video/css/modal-video.min.css";
 
 import { useActiveWeb3React } from "hooks/web3";
-import abi from "abis/contract";
+import abi from "abis/nft";
 import marketABI from "abis/market";
-import { MARKET_ADDRESS, CONTRACT_ADDRESS } from "constants/app";
+import { MARKET_ADDRESS, NFT_ADDRESS } from "constants/app";
 import { useSellTokenIds, useSellOfferIds } from "hooks/useOffer";
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,7 @@ const Market = ({ nft, account, library }) => {
 
   const handleMakeSell = async () => {
     const signer = library.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
 
     try {
@@ -94,7 +94,7 @@ const Market = ({ nft, account, library }) => {
       await market
         .makeSellOffer(id, ethers.utils.parseEther(price))
         .then((tx) => tx.wait());
-      history.push("/for-sale");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -108,7 +108,7 @@ const Market = ({ nft, account, library }) => {
       await market
         .makeBuyOffer(id, { value: ethers.utils.parseEther(price) })
         .then((tx) => tx.wait());
-      history.push("/for-sale");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -119,7 +119,7 @@ const Market = ({ nft, account, library }) => {
     const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
     try {
       await market.cancelSellOffer(sellOfferIds[0]).then((tx) => tx.wait());
-      history.push("/for-sale");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -145,7 +145,7 @@ const Market = ({ nft, account, library }) => {
 
   const handleTransfer = async () => {
     const signer = library.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
     try {
       await contract.transferFrom(account, address, id).then((tx) => tx.wait());
@@ -157,7 +157,7 @@ const Market = ({ nft, account, library }) => {
 
   const handleSetTokenName = async () => {
     const signer = library.getSigner();
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
     try {
       await contract.setTokenName(id, tokenName).then((tx) => tx.wait());
@@ -237,26 +237,10 @@ const Market = ({ nft, account, library }) => {
           </Grid>
         </>
       ) : (
-        <Grid item xs={12} sm={6}>
-          {sellTokenIds.includes(id) ? (
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={handleCancelSell}
-            >
-              Cancel Sell Offer
-            </Button>
-          ) : nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() ? (
-            <Button
-              color="secondary"
-              variant="contained"
-              onClick={handleAcceptSell}
-            >
-              Buy
-            </Button>
-          ) : (
-            <>
-              <Typography variant="h6">Trade</Typography>
+        <Grid item xs={12}>
+          <Typography variant="h6">Trade</Typography>
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
               <Box display="flex">
                 <TextField
                   type="number"
@@ -276,8 +260,31 @@ const Market = ({ nft, account, library }) => {
                   Make Offer
                 </Button>
               </Box>
-            </>
-          )}
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              {sellTokenIds.includes(id) && (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleCancelSell}
+                  style={{ height: "100%" }}
+                >
+                  Cancel Sell Offer
+                </Button>
+              )}
+              {nft.owner.toLowerCase() === MARKET_ADDRESS.toLowerCase() && (
+                <Button
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleAcceptSell}
+                  size="large"
+                  style={{ height: "100%" }}
+                >
+                  Buy
+                </Button>
+              )}
+            </Grid>
+          </Grid>
         </Grid>
       )}
     </Grid>

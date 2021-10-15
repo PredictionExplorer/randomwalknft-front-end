@@ -4,8 +4,8 @@ import { ethers } from "ethers";
 import Countdown from "react-countdown";
 
 import useStyles from "config/styles";
-import abi from "abis/contract";
-import { CONTRACT_ADDRESS } from "constants/app";
+import abi from "abis/nft";
+import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
@@ -68,13 +68,19 @@ const Withdrawal = () => {
     if (library && account) {
       try {
         const signer = library.getSigner();
-        const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, signer);
+        const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
         const receipt = await contract.withdraw().then((tx) => tx.wait());
 
         console.log(receipt);
       } catch (err) {
-        console.log(err);
+        if (err.data.code === -32000) {
+          alert("The withdrawal is not open yet.");
+        } else {
+          alert(
+            "You are not the last minter, you need to mint to become the last minter"
+          );
+        }
       }
     } else {
       alert("Please connect your wallet on Arbitrum network");
@@ -82,7 +88,7 @@ const Withdrawal = () => {
   };
 
   useEffect(() => {
-    const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, library);
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
 
     const getData = async () => {
       const seconds = (await contract.timeUntilWithdrawal()).toNumber();

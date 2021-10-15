@@ -30,7 +30,6 @@ import { formatId } from "utils";
 
 const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
   const offer = useOffer(offerId);
-  const history = useHistory();
 
   const handleAcceptBuy = async () => {
     const signer = library.getSigner();
@@ -38,7 +37,7 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
 
     try {
       await market.acceptBuyOffer(offerId).then((tx) => tx.wait());
-      history.push("/for-sale");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }
@@ -50,7 +49,7 @@ const OfferRow = ({ offerId, isBuy, isOwner, library }) => {
 
     try {
       await market.cancelBuyOffer(offerId).then((tx) => tx.wait());
-      history.push("/for-sale");
+      window.location.reload();
     } catch (err) {
       console.log(err);
     }

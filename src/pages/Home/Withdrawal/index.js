@@ -10,7 +10,7 @@ import { useActiveWeb3React } from "hooks/web3";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
   if (completed) {
-    return null;
+    return <></>;
   } else {
     return (
       <Box>

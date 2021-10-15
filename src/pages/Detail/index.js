@@ -17,6 +17,7 @@ import {
   Button,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
+import { Helmet } from "react-helmet";
 
 import useStyles from "config/styles";
 import { useNFT } from "hooks/useNFT";
@@ -126,45 +127,60 @@ const Detail = () => {
   const sellOffers = useSellOfferIds(id);
   const { account, library } = useActiveWeb3React();
 
-  if (!nft) return null;
+  if (!nft) return <></>;
 
   return (
-    <Container className={classes.root}>
-      {location.state && location.state.message && (
+    <>
+      <Helmet>
+        <meta name="twitter:card" content="summary" />
+        <meta
+          name="twitter:title"
+          content={`Random Walk NFT: Details for ${formatId(id)}`}
+        />
+        <meta name="twitter:site" content="@RandomWalkNFT" />
+        <meta name="twitter:image" content={nft.image} />
+        <meta
+          name="twitter:description"
+          content="Programmatically generated Random Walk image and video NFTs. ETH spent on minting goes back to the minters."
+        />
+      </Helmet>
+      <Container className={classes.root}>
+        {location.state && location.state.message && (
+          <Box pt={4}>
+            <Alert elevation={6} variant="filled" severity="success">
+              {location.state.message}
+            </Alert>
+          </Box>
+        )}
         <Box pt={4}>
-          <Alert elevation={6} variant="filled" severity="success">
-            {location.state.message}
-          </Alert>
-        </Box>
-      )}
-      <Box pt={4}>
-        <Typography variant="h4" gutterBottom>
-          {nft.name || formatId(nft.id)}
-        </Typography>
-      </Box>
-      <Trait nft={nft} />
-      {buyOffers.length > 0 && (
-        <Box py={4}>
-          <Typography variant="h5" gutterBottom>
-            Buy Offers
+          <Typography variant="h4" gutterBottom>
+            {nft.name || formatId(nft.id)}
           </Typography>
-          <OfferTable
-            isBuy
-            isOwner={nft.owner.toLowerCase() === account.toLowerCase()}
-            offers={buyOffers}
-            library={library}
-          />
         </Box>
-      )}
-      {sellOffers.length > 0 && (
-        <Box py={4}>
-          <Typography variant="h5" gutterBottom>
-            Sell Offers
-          </Typography>
-          <OfferTable offers={sellOffers} />
-        </Box>
-      )}
-    </Container>
+        <Trait nft={nft} />
+        {buyOffers.length > 0 && (
+          <Box py={4}>
+            <Typography variant="h5" gutterBottom>
+              Buy Offers
+            </Typography>
+            <OfferTable
+              isBuy
+              isOwner={nft.owner.toLowerCase() === account.toLowerCase()}
+              offers={buyOffers}
+              library={library}
+            />
+          </Box>
+        )}
+        {sellOffers.length > 0 && (
+          <Box py={4}>
+            <Typography variant="h5" gutterBottom>
+              Sell Offers
+            </Typography>
+            <OfferTable offers={sellOffers} />
+          </Box>
+        )}
+      </Container>
+    </>
   );
 };
 

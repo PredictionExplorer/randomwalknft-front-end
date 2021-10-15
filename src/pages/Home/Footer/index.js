@@ -32,7 +32,7 @@ const Footer = () => {
           <IconButton href="https://twitter.com/RandomWalkNFT" target="_blank">
             <FontAwesomeIcon icon={faTwitter} />
           </IconButton>
-          <IconButton href="https://discord.gg/W7a2kGfd" target="_blank">
+          <IconButton href="https://discord.gg/bGnPn96Qwt" target="_blank">
             <FontAwesomeIcon icon={faDiscord} />
           </IconButton>
         </div>

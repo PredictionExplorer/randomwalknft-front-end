@@ -74,7 +74,7 @@ const Market = ({ nft, account, library }) => {
   const sellOfferIds = useSellOfferIds(id);
   const sellTokenIds = useSellTokenIds(account);
 
-  if (!account || !nft) return null;
+  if (!account || !nft) return <></>;
 
   const handleMakeSell = async () => {
     const signer = library.getSigner();

@@ -12,7 +12,7 @@ import nftService from "services/nft";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
   if (completed) {
-    return null;
+    return <></>;
   } else {
     return (
       <Box mb={2}>

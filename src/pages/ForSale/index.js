@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
-import abi from "abis/nft";
 import marketABI from "abis/market";
-import { NFT_ADDRESS, MARKET_ADDRESS } from "constants/app";
+import { MARKET_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import { getOfferById } from "hooks/useOffer";
@@ -23,12 +22,11 @@ const ForSale = () => {
     const getTokens = async () => {
       try {
         setLoading(true);
-        const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
         const numOffers = await market.numOffers();
         const offerIds = [...Array(numOffers.toNumber()).keys()];
         let offers = await Promise.all(
-          offerIds.map((offerId) => getOfferById(contract, market, offerId))
+          offerIds.map((offerId) => getOfferById(library, offerId))
         );
         const zeroAddress = ethers.constants.AddressZero;
         offers = offers

@@ -23,7 +23,7 @@ import useStyles from "config/styles";
 import { useNFT } from "hooks/useNFT";
 import abi from "abis/market";
 import { MARKET_ADDRESS } from "constants/app";
-import { useBuyOfferIds, useSellOfferIds, useOffer } from "hooks/useOffer";
+import { useBuyOfferIds, useOffer } from "hooks/useOffer";
 import { useActiveWeb3React } from "hooks/web3";
 
 import { Trait } from "components/Trait";
@@ -59,8 +59,6 @@ const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
   if (!offer) {
     return <TableRow></TableRow>;
   }
-
-  console.log(offer);
 
   return (
     <TableRow>
@@ -130,7 +128,6 @@ const Detail = () => {
   const { location } = useHistory();
   const nft = useNFT(id);
   const buyOffers = useBuyOfferIds(id);
-  const sellOffers = useSellOfferIds(id);
   const { account, library } = useActiveWeb3React();
 
   if (!nft) return <></>;
@@ -176,14 +173,6 @@ const Detail = () => {
               account={account}
               library={library}
             />
-          </Box>
-        )}
-        {sellOffers.length > 0 && (
-          <Box py={4}>
-            <Typography variant="h5" gutterBottom>
-              Sell Offers
-            </Typography>
-            <OfferTable offers={sellOffers} />
           </Box>
         )}
       </Container>

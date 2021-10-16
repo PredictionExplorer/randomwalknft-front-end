@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { ethers } from "ethers";
 import {
@@ -25,7 +25,7 @@ import { useActiveWeb3React } from "hooks/web3";
 import abi from "abis/nft";
 import marketABI from "abis/market";
 import { MARKET_ADDRESS, NFT_ADDRESS } from "constants/app";
-import { useSellTokenIds, useSellOfferIds } from "hooks/useOffer";
+import { useSellTokenIds, useSellOfferIds, getOfferById } from "hooks/useOffer";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Market = ({ nft, account, library }) => {
   const { id, name } = nft;
+  const [sellPrice, setSellPrice] = useState(null);
   const [price, setPrice] = useState("");
   const [tokenName, setTokenName] = useState(name);
   const [address, setAddress] = useState("");
@@ -73,6 +74,18 @@ const Market = ({ nft, account, library }) => {
 
   const sellOfferIds = useSellOfferIds(id);
   const sellTokenIds = useSellTokenIds(account);
+
+  useEffect(() => {
+    const getSellOffer = async (id) => {
+      const offer = await getOfferById(library, id);
+      setSellPrice(offer.price);
+    };
+    if (sellOfferIds.length > 0) {
+      getSellOffer(sellOfferIds[0]);
+    }
+
+    return () => setSellPrice(null);
+  }, [library, sellOfferIds]);
 
   if (!account || !nft) return <></>;
 
@@ -193,7 +206,7 @@ const Market = ({ nft, account, library }) => {
             </Box>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="h6">Trade</Typography>
+            <Typography variant="h6">Put on Sale</Typography>
             <Box display="flex">
               <TextField
                 type="number"
@@ -238,7 +251,7 @@ const Market = ({ nft, account, library }) => {
         </>
       ) : (
         <Grid item xs={12}>
-          <Typography variant="h6">Trade</Typography>
+          <Typography variant="h6">Put on Sale</Typography>
           <Grid container spacing={2}>
             {!sellTokenIds.includes(id) && (
               <Grid item xs={12} sm={6}>
@@ -283,7 +296,7 @@ const Market = ({ nft, account, library }) => {
                     size="large"
                     style={{ height: "100%" }}
                   >
-                    Buy
+                    Buy Now for {sellPrice} Ξ
                   </Button>
                 )
               )}

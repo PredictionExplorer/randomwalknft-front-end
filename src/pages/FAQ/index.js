@@ -9,7 +9,7 @@ const FAQ = () => {
     {
       question: "How do I mint Random Walk NFTs?",
       answer:
-        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum using the <a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a>.",
+        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum using <a style='color: #fff' href='https://hop.exchange'>Hop</a> or <a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a>.",
     },
     {
       question: "How are the NFT images generated?",

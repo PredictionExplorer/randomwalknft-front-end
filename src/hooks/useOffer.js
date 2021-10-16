@@ -13,7 +13,7 @@ export const getOfferById = async (library, offerId) => {
   const tokenId = offer.tokenId.toNumber();
   const tokenName = await contract.tokenNames(tokenId);
   const fileName = tokenId.toString().padStart(6, "0");
-  const image = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}.png`;
+  const image_thumb = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_thumb.jpg`;
 
   return {
     id: offerId,
@@ -23,7 +23,7 @@ export const getOfferById = async (library, offerId) => {
     price: parseFloat(ethers.utils.formatEther(offer.price)),
     tokenId,
     tokenName,
-    image,
+    image_thumb,
   };
 };
 

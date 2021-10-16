@@ -6,8 +6,9 @@ import routes from "config/routes";
 const pageComponents = {
   Home: lazy(() => import("pages/Home")),
   Gallery: lazy(() => import("pages/Gallery")),
-  "My NFTs": lazy(() => import("pages/MyNFT")),
   "For Sale": lazy(() => import("pages/ForSale")),
+  Withdraw: lazy(() => import("pages/Withdraw")),
+  "My NFTs": lazy(() => import("pages/MyNFT")),
   "My Offers": lazy(() => import("pages/MyOffers")),
   "Generation Code": lazy(() => import("pages/CodeViewer")),
   Detail: lazy(() => import("pages/Detail")),

@@ -11,6 +11,7 @@ const getNFTById = async (contract, tokenId) => {
   const name = await contract.tokenNames(tokenId);
   const fileName = tokenId.toString().padStart(6, "0");
   const image = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}.png`;
+  const image_thumb = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_thumb.jpg`;
   const single_video = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_single.mp4`;
   const triple_video = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_triple.mp4`;
 
@@ -20,6 +21,7 @@ const getNFTById = async (contract, tokenId) => {
     owner,
     seed,
     image,
+    image_thumb,
     single_video,
     triple_video,
   };

@@ -141,7 +141,7 @@ const Detail = () => {
           content={`Random Walk NFT: Details for ${formatId(id)}`}
         />
         <meta name="twitter:site" content="@RandomWalkNFT" />
-        <meta name="twitter:image" content={nft.image} />
+        <meta name="twitter:image" content={nft.image_thumb} />
         <meta
           name="twitter:description"
           content="Programmatically generated Random Walk image and video NFTs. ETH spent on minting goes back to the minters."

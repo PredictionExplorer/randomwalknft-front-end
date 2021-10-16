@@ -5,7 +5,6 @@ import useStyles from "config/styles";
 
 import SalesSection from "./SalesSection";
 import Mint from "./Mint";
-import Withdrawal from "./Withdrawal";
 import Footer from "./Footer";
 
 const Home = (props) => {
@@ -21,7 +20,6 @@ const Home = (props) => {
       >
         <SalesSection />
         <Mint />
-        <Withdrawal />
         <Footer />
       </Box>
     </Container>

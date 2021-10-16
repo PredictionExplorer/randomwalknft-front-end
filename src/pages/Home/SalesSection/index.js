@@ -29,12 +29,12 @@ const SalesSection = () => {
 
       const images = tokenIds.map((tokenId) => {
         const fileName = tokenId.toString().padStart(6, "0");
-        return `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}.png`;
+        return `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_thumb.jpg`;
       });
 
       const nfts = [];
       for (let i = 0; i < Math.min(tokenIds.length, 3); i++) {
-        nfts.push({ id: tokenIds[i], image: images[i] });
+        nfts.push({ id: tokenIds[i], image_thumb: images[i] });
       }
       setNfts(nfts);
     };

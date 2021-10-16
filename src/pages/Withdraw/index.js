@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, Typography } from "@material-ui/core";
+import { Button, Box, Typography, Container } from "@material-ui/core";
 import { ethers } from "ethers";
 import Countdown from "react-countdown";
 
@@ -56,7 +56,7 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
   }
 };
 
-const Withdrawal = () => {
+const Withdraw = () => {
   const classes = useStyles();
   const [withdrawalSeconds, setWithdrawalSeconds] = useState(0);
   const [lastMinter, setLastMinter] = useState(null);
@@ -107,46 +107,48 @@ const Withdrawal = () => {
   }, [library]);
 
   return (
-    <Box mt={6} display="flex" flexDirection="column" alignItems="center">
-      <Box mb={2}>
-        {withdrawalSeconds > 0 && (
-          <Countdown
-            date={Date.now() + withdrawalSeconds * 1000}
-            renderer={Counter}
-          />
+    <Container maxWidth={false} className={classes.root}>
+      <Box mt={16} display="flex" flexDirection="column" alignItems="center">
+        <Box mb={2}>
+          {withdrawalSeconds > 0 && (
+            <Countdown
+              date={Date.now() + withdrawalSeconds * 1000}
+              renderer={Counter}
+            />
+          )}
+        </Box>
+        {lastMinter && (
+          <Box mb={2}>
+            <Typography align="center" variant="body2">
+              Last Minter Address
+            </Typography>
+            <Typography align="center" variant="body1" color="secondary">
+              {lastMinter}
+            </Typography>
+          </Box>
         )}
+        {withdrawalAmount && (
+          <Box mb={2}>
+            <Typography align="center" variant="body2">
+              Withdrawal Amount
+            </Typography>
+            <Typography align="center" variant="body1" color="secondary">
+              {withdrawalAmount} Ξ
+            </Typography>
+          </Box>
+        )}
+        <Button
+          onClick={handleWithdraw}
+          variant="contained"
+          color="secondary"
+          size="large"
+          className={classes.viewButton}
+        >
+          Withdraw Now
+        </Button>
       </Box>
-      {lastMinter && (
-        <Box mb={2}>
-          <Typography align="center" variant="body2">
-            Last Minter Address
-          </Typography>
-          <Typography align="center" variant="body1" color="secondary">
-            {lastMinter}
-          </Typography>
-        </Box>
-      )}
-      {withdrawalAmount && (
-        <Box mb={2}>
-          <Typography align="center" variant="body2">
-            Withdrawal Amount
-          </Typography>
-          <Typography align="center" variant="body1" color="secondary">
-            {withdrawalAmount} Ξ
-          </Typography>
-        </Box>
-      )}
-      <Button
-        onClick={handleWithdraw}
-        variant="contained"
-        color="secondary"
-        size="large"
-        className={classes.viewButton}
-      >
-        Withdraw Now
-      </Button>
-    </Box>
+    </Container>
   );
 };
 
-export default Withdrawal;
+export default Withdraw;

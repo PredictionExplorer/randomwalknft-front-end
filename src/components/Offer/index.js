@@ -30,7 +30,7 @@ const Offer = ({ offer }) => {
     <Grid item xs={6} sm={4} md={3}>
       <Card>
         <CardActionArea component={Link} to={`/detail/${offer.tokenId}`}>
-          <CardMedia className={classes.media} image={offer.image} />
+          <CardMedia className={classes.media} image={offer.image_thumb} />
           <CardContent>
             <Box
               display="flex"

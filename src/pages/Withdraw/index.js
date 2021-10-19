@@ -107,7 +107,7 @@ const Withdraw = () => {
   }, [library]);
 
   return (
-    <Container maxWidth={false} className={classes.root}>
+    <Container maxWidth="lg" className={classes.root}>
       <Box mt={16} display="flex" flexDirection="column" alignItems="center">
         <Box mb={2}>
           {withdrawalSeconds > 0 && (
@@ -146,6 +146,16 @@ const Withdraw = () => {
         >
           Withdraw Now
         </Button>
+        <Typography
+          variant="body1"
+          style={{ marginTop: 24, width: "60%" }}
+          align="center"
+        >
+          If somebody mints an NFT, then there is no mint for 30 days, the last
+          minter can withdraw a large percentage of all the ETH that was spent
+          on minting. The ETH spent on minting does not go to the creator of the
+          NFT, it goes back to the minters through this mechanism
+        </Typography>
       </Box>
     </Container>
   );

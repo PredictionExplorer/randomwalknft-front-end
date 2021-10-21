@@ -7,6 +7,7 @@ const pageComponents = {
   Home: lazy(() => import("pages/Home")),
   Gallery: lazy(() => import("pages/Gallery")),
   "For Sale": lazy(() => import("pages/ForSale")),
+  Giveaway: lazy(() => import("pages/Giveaway")),
   Withdraw: lazy(() => import("pages/Withdraw")),
   "My NFTs": lazy(() => import("pages/MyNFT")),
   "My Offers": lazy(() => import("pages/MyOffers")),

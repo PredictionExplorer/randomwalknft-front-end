@@ -1,16 +1,5 @@
 [
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "nftAddr",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "constructor"
-  },
-  {
     "anonymous": false,
     "inputs": [
       {
@@ -26,6 +15,12 @@
   {
     "anonymous": false,
     "inputs": [
+      {
+        "indexed": true,
+        "internalType": "contract IERC721",
+        "name": "nftAddress",
+        "type": "address"
+      },
       {
         "indexed": true,
         "internalType": "uint256",
@@ -128,6 +123,11 @@
   {
     "inputs": [
       {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -146,6 +146,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
       {
         "internalType": "address",
         "name": "buyer",
@@ -166,6 +171,11 @@
   {
     "inputs": [
       {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "buyer",
         "type": "address"
@@ -184,6 +194,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenId",
@@ -204,6 +219,11 @@
   {
     "inputs": [
       {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
+      {
         "internalType": "address",
         "name": "seller",
         "type": "address"
@@ -222,6 +242,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
       {
         "internalType": "address",
         "name": "seller",
@@ -242,6 +267,11 @@
   {
     "inputs": [
       {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
+      {
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
@@ -254,6 +284,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "_nftAddress",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenId",
@@ -293,6 +328,11 @@
     ],
     "name": "offers",
     "outputs": [
+      {
+        "internalType": "contract IERC721",
+        "name": "nftAddress",
+        "type": "address"
+      },
       {
         "internalType": "uint256",
         "name": "tokenId",

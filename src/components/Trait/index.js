@@ -105,7 +105,7 @@ const Market = ({ nft, account, library }) => {
           .then((tx) => tx.wait());
       }
       await market
-        .makeSellOffer(id, ethers.utils.parseEther(price))
+        .makeSellOffer(NFT_ADDRESS, id, ethers.utils.parseEther(price))
         .then((tx) => tx.wait());
       window.location.reload();
     } catch (err) {
@@ -119,7 +119,7 @@ const Market = ({ nft, account, library }) => {
 
     try {
       await market
-        .makeBuyOffer(id, { value: ethers.utils.parseEther(price) })
+        .makeBuyOffer(NFT_ADDRESS, id, { value: ethers.utils.parseEther(price) })
         .then((tx) => tx.wait());
       window.location.reload();
     } catch (err) {

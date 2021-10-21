@@ -63,7 +63,7 @@ export const useBuyOfferIds = (tokenId) => {
     const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const buyOfferIds = await market.getBuyOffers(tokenId);
+        const buyOfferIds = await market.getBuyOffers(NFT_ADDRESS, tokenId);
         if (isSubscribed) {
           setBuyOfferIds(buyOfferIds.map((id) => id.toNumber()));
         }
@@ -91,7 +91,7 @@ export const useBuyTokenIds = (address) => {
     const getTokenIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const buyTokenIds = await market.getBuyTokensBy(address);
+        const buyTokenIds = await market.getBuyTokensBy(NFT_ADDRESS, address);
         if (isSubscribed) {
           setBuyTokenIds(buyTokenIds.map((id) => id.toNumber()));
         }
@@ -119,7 +119,7 @@ export const useAccountBuyOfferIds = (address) => {
     const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const buyOfferIds = await market.getBuyOffersBy(address);
+        const buyOfferIds = await market.getBuyOffersBy(NFT_ADDRESS, address);
         if (isSubscribed) {
           setBuyOfferIds(buyOfferIds.map((id) => id.toNumber()));
         }
@@ -147,7 +147,7 @@ export const useSellOfferIds = (tokenId) => {
     const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const sellOfferIds = await market.getSellOffers(tokenId);
+        const sellOfferIds = await market.getSellOffers(NFT_ADDRESS, tokenId);
         if (isSubscribed) {
           setSellOfferIds(sellOfferIds.map((id) => id.toNumber()));
         }
@@ -175,7 +175,7 @@ export const useAccountSellOfferIds = (address) => {
     const getOfferIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const sellOfferIds = await market.getSellOffersBy(address);
+        const sellOfferIds = await market.getSellOffersBy(NFT_ADDRESS, address);
         if (isSubscribed) {
           setSellOfferIds(sellOfferIds.map((id) => id.toNumber()));
         }
@@ -203,7 +203,7 @@ export const useSellTokenIds = (address) => {
     const getTokenIds = async () => {
       try {
         const market = new ethers.Contract(MARKET_ADDRESS, marketABI, library);
-        const sellTokenIds = await market.getSellTokenBy(address);
+        const sellTokenIds = await market.getSellTokenBy(NFT_ADDRESS, address);
         if (isSubscribed) {
           setSellTokenIds(sellTokenIds.map((id) => id.toNumber()));
         }

@@ -74,7 +74,7 @@ const Mint = () => {
         const mintPrice = await contract.getMintPrice();
 
         const receipt = await contract
-          .mint({ value: mintPrice.mul(1.05) })
+          .mint({ value: mintPrice })
           .then((tx) => tx.wait());
 
         const token_id = receipt.events[0].args.tokenId.toNumber();

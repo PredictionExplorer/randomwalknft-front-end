@@ -119,7 +119,9 @@ const Market = ({ nft, account, library }) => {
 
     try {
       await market
-        .makeBuyOffer(NFT_ADDRESS, id, { value: ethers.utils.parseEther(price) })
+        .makeBuyOffer(NFT_ADDRESS, id, {
+          value: ethers.utils.parseEther(price),
+        })
         .then((tx) => tx.wait());
       window.location.reload();
     } catch (err) {
@@ -296,7 +298,7 @@ const Market = ({ nft, account, library }) => {
                     size="large"
                     style={{ height: "100%" }}
                   >
-                    Buy Now for {sellPrice} Ξ
+                    Buy Now for {sellPrice && sellPrice.toFixed(4)} Ξ
                   </Button>
                 )
               )}

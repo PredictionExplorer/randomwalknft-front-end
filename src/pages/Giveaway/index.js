@@ -36,7 +36,9 @@ const GiveawayTable = ({ tokens }) => {
               <TableCell>{token.seed}</TableCell>
               <TableCell>{token.owner}</TableCell>
               <TableCell>
-                <Link to={`/detail/${token.id}`}>{formatId(token.id)}</Link>
+                <Link style={{ color: "#fff" }} to={`/detail/${token.id}`}>
+                  {formatId(token.id)}
+                </Link>
               </TableCell>
             </TableRow>
           ))}

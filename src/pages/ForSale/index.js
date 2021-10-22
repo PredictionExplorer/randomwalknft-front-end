@@ -3,7 +3,7 @@ import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import marketABI from "abis/market";
-import { NFT_ADDRESS, MARKET_ADDRESS } from "constants/app";
+import { MARKET_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import { getOfferById } from "hooks/useOffer";

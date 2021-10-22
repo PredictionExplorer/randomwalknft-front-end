@@ -80,6 +80,7 @@ const Giveaway = () => {
             href="https://twitter.com/randomwalknft"
             target="_blank"
             style={{ color: "#FFB186" }}
+            rel="noreferrer"
           >
             Twitter Page
           </a>{" "}

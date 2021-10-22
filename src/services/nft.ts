@@ -11,6 +11,11 @@ class NFTService {
     const { data } = await axios.get(baseUrl + "result");
     return data;
   }
+
+  public async giveaway() {
+    const { data } = await axios.get(baseUrl + "giveaway");
+    return data;
+  }
 }
 
 export default new NFTService();

@@ -36,8 +36,13 @@ const GiveawayTable = ({ tokens }) => {
               <TableCell>{token.seed}</TableCell>
               <TableCell>{token.owner}</TableCell>
               <TableCell>
-                <Link style={{ color: "#fff" }} to={`/detail/${token.id}`}>
-                  {formatId(token.id)}
+                <Link
+                  to={`/detail/${token.id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Typography color="secondary">
+                    {formatId(token.id)}
+                  </Typography>
                 </Link>
               </TableCell>
             </TableRow>
@@ -68,6 +73,17 @@ const Giveaway = () => {
       <Box py={4}>
         <Typography variant="h4" gutterBottom>
           Giveaway
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Some minters may be eligible for a giveaway. Check out our{" "}
+          <a
+            href="https://twitter.com/randomwalknft"
+            target="_blank"
+            style={{ color: "#FFB186" }}
+          >
+            Twitter Page
+          </a>{" "}
+          for details.
         </Typography>
         <GiveawayTable tokens={tokens} />
       </Box>

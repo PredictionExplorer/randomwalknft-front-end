@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { ethers } from "ethers";
 
 import {
   Container,
@@ -13,11 +12,9 @@ import {
   TableCell,
   TableBody,
   Paper,
-  Button,
 } from "@material-ui/core";
 
 import useStyles from "config/styles";
-import { useActiveWeb3React } from "hooks/web3";
 
 import { formatId } from "utils";
 import nftService from "services/nft";

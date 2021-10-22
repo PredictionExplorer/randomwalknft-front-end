@@ -3,7 +3,7 @@ import { Container, Typography, Box } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import marketABI from "abis/market";
-import { MARKET_ADDRESS } from "constants/app";
+import { NFT_ADDRESS, MARKET_ADDRESS } from "constants/app";
 import useStyles from "config/styles";
 import { useActiveWeb3React } from "hooks/web3";
 import { getOfferById } from "hooks/useOffer";
@@ -30,8 +30,11 @@ const ForSale = () => {
         );
         const zeroAddress = ethers.constants.AddressZero;
         offers = offers
-          .filter(({ active, buyer }) => active && buyer === zeroAddress)
+          .filter(
+            (offer) => offer && offer.active && offer.buyer === zeroAddress
+          )
           .sort((x, y) => x.price - y.price);
+        console.log(offers);
         if (isSubscribed) {
           setCollection(offers);
           setLoading(false);

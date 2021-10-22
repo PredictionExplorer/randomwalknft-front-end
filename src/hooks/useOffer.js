@@ -15,6 +15,10 @@ export const getOfferById = async (library, offerId) => {
   const fileName = tokenId.toString().padStart(6, "0");
   const image_thumb = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_thumb.jpg`;
 
+  if (NFT_ADDRESS.toLowerCase() != offer.nftAddress.toLowerCase()) {
+    return null;
+  }
+
   return {
     id: offerId,
     active: offer.active,

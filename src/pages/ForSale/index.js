@@ -34,7 +34,6 @@ const ForSale = () => {
             (offer) => offer && offer.active && offer.buyer === zeroAddress
           )
           .sort((x, y) => x.price - y.price);
-        console.log(offers);
         if (isSubscribed) {
           setCollection(offers);
           setLoading(false);

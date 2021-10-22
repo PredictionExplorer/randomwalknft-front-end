@@ -32,7 +32,7 @@ const GiveawayTable = ({ tokens }) => {
         </TableHead>
         <TableBody>
           {tokens.map((token, i) => (
-            <TableRow>
+            <TableRow key={i}>
               <TableCell>{token.seed}</TableCell>
               <TableCell>{token.owner}</TableCell>
               <TableCell>

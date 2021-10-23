@@ -20,7 +20,9 @@ const SalesSection = () => {
     const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
     const getData = async () => {
       const mintPrice = await contract.getMintPrice();
-      setMintPrice(parseFloat(ethers.utils.formatEther(mintPrice)).toFixed(4));
+      setMintPrice(
+        (parseFloat(ethers.utils.formatEther(mintPrice)) * 1.05).toFixed(4)
+      );
 
       const balance = await contract.totalSupply();
       const tokenIds = [...Array(balance.toNumber()).keys()]

@@ -72,9 +72,12 @@ const Mint = () => {
         const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
         const mintPrice = await contract.getMintPrice();
+        const newPrice = ethers.utils.formatEther(mintPrice) * 1.05;
+
+        console.log(newPrice);
 
         const receipt = await contract
-          .mint({ value: mintPrice })
+          .mint({ value: ethers.utils.parseEther(newPrice.toString()) })
           .then((tx) => tx.wait());
 
         const token_id = receipt.events[0].args.tokenId.toNumber();
@@ -86,8 +89,9 @@ const Mint = () => {
             "Media files are being generated. Please refrersh the page in a few minutes.",
         });
       } catch (err) {
-        console.log(err);
-        alert("The sale is not open yet.");
+        if (err.code !== 4001) {
+          alert("The sale is not open yet.");
+        }
       }
     } else {
       alert("Please connect your wallet on Arbitrum network");

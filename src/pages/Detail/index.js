@@ -161,7 +161,7 @@ const Detail = () => {
           </Typography>
         </Box>
         <Trait nft={nft} />
-        {buyOffers.length > 0 && (
+        {account && buyOffers.length > 0 && (
           <Box py={4}>
             <Typography variant="h5" gutterBottom>
               Buy Offers

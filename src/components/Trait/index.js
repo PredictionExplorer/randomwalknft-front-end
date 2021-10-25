@@ -318,7 +318,16 @@ export const Trait = ({ nft }) => {
   const classes = useStyles();
   const { account, library } = useActiveWeb3React();
 
-  const { seed, image, single_video, triple_video, owner } = nft;
+  const {
+    seed,
+    white_image,
+    black_image,
+    white_single_video,
+    black_single_video,
+    white_triple_video,
+    black_triple_video,
+    owner,
+  } = nft;
 
   const handlePlay = (videoPath) => () => {
     fetch(videoPath).then((res) => {
@@ -336,36 +345,58 @@ export const Trait = ({ nft }) => {
       <Card className={classes.root}>
         <div className={classes.coverWrapper}>
           <CardActionArea onClick={() => setImageOpen(true)}>
-            <CardMedia className={classes.cover} image={image} />
+            <CardMedia className={classes.cover} image={white_image} />
           </CardActionArea>
           {imageOpen && (
-            <Lightbox image={image} onClose={() => setImageOpen(false)} />
+            <Lightbox
+              images={[white_image, black_image]}
+              onClose={() => setImageOpen(false)}
+            />
           )}
-          <Box display="flex" justifyContent="center" p={2}>
+          <Box display="flex" justifyContent="center" pt={2}>
             <Button
               variant="outlined"
               color="secondary"
               startIcon={<PlayCircleIcon />}
-              onClick={handlePlay(single_video)}
+              onClick={handlePlay(white_single_video)}
             >
-              Single
+              White Single Video
             </Button>
             <Button
               variant="outlined"
               color="secondary"
               startIcon={<PlayCircleIcon />}
               style={{ marginLeft: 10 }}
-              onClick={handlePlay(triple_video)}
+              onClick={handlePlay(white_triple_video)}
             >
-              Triple
+              White Triple Video
             </Button>
-            <ModalVideo
-              channel="custom"
-              url={videoPath}
-              isOpen={open}
-              onClose={() => setOpen(false)}
-            />
           </Box>
+          <Box display="flex" justifyContent="center" pt={2} pb={2}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<PlayCircleIcon />}
+              onClick={handlePlay(black_single_video)}
+            >
+              Black Single Video
+            </Button>
+            <Button
+              variant="outlined"
+              color="secondary"
+              startIcon={<PlayCircleIcon />}
+              style={{ marginLeft: 10 }}
+              onClick={handlePlay(black_triple_video)}
+            >
+              Black Triple Video
+            </Button>
+          </Box>
+          <ModalVideo
+            channel="custom"
+            url={videoPath}
+            isOpen={open}
+            onClose={() => setOpen(false)}
+          />
         </div>
         <div className={classes.details}>
           <CardContent className={classes.content}>

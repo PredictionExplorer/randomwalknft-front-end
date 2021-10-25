@@ -18,6 +18,7 @@ const PaginationOfferGrid = ({ loading, data }) => {
   const [curPage, setCurPage] = useState(1);
 
   useEffect(() => {
+    console.log(data);
     setCollection(data);
   }, [data]);
 

@@ -345,11 +345,11 @@ export const Trait = ({ nft }) => {
       <Card className={classes.root}>
         <div className={classes.coverWrapper}>
           <CardActionArea onClick={() => setImageOpen(true)}>
-            <CardMedia className={classes.cover} image={white_image} />
+            <CardMedia className={classes.cover} image={black_image} />
           </CardActionArea>
           {imageOpen && (
             <Lightbox
-              images={[white_image, black_image]}
+              images={[black_image, white_image]}
               onClose={() => setImageOpen(false)}
             />
           )}

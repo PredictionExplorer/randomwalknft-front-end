@@ -44,7 +44,7 @@ const NFTImage = ({ nfts }) => {
         {!nfts.length ? (
           <Skeleton animation="wave" variant="rect" className={classes.media} />
         ) : (
-          <CardMedia className={classes.media} image={nfts[index].white_image_thumb} />
+          <CardMedia className={classes.media} image={nfts[index].image_thumb} />
         )}
         <CardContent>
           <Typography color="secondary" variant="body1">

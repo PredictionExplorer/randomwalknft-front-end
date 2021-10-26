@@ -33,7 +33,7 @@ const NFT = ({ tokenId }) => {
         {!nft ? (
           <Skeleton animation="wave" variant="rect" className={classes.media} />
         ) : (
-          <CardMedia className={classes.media} image={nft.white_image_thumb} />
+          <CardMedia className={classes.media} image={nft.black_image_thumb} />
         )}
         <CardContent>
           <Typography color="secondary" variant="body1">

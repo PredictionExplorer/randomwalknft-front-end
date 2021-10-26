@@ -13,7 +13,7 @@ export const getOfferById = async (library, offerId) => {
   const tokenId = offer.tokenId.toNumber();
   const tokenName = await contract.tokenNames(tokenId);
   const fileName = tokenId.toString().padStart(6, "0");
-  const image_thumb = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_white_thumb.jpg`;
+  const image_thumb = `https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_black_thumb.jpg`;
 
   if (NFT_ADDRESS.toLowerCase() !== offer.nftAddress.toLowerCase()) {
     return null;

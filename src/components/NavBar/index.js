@@ -9,6 +9,7 @@ import {
   Drawer,
   List,
   ListItem,
+  Container,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -16,6 +17,8 @@ import NAV_SECTIONS from "config/nav";
 import useStyles from "config/styles";
 import ConnectWalletButton from "components/ConnectWalletButton";
 import { useActiveWeb3React } from "hooks/web3";
+
+import logoImage from "assets/svg/logo.svg";
 
 const NavBar = () => {
   const classes = useStyles();
@@ -46,6 +49,7 @@ const NavBar = () => {
   const renderDesktop = () => {
     return (
       <Toolbar>
+        <img src={logoImage} alt="RandomWalkNFT" />
         {NAV_SECTIONS.map(
           (nav, i) =>
             (!nav.auth || account) && (
@@ -104,8 +108,10 @@ const NavBar = () => {
   };
 
   return (
-    <AppBar position="fixed">
-      {mobileView ? renderMobile() : renderDesktop()}
+    <AppBar position="fixed" className={classes.appBar}>
+      <Container maxWidth="lg">
+        {mobileView ? renderMobile() : renderDesktop()}
+      </Container>
     </AppBar>
   );
 };

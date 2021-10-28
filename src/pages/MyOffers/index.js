@@ -103,9 +103,9 @@ const MyOffers = () => {
 
   return (
     <Container className={classes.root}>
-      <Box py={4}>
-        <Typography variant="h4" gutterBottom>
-          My Offers
+      <Box>
+        <Typography color="primary" variant="h4" gutterBottom align="center">
+          MY OFFERS
         </Typography>
         <OfferTable offers={offers} library={library} />
       </Box>

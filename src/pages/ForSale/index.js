@@ -51,9 +51,23 @@ const ForSale = () => {
 
   return (
     <Container className={classes.root}>
-      <Box pt={6}>
-        <Typography variant="h4" gutterBottom>
-          Random Walk NFTs for Sale
+      <Box>
+        <Typography variant="h4" gutterBottom align="center">
+          <Typography variant="h4" component="span">
+            RANDOM
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            WALK
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span">
+            NFTS
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="secondary">
+            FOR SALE
+          </Typography>
         </Typography>
         <PaginationOfferGrid loading={loading} data={collection} />
       </Box>

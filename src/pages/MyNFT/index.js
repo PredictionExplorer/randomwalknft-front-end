@@ -42,9 +42,23 @@ const MyNFTs = () => {
 
   return (
     <Container className={classes.root}>
-      <Box pt={6}>
-        <Typography variant="h4" gutterBottom>
-          My Random Walk NFTs
+      <Box>
+        <Typography align="center" variant="h4" gutterBottom>
+          <Typography variant="h4" component="span" color="secondary">
+            MY
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span">
+            RANDOM
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            WALK
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span">
+            NFTS
+          </Typography>
         </Typography>
         <PaginationGrid loading={loading} data={nftIds} />
       </Box>

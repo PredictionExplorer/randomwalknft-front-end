@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Box, Typography, Container } from "@material-ui/core";
+import {
+  Button,
+  Box,
+  Typography,
+  Container,
+  Grid,
+  Paper,
+} from "@material-ui/core";
 import { ethers } from "ethers";
 import Countdown from "react-countdown";
 
@@ -9,47 +16,52 @@ import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
+  const counterItem = {
+    width: "20%",
+    padding: "8px 0",
+    border: "2px solid #F4BFFF",
+    boxSizing: "border-box",
+    boxShadow: "0px 0px 10px #C676D7",
+  };
+
+  const padZero = (x) => x.toString().padStart(2, "0");
+
   if (completed) {
     return <></>;
   } else {
     return (
-      <Box>
-        <Typography align="center" variant="h4" gutterBottom>
-          Withdrawal opens in
-        </Typography>
-        <Box display="flex" justifyContent="center">
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {days}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Days
-            </Typography>
-          </Box>
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {hours}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Hours
-            </Typography>
-          </Box>
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {minutes}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Minutes
-            </Typography>
-          </Box>
-          <Box>
-            <Typography align="center" variant="h6">
-              {seconds}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Seconds
-            </Typography>
-          </Box>
+      <Box display="flex" justifyContent="space-between">
+        <Box style={counterItem}>
+          <Typography align="center" component="p" variant="h4" color="primary">
+            {padZero(days)}
+          </Typography>
+          <Typography align="center" variant="body1">
+            Days
+          </Typography>
+        </Box>
+        <Box style={counterItem}>
+          <Typography align="center" component="p" variant="h4" color="primary">
+            {padZero(hours)}
+          </Typography>
+          <Typography align="center" variant="body1">
+            Hours
+          </Typography>
+        </Box>
+        <Box style={counterItem}>
+          <Typography align="center" component="p" variant="h4" color="primary">
+            {padZero(minutes)}
+          </Typography>
+          <Typography align="center" variant="body1">
+            Minutes
+          </Typography>
+        </Box>
+        <Box style={counterItem}>
+          <Typography align="center" component="p" variant="h4" color="primary">
+            {padZero(seconds)}
+          </Typography>
+          <Typography align="center" variant="body1">
+            Seconds
+          </Typography>
         </Box>
       </Box>
     );
@@ -107,56 +119,63 @@ const Withdraw = () => {
   }, [library]);
 
   return (
-    <Container maxWidth="lg" className={classes.root}>
-      <Box mt={16} display="flex" flexDirection="column" alignItems="center">
-        <Box mb={2}>
-          {withdrawalSeconds > 0 && (
-            <Countdown
-              date={Date.now() + withdrawalSeconds * 1000}
-              renderer={Counter}
-            />
-          )}
-        </Box>
-        {lastMinter && (
-          <Box mb={2}>
-            <Typography align="center" variant="body2">
-              Last Minter Address
-            </Typography>
-            <Typography align="center" variant="body1" color="secondary">
-              {lastMinter}
-            </Typography>
-          </Box>
-        )}
-        {withdrawalAmount && (
-          <Box mb={2}>
-            <Typography align="center" variant="body2">
-              Withdrawal Amount
-            </Typography>
-            <Typography align="center" variant="body1" color="secondary">
-              {withdrawalAmount} Ξ
-            </Typography>
-          </Box>
-        )}
-        <Button
-          onClick={handleWithdraw}
-          variant="contained"
-          color="secondary"
-          size="large"
-          className={classes.viewButton}
-        >
-          Withdraw Now
-        </Button>
-        <Typography
-          variant="body1"
-          style={{ marginTop: 24, width: "60%" }}
-          align="center"
-        >
-          If somebody mints an NFT, then there is no mint for 30 days, the last
-          minter can withdraw a large percentage of all the ETH that was spent
-          on minting. The ETH spent on minting does not go to the creator of the
-          NFT, it goes back to the minters through this mechanism
+    <Container className={classes.root}>
+      <Typography variant="h4" gutterBottom>
+        <Typography variant="h4" component="span">
+          WITHDRAWAL
         </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span" color="primary">
+          OPENS IN
+        </Typography>
+      </Typography>
+      <Box mt={3}>
+        <Grid container spacing={4}>
+          <Grid item xs={12} sm={12} md={6}>
+            <Box mb={2}>
+              {withdrawalSeconds > 0 && (
+                <Countdown
+                  date={Date.now() + withdrawalSeconds * 1000}
+                  renderer={Counter}
+                />
+              )}
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <Box>
+              <Typography variant="body1" color="primary">
+                Last Minter Address
+              </Typography>
+              <Typography variant="body2">{lastMinter}</Typography>
+            </Box>
+            <Box mt={4}>
+              <Typography variant="body1" color="primary">
+                Withdrawal Amount
+              </Typography>
+              <Typography variant="body2">{withdrawalAmount} Ξ</Typography>
+            </Box>
+          </Grid>
+        </Grid>
       </Box>
+      <Paper>
+        <Box my={4} p={3}>
+          <Typography variant="body2" style={{ lineHeight: 2 }}>
+            If somebody mints an NFT, then there is no mint for 30 days, the
+            last minter can withdraw a large percentage of all the ETH that was
+            spent on minting. The ETH spent on minting does not go to the
+            creator of the NFT, it goes back to the minters through this
+            mechanism
+          </Typography>
+        </Box>
+      </Paper>
+      <Button
+        onClick={handleWithdraw}
+        color="primary"
+        variant="contained"
+        size="large"
+      >
+        Withdraw Now
+      </Button>
     </Container>
   );
 };

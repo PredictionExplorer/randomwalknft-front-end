@@ -1,27 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-  Typography,
-  Card,
-  CardActionArea,
-  CardMedia,
-  CardContent,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography, Card, CardActionArea, CardMedia } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
 
+import useStyles from "config/styles";
 import { useNFT } from "hooks/useNFT";
 import { formatId } from "utils";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  media: {
-    width: "100%",
-    paddingTop: "64%",
-  },
-}));
 
 const NFT = ({ tokenId }) => {
   const classes = useStyles();
@@ -31,19 +15,22 @@ const NFT = ({ tokenId }) => {
     <Card>
       <CardActionArea component={Link} to={nft ? `/detail/${nft.id}` : "#"}>
         {!nft ? (
-          <Skeleton animation="wave" variant="rect" className={classes.media} />
+          <Skeleton
+            animation="wave"
+            variant="rect"
+            className={classes.nftImage}
+          />
         ) : (
-          <CardMedia className={classes.media} image={nft.black_image_thumb} />
+          <CardMedia
+            className={classes.nftImage}
+            image={nft.black_image_thumb}
+          />
         )}
-        <CardContent>
-          <Typography color="secondary" variant="body1">
-            {!nft ? (
-              <Skeleton animation="wave" />
-            ) : (
-              nft.name || formatId(nft.id)
-            )}
+        {nft && (
+          <Typography className={classes.nftInfo} variant="body1">
+            {formatId(nft.id)}
           </Typography>
-        </CardContent>
+        )}
       </CardActionArea>
     </Card>
   );

@@ -4,7 +4,6 @@ import { Button, Box, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 import Countdown from "react-countdown";
 
-import useStyles from "config/styles";
 import abi from "abis/nft";
 import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
@@ -59,7 +58,6 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
 };
 
 const Mint = () => {
-  const classes = useStyles();
   const history = useHistory();
   const [saleSeconds, setSaleSeconds] = useState(0);
 
@@ -118,7 +116,6 @@ const Mint = () => {
         variant="contained"
         color="secondary"
         size="large"
-        className={classes.viewButton}
       >
         Mint Now
       </Button>

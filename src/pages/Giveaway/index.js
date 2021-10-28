@@ -25,9 +25,9 @@ const GiveawayTable = ({ tokens }) => {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Seed</TableCell>
-            <TableCell>Owner</TableCell>
-            <TableCell>Token</TableCell>
+            <TableCell>SEED</TableCell>
+            <TableCell>OWNER</TableCell>
+            <TableCell>TOKEN</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,7 +40,7 @@ const GiveawayTable = ({ tokens }) => {
                   to={`/detail/${token.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Typography color="secondary">
+                  <Typography color="secondary" style={{ fontSize: 14 }}>
                     {formatId(token.id)}
                   </Typography>
                 </Link>
@@ -70,24 +70,33 @@ const Giveaway = () => {
 
   return (
     <Container className={classes.root}>
-      <Box py={4}>
-        <Typography variant="h4" gutterBottom>
-          Giveaway
+      <Box mb={3}>
+        <Typography variant="h4" color="primary" align="center" gutterBottom>
+          GIVEAWAY
         </Typography>
-        <Typography variant="body1" gutterBottom>
-          Some minters may be eligible for a giveaway. Check out our{" "}
+        <Typography variant="h6" align="center" gutterBottom>
+          Some minters may be eligible for a giveaway
+        </Typography>
+        <Typography variant="h6" align="center" gutterBottom>
+          <Typography component="span" variant="h6">
+            Check out our
+          </Typography>
+          &nbsp;
           <a
             href="https://twitter.com/randomwalknft"
             target="_blank"
-            style={{ color: "#FFB186" }}
+            style={{ color: "#CC76D7", textDecoration: "none" }}
             rel="noreferrer"
           >
             Twitter Page
-          </a>{" "}
-          for details.
+          </a>
+          &nbsp;
+          <Typography component="span" variant="h6">
+            for details.
+          </Typography>
         </Typography>
-        <GiveawayTable tokens={tokens} />
       </Box>
+      <GiveawayTable tokens={tokens} />
     </Container>
   );
 };

@@ -4,10 +4,8 @@ const NAVS = [
   { title: "For Sale", route: "/for-sale" },
   { title: "Giveaway", route: "/giveaway" },
   { title: "Withdraw", route: "/withdraw" },
-  { title: "My NFTs", route: "/my-nfts", auth: true },
-  { title: "My Offers", route: "/my-offers", auth: true },
-  { title: "Generation Code", route: "/code" },
   { title: "FAQ", route: "/faq" },
+  { title: "Generation Code", route: "/code" },
 ];
 
 export default NAVS;

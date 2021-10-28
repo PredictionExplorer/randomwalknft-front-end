@@ -1,5 +1,8 @@
-import React, { useCallback } from "react";
-import { Chip, Button } from "@material-ui/core";
+import React, { useCallback, useState } from "react";
+import { Link } from "react-router-dom";
+import { Chip, Button, MenuItem, Menu, Box } from "@material-ui/core";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 import { isMobile } from "react-device-detect";
 
 import useStyles from "config/styles";
@@ -10,6 +13,7 @@ import { formatAddress } from "utils";
 const ConnectWalletButton = () => {
   const classes = useStyles();
   const { account, activate } = useActiveWeb3React();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleConnectWallet = useCallback(async () => {
     const connector = isMobile ? walletconnect : injected;
@@ -18,14 +22,57 @@ const ConnectWalletButton = () => {
     });
   }, [activate]);
 
+  const handleMenuOpen = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleMenuClose = (e) => {
+    setAnchorEl(null);
+  };
+
   if (account) {
     return (
-      <Chip
-        variant="outlined"
-        color="secondary"
-        label={formatAddress(account)}
-        className={classes.toolbarButtons}
-      />
+      <>
+        <Chip
+          variant="outlined"
+          color="secondary"
+          label={
+            <Box display="flex" alignItems="center">
+              {formatAddress(account)} <ExpandMoreIcon />
+            </Box>
+          }
+          className={classes.wallet}
+          deleteIcon={<ExpandMoreIcon />}
+          onClick={handleMenuOpen}
+        />
+        <Menu
+          elevation={0}
+          getContentAnchorEl={null}
+          anchorOrigin={{
+            vertical: "bottom",
+            horizontal: "center",
+          }}
+          transformOrigin={{
+            vertical: "top",
+            horizontal: "center",
+          }}
+          anchorEl={anchorEl}
+          keepMounted
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem style={{ minWidth: 166 }} onClick={handleMenuClose}>
+            <Link className={classes.navItem} to={"/my-nfts"}>
+              MY NFTS
+            </Link>
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <Link className={classes.navItem} to={"/my-offers"}>
+              MY OFFERS
+            </Link>
+          </MenuItem>
+        </Menu>
+      </>
     );
   }
 
@@ -33,10 +80,11 @@ const ConnectWalletButton = () => {
     <Button
       variant="outlined"
       color="secondary"
+      size="large"
       onClick={handleConnectWallet}
       className={classes.toolbarButtons}
     >
-      Connect To Wallet
+      Connect to wallet
     </Button>
   );
 };

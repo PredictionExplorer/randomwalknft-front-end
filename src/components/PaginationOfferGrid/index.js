@@ -18,12 +18,11 @@ const PaginationOfferGrid = ({ loading, data }) => {
   const [curPage, setCurPage] = useState(1);
 
   useEffect(() => {
-    console.log(data);
     setCollection(data);
   }, [data]);
 
   return (
-    <>
+    <Box mt={4}>
       {loading && (
         <Box display="flex" justifyContent="center">
           <CircularProgress color="secondary" />
@@ -35,7 +34,9 @@ const PaginationOfferGrid = ({ loading, data }) => {
             {collection
               .slice((curPage - 1) * perPage, curPage * perPage)
               .map((offer, i) => (
-                <Offer key={i} offer={offer} />
+                <Grid key={i} item xs={12} sm={6} md={4}>
+                  <Offer offer={offer} />
+                </Grid>
               ))}
           </Grid>
           <Box display="flex" justifyContent="center" py={3}>
@@ -63,7 +64,7 @@ const PaginationOfferGrid = ({ loading, data }) => {
       {!loading && !data.length && (
         <Typography variant="h6">Nothing Found!</Typography>
       )}
-    </>
+    </Box>
   );
 };
 

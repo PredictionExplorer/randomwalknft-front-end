@@ -40,17 +40,22 @@ const PaginationGrid = ({ loading, data }) => {
   }, [data]);
 
   return (
-    <>
-      <Box display="flex" pb={4} justifyContent="flex-end">
+    <Box mt={4}>
+      <Box display="flex" pb={4} justifyContent="center">
         <TextField
           variant="filled"
-          placeholder="Enter NFT Id"
-          style={{ marginRight: 10 }}
+          placeholder="Enter NFT ID"
+          style={{ marginRight: 10, width: 360 }}
           color="secondary"
           value={nftId}
           onChange={handleSearchChange}
         />
-        <Button variant="outlined" onClick={handleSearch}>
+        <Button
+          size="large"
+          variant="contained"
+          color="primary"
+          onClick={handleSearch}
+        >
           Search
         </Button>
       </Box>
@@ -61,14 +66,14 @@ const PaginationGrid = ({ loading, data }) => {
       )}
       {data.length > 0 && (
         <>
-          <Grid spacing={2} container>
+          <Grid spacing={4} container>
             {searchId ? (
               !searchResult ? (
                 <Grid item>
                   <Typography variant="h4">Nothing Found!</Typography>
                 </Grid>
               ) : (
-                <Grid item xs={6} sm={4} md={3}>
+                <Grid item xs={6} sm={4}>
                   <NFT tokenId={searchId} />
                 </Grid>
               )
@@ -76,7 +81,7 @@ const PaginationGrid = ({ loading, data }) => {
               collection
                 .slice((curPage - 1) * perPage, curPage * perPage)
                 .map((index) => (
-                  <Grid key={index} item xs={6} sm={4} md={3}>
+                  <Grid key={index} item xs={12} sm={6} md={4}>
                     <NFT tokenId={index} />
                   </Grid>
                 ))
@@ -109,7 +114,7 @@ const PaginationGrid = ({ loading, data }) => {
       {!loading && !data.length && (
         <Typography variant="h4">Nothing Found!</Typography>
       )}
-    </>
+    </Box>
   );
 };
 

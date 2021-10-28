@@ -1,3 +1,12 @@
 .CodeMirror {
-  height: calc(100vh - 160px);
+  height: 640px;
+  padding: 8px;
+  border: 1px dashed #ffffff;
+}
+
+.cm-s-material.CodeMirror,
+.CodeMirror-linenumbers,
+.CodeMirror-linenumber {
+  background-color: #121212;
+  font-size: 12px;
 }

@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Kelson Sans";
+    src: url(./KelsonSans-Normal.woff2) format("woff2"), url(./KelsonSans-Normal.woff) format("woff"), url(./KelsonSans-Normal.eot) format("embedded-opentype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Kelson Sans";
+    src: url(./KelsonSans-Bold.woff2) format("woff2"), url(./KelsonSans-Bold.woff) format("woff"), url(./KelsonSans-Bold.eot) format("embedded-opentype");
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Kelson Sans";
+    src: url(./KelsonSans-Light.woff2) format("woff2"), url(./KelsonSans-Light.woff) format("woff"), url(./KelsonSans-Light.eot) format("embedded-opentype");
+    font-weight: 300;
+}

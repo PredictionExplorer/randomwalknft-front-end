@@ -23,14 +23,16 @@ import useStyles from "config/styles";
 import { useNFT } from "hooks/useNFT";
 import abi from "abis/market";
 import { MARKET_ADDRESS } from "constants/app";
-import { useBuyOfferIds, useOffer } from "hooks/useOffer";
+import { useBuyOfferIds, useSellTokenIds, useOffer } from "hooks/useOffer";
 import { useActiveWeb3React } from "hooks/web3";
 
 import { Trait } from "components/Trait";
 import { formatId } from "utils";
 
-const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
+const OfferRow = ({ offerId, isOwner, account, library }) => {
   const offer = useOffer(offerId);
+
+  console.log(offer);
 
   const handleAcceptBuy = async () => {
     const signer = library.getSigner();
@@ -60,49 +62,49 @@ const OfferRow = ({ offerId, isBuy, isOwner, account, library }) => {
     return <TableRow></TableRow>;
   }
 
+  console.log(isOwner);
+
   return (
     <TableRow>
       <TableCell>{offer.id}</TableCell>
-      <TableCell>{isBuy ? offer.buyer : offer.seller}</TableCell>
+      <TableCell>{offer.buyer}</TableCell>
       <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
-      {isBuy && (
-        <TableCell>
-          {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
-          offer.seller.toLowerCase() === account.toLowerCase() ? (
+      <TableCell>
+        {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
+        offer.seller.toLowerCase() === account.toLowerCase() ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleAcceptBuy}
+          >
+            Accept
+          </Button>
+        ) : (
+          offer.buyer.toLowerCase() === account.toLowerCase() && (
             <Button
               variant="contained"
-              color="secondary"
-              onClick={handleAcceptBuy}
+              color="primary"
+              onClick={handleCancelBuy}
             >
-              Accept
+              Cancel
             </Button>
-          ) : (
-            offer.buyer.toLowerCase() === account.toLowerCase() && (
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleCancelBuy}
-              >
-                Cancel
-              </Button>
-            )
-          )}
-        </TableCell>
-      )}
+          )
+        )}
+      </TableCell>
     </TableRow>
   );
 };
 
-const OfferTable = ({ offers, isBuy, isOwner, account, library }) => {
+const OfferTable = ({ offers, isOwner, account, library }) => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>Id</TableCell>
-            <TableCell>{isBuy ? "Buyer" : "Seller"}</TableCell>
+            <TableCell>Buyer</TableCell>
             <TableCell>Price</TableCell>
-            {isBuy && <TableCell></TableCell>}
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -110,7 +112,6 @@ const OfferTable = ({ offers, isBuy, isOwner, account, library }) => {
             <OfferRow
               offerId={id}
               key={i}
-              isBuy={isBuy}
               isOwner={isOwner}
               account={account}
               library={library}
@@ -129,6 +130,7 @@ const Detail = () => {
   const nft = useNFT(id);
   const buyOffers = useBuyOfferIds(id);
   const { account, library } = useActiveWeb3React();
+  const sellTokenIds = useSellTokenIds(account);
 
   if (!nft) return <></>;
 
@@ -163,13 +165,15 @@ const Detail = () => {
         <Trait nft={nft} />
         {account && buyOffers.length > 0 && (
           <Box py={4}>
-            <Typography variant="h5" gutterBottom>
+            <Typography variant="h6" gutterBottom>
               Buy Offers
             </Typography>
             <OfferTable
               offers={buyOffers}
-              isBuy
-              isOwner={nft.owner.toLowerCase() === account.toLowerCase()}
+              isOwner={
+                nft.owner.toLowerCase() === account.toLowerCase() ||
+                sellTokenIds.includes(nft.id)
+              }
               account={account}
               library={library}
             />

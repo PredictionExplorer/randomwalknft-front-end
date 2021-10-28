@@ -41,9 +41,23 @@ const Gallery = () => {
 
   return (
     <Container className={classes.root}>
-      <Box pt={6}>
-        <Typography variant="h4" gutterBottom>
-          Random Walk NFT Gallery
+      <Box>
+        <Typography variant="h4" align="center">
+          <Typography variant="h4" component="span">
+            RANDOM
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            WALK
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span">
+            NFT
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="secondary">
+            GALLERY
+          </Typography>
         </Typography>
         <PaginationGrid loading={loading} data={collection} />
       </Box>

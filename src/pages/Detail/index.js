@@ -65,13 +65,13 @@ const Detail = () => {
             sellTokenIds={sellTokenIds}
           />
         )}
-        <TokenHistory
+        {account && <TokenHistory
           offers={buyOffers}
           nft={nft}
           account={account}
           library={library}
           sellTokenIds={sellTokenIds}
-        />
+        />}
       </Container>
     </>
   );

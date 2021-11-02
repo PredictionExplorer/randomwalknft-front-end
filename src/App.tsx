@@ -6,6 +6,7 @@ import { CssBaseline } from "@material-ui/core";
 import { theme } from "config/styles";
 import Web3ReactManager from "components/Web3ReactManager";
 import NavBar from "components/NavBar";
+import Footer from "components/Footer";
 import Routes from "routes";
 
 import "assets/fonts/index.css";
@@ -18,6 +19,7 @@ function App() {
         <BrowserRouter>
           <NavBar />
           <Routes />
+          <Footer />
         </BrowserRouter>
       </Web3ReactManager>
     </ThemeProvider>

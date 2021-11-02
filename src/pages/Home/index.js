@@ -7,7 +7,6 @@ import nftService from "services/nft";
 
 import SalesSection from "./SalesSection";
 import Mint from "./Mint";
-import Footer from "./Footer";
 
 const Home = (props) => {
   const classes = useStyles();
@@ -45,7 +44,6 @@ const Home = (props) => {
         )}
         <SalesSection />
         <Mint />
-        <Footer />
       </Box>
     </Container>
   );

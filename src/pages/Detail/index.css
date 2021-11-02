@@ -1,0 +1,6 @@
+.MuiToggleButton-root {
+  background-color: #000;
+}
+.MuiToggleButton-root.Mui-selected {
+  background-color: #1d1d1d;
+}

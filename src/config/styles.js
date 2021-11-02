@@ -25,6 +25,11 @@ export const theme = createTheme({
     fontSize: 18,
   },
   overrides: {
+    MuiTypography: {
+      root: {
+        overflowWrap: "anywhere",
+      },
+    },
     MuiCard: {
       root: {
         border: "1px solid #F4BFFF",
@@ -68,6 +73,16 @@ export const theme = createTheme({
         fontSize: 24,
       },
     },
+    MuiAccordion: {
+      root: {
+        border: "1px solid #F4BFFF",
+        marginBottom: 16,
+        padding: "12px 16px",
+      },
+      rounded: {
+        borderRadius: "0 !important",
+      },
+    },
   },
 });
 
@@ -75,6 +90,9 @@ const useStyles = makeStyles(
   (theme) => ({
     root: {
       paddingTop: theme.spacing(28),
+      paddingBottom: theme.spacing(24),
+      paddingLeft: 0,
+      paddingRight: 0,
       overflow: "hidden",
       lineHeight: 1,
     },
@@ -126,15 +144,13 @@ const useStyles = makeStyles(
     salesSection: {
       padding: theme.spacing(2),
     },
-    faqCard: {
-      padding: "1rem",
-      marginBottom: "2.5rem",
-      backgroundColor: "#000",
-      borderRadius: 18,
-      // boxShadow: "8px 8px #1E2525",
+    questionIcon: {
+      marginRight: "0.5rem",
     },
     footer: {
-      textAlign: "center",
+      top: "auto",
+      bottom: 0,
+      backgroundColor: "#200C31",
     },
     address: {
       overflow: "hidden",

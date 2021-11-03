@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
+import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 
 import {
@@ -10,7 +11,6 @@ import {
   Card,
   CardActionArea,
   CardMedia,
-  Link,
   Button,
 } from "@material-ui/core";
 import { Fade } from "react-slideshow-image";

@@ -4,3 +4,9 @@
 .MuiToggleButton-root.Mui-selected {
   background-color: #1d1d1d;
 }
+.MuiToggleButton-root:hover {
+  background-color: #0d0d0d;
+}
+.MuiToggleButton-root.Mui-selected:hover {
+  background-color: #222;
+}

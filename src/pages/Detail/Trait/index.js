@@ -14,18 +14,19 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-// import Lightbox from "react-awesome-lightbox";
+import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
 
-// import ModalVideo from "react-modal-video";
+import ModalVideo from "react-modal-video";
 import "react-modal-video/css/modal-video.min.css";
 
-import useStyles from "config/styles";
-import { useActiveWeb3React } from "hooks/web3";
-import { useSellTokenIds, useSellOfferIds, getOfferById } from "hooks/useOffer";
 import abi from "abis/nft";
 import marketABI from "abis/market";
 import { MARKET_ADDRESS, NFT_ADDRESS } from "constants/app";
+import useStyles from "config/styles";
+import NFTVideo from "components/NFTVideo";
+import { useActiveWeb3React } from "hooks/web3";
+import { useSellTokenIds, useSellOfferIds, getOfferById } from "hooks/useOffer";
 import { formatId } from "utils";
 
 const useCustomStyles = makeStyles((theme) => ({
@@ -65,18 +66,18 @@ export const Trait = ({ nft, darkTheme }) => {
     id,
     name,
     seed,
-    // white_image,
+    white_image,
     black_image,
-    // white_single_video,
-    // black_single_video,
-    // white_triple_video,
-    // black_triple_video,
+    white_single_video,
+    black_single_video,
+    white_triple_video,
+    black_triple_video,
     owner,
   } = nft;
 
-  // const [open, setOpen] = useState(false);
-  // const [imageOpen, setImageOpen] = useState(false);
-  // const [videoPath, setVideoPath] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [imageOpen, setImageOpen] = useState(false);
+  const [videoPath, setVideoPath] = useState(null);
   const [sellPrice, setSellPrice] = useState(null);
   const [price, setPrice] = useState("");
   const [tokenName, setTokenName] = useState(name);
@@ -90,16 +91,16 @@ export const Trait = ({ nft, darkTheme }) => {
   const sellOfferIds = useSellOfferIds(id);
   const sellTokenIds = useSellTokenIds(account);
 
-  // const handlePlay = (videoPath) => () => {
-  //   fetch(videoPath).then((res) => {
-  //     if (res.ok) {
-  //       setVideoPath(videoPath);
-  //       setOpen(true);
-  //     } else {
-  //       alert("Video is being generated, come back later");
-  //     }
-  //   });
-  // };
+  const handlePlay = (videoPath) => () => {
+    fetch(videoPath).then((res) => {
+      if (res.ok) {
+        setVideoPath(videoPath);
+        setOpen(true);
+      } else {
+        alert("Video is being generated, come back later");
+      }
+    });
+  };
 
   const handleMakeSell = async () => {
     const signer = library.getSigner();
@@ -208,19 +209,22 @@ export const Trait = ({ nft, darkTheme }) => {
 
   return (
     <Box>
-      <Box>
+      <Box py={8}>
         <Container>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7} md={4} lg={4}>
               <Card className={customClasses.root}>
-                {/* <CardActionArea onClick={() => setImageOpen(true)}> */}
-                <CardActionArea>
-                  <CardMedia className={classes.nftImage} image={black_image} />
+                <CardActionArea onClick={() => setImageOpen(true)}>
+                  <CardMedia
+                    className={classes.nftImage}
+                    image={darkTheme ? black_image : white_image}
+                  />
                   <div className={classes.nftInfo}>
                     <Typography
                       className={classes.nftId}
                       variant="body1"
                       gutterBottom
+                      color={darkTheme ? "textPrimary" : "textSecondary"}
                     >
                       {formatId(id)}
                     </Typography>
@@ -231,6 +235,12 @@ export const Trait = ({ nft, darkTheme }) => {
                     )}
                   </div>
                 </CardActionArea>
+                {imageOpen && (
+                  <Lightbox
+                    image={darkTheme ? black_image : white_image}
+                    onClose={() => setImageOpen(false)}
+                  />
+                )}
               </Card>
             </Grid>
             <Grid item xs={12} sm={5} md={4} lg={3}>
@@ -381,19 +391,51 @@ export const Trait = ({ nft, darkTheme }) => {
       </Box>
       <Box py={8} style={{ backgroundColor: "#141414" }}>
         <Container>
-          <Box>
-            <Typography component="span" variant="h4" color="secondary">
-              VIDEO
-            </Typography>
-            &nbsp;&nbsp;
-            <Typography component="span" variant="h4">
-              GALLERY
+          <Box mb={4}>
+            <Typography variant="h4" align="center">
+              <Typography component="span" variant="h4" color="secondary">
+                VIDEO
+              </Typography>
+              &nbsp;
+              <Typography component="span" variant="h4">
+                GALLERY
+              </Typography>
             </Typography>
           </Box>
           <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}></Grid>
-            <Grid item xs={12} sm={6}></Grid>
+            <Grid item xs={12} sm={6}>
+              <NFTVideo
+                image_thumb={darkTheme ? black_image : white_image}
+                onClick={handlePlay(
+                  darkTheme ? black_single_video : white_single_video
+                )}
+              />
+              <Box mt={4}>
+                <Typography variant="body1" align="center">
+                  {darkTheme ? "Black" : "White"} Single Video
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <NFTVideo
+                image_thumb={darkTheme ? black_image : white_image}
+                onClick={handlePlay(
+                  darkTheme ? black_triple_video : white_triple_video
+                )}
+              />
+              <Box mt={4}>
+                <Typography variant="body1" align="center">
+                  {darkTheme ? "Black" : "White"} Triple Video
+                </Typography>
+              </Box>
+            </Grid>
           </Grid>
+          <ModalVideo
+            channel="custom"
+            url={videoPath}
+            isOpen={open}
+            onClose={() => setOpen(false)}
+          />
         </Container>
       </Box>
     </Box>

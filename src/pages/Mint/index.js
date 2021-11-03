@@ -12,6 +12,7 @@ import {
   CardActionArea,
   CardMedia,
   Button,
+  Link as MuiLink,
 } from "@material-ui/core";
 import { Fade } from "react-slideshow-image";
 
@@ -169,19 +170,29 @@ const MintView = () => {
               </Typography>
             </Typography>
             <Box my={3}>
-              <Typography variant="body1" color="secondary">
+              <Typography variant="body1" color="secondary" gutterBottom>
                 Verified NFT Contract
               </Typography>
               <Typography variant="body2" gutterBottom>
-                {NFT_ADDRESS}
+                <MuiLink
+                  color="textPrimary"
+                  href={`https://arbiscan.io/address/${NFT_ADDRESS}`}
+                >
+                  {NFT_ADDRESS}
+                </MuiLink>
               </Typography>
             </Box>
             <Box mb={3}>
-              <Typography variant="body1" color="secondary">
+              <Typography variant="body1" color="secondary" gutterBottom>
                 Verified Market Contract
               </Typography>
               <Typography variant="body2" gutterBottom>
-                {MARKET_ADDRESS}
+                <MuiLink
+                  color="textPrimary"
+                  href={`https://arbiscan.io/address/${MARKET_ADDRESS}`}
+                >
+                  {MARKET_ADDRESS}
+                </MuiLink>
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">

@@ -14,6 +14,7 @@ export const theme = createTheme({
     },
     text: {
       primary: "#FFFFFF",
+      secondary: "#000000",
     },
     background: {
       default: "#000000",
@@ -35,7 +36,7 @@ export const theme = createTheme({
         border: "1px solid #F4BFFF",
         boxSizing: "border-box",
         borderRadius: 20,
-        filter: "drop-shadow(0px 0px 5px #C676D7)",
+        boxShadow: "0px 0px 10px #C676D7",
       },
     },
     MuiButton: {
@@ -83,6 +84,11 @@ export const theme = createTheme({
         borderRadius: "0 !important",
       },
     },
+    MuiTableContainer: {
+      primary: {
+        backgroundColor: "#121212",
+      },
+    },
   },
 });
 
@@ -128,6 +134,18 @@ const useStyles = makeStyles(
       width: "100%",
       paddingTop: "64%",
     },
+    nftVideo: {
+      border: "none",
+      boxShadow: "0px 0px 10px #000000",
+      position: "relative",
+    },
+    nftVideoPlay: {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      cursor: "pointer",
+    },
     nftInfo: {
       position: "absolute",
       top: 20,
@@ -172,6 +190,12 @@ const useStyles = makeStyles(
       borderRadius: "100%",
       border: "1px solid #F4BFFF",
       backgroundColor: "#303030",
+    },
+    tablePrimary: {
+      backgroundColor: "#121212",
+    },
+    tableSecondary: {
+      backgroundColor: "#242424",
     },
   }),
   { index: 1 }

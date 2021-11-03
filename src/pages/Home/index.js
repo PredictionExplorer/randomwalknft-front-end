@@ -24,7 +24,7 @@ const Home = (props) => {
       </Typography>
       <Box mt={3}>
         <Typography variant="body1" gutterBottom>
-          Minting starts November x at 7:00pm EST on Arbitrum.
+          Minting starts November 10 at 7:00pm EST on Arbitrum.
         </Typography>
         <Typography variant="body1" gutterBottom>
           Price starts at 0.001 ΞTH and increases after each mint.

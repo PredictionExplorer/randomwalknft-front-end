@@ -14,7 +14,7 @@ import { Trait } from "./Trait";
 import { BuyOffers } from "./BuyOffers";
 import { TokenHistory } from "./TokenHistory";
 
-import './index.css';
+import "./index.css";
 
 const Detail = () => {
   const classes = useStyles();
@@ -30,7 +30,11 @@ const Detail = () => {
 
   return (
     <>
-      <Container maxWidth={false} className={classes.root}>
+      <Container
+        maxWidth={false}
+        className={classes.root}
+        style={{ paddingLeft: 0, paddingRight: 0 }}
+      >
         {location.state && location.state.message && (
           <Box pt={4}>
             <Alert elevation={6} variant="filled" severity="success">
@@ -56,22 +60,20 @@ const Detail = () => {
           </ToggleButtonGroup>
         </Box>
         <Trait nft={nft} darkTheme={darkTheme} />
-        {account && buyOffers.length > 0 && (
-          <BuyOffers
-            offers={buyOffers}
-            nft={nft}
-            account={account}
-            library={library}
-            sellTokenIds={sellTokenIds}
-          />
-        )}
-        {account && <TokenHistory
+        <BuyOffers
           offers={buyOffers}
           nft={nft}
           account={account}
           library={library}
           sellTokenIds={sellTokenIds}
-        />}
+        />
+        <TokenHistory
+          histories={[]}
+          nft={nft}
+          account={account}
+          library={library}
+          sellTokenIds={sellTokenIds}
+        />
       </Container>
     </>
   );

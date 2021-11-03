@@ -10,13 +10,12 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
   Button,
 } from "@material-ui/core";
 
 import abi from "abis/market";
 import { MARKET_ADDRESS } from "constants/app";
-
+import useStyles from "config/styles";
 import { useOffer } from "hooks/useOffer";
 
 const OfferRow = ({ offerId, isOwner, account, library }) => {
@@ -82,8 +81,10 @@ const OfferRow = ({ offerId, isOwner, account, library }) => {
 };
 
 const OfferTable = ({ offers, isOwner, account, library }) => {
+  const classes = useStyles();
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tablePrimary}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -94,15 +95,23 @@ const OfferTable = ({ offers, isOwner, account, library }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {offers.map((id, i) => (
-            <OfferRow
-              offerId={id}
-              key={i}
-              isOwner={isOwner}
-              account={account}
-              library={library}
-            />
-          ))}
+          {offers.length > 0 ? (
+            offers.map((id, i) => (
+              <OfferRow
+                offerId={id}
+                key={i}
+                isOwner={isOwner}
+                account={account}
+                library={library}
+              />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell align="center" colSpan={4}>
+                No offers yet.
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
@@ -113,24 +122,21 @@ export const BuyOffers = ({ offers, nft, account, library, sellTokenIds }) => {
   return (
     <Box py={8}>
       <Container>
-        <Typography variant="h4">
-          <Typography variant="h4" component="span" gutterBottom>
-            BUY
+        <Box mb={4}>
+          <Typography variant="h4">
+            <Typography variant="h4" component="span">
+              BUY
+            </Typography>
+            &nbsp;
+            <Typography variant="h4" component="span" color="secondary">
+              OFFERS
+            </Typography>
           </Typography>
-          &nbsp;&nbsp;
-          <Typography
-            variant="h4"
-            component="span"
-            gutterBottom
-            color="secondary"
-          >
-            OFFERS
-          </Typography>
-        </Typography>
+        </Box>
         <OfferTable
           offers={offers}
           isOwner={
-            nft.owner.toLowerCase() === account.toLowerCase() ||
+            (account && nft.owner.toLowerCase() === account.toLowerCase()) ||
             sellTokenIds.includes(nft.id)
           }
           account={account}

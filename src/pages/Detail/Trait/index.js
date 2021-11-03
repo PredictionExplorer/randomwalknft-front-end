@@ -230,7 +230,7 @@ export const Trait = ({ nft, darkTheme }) => {
                     </Typography>
                     {sellPrice && (
                       <Typography className={classes.nftPrice} variant="body1">
-                        {sellPrice.toFixed(4)} Ξ
+                        {sellPrice.toFixed(4)}Ξ
                       </Typography>
                     )}
                   </div>
@@ -377,7 +377,7 @@ export const Trait = ({ nft, darkTheme }) => {
                             size="large"
                             style={{ height: "100%" }}
                           >
-                            Buy Now for {sellPrice && sellPrice.toFixed(4)} Ξ
+                            Buy Now for {sellPrice && sellPrice.toFixed(4)}Ξ
                           </Button>
                         </Box>
                       )

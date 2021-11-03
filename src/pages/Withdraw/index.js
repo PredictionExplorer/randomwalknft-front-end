@@ -152,7 +152,7 @@ const Withdraw = () => {
               <Typography variant="body1" color="primary">
                 Withdrawal Amount
               </Typography>
-              <Typography variant="body2">{withdrawalAmount} Ξ</Typography>
+              <Typography variant="body2">{withdrawalAmount}Ξ</Typography>
             </Box>
           </Grid>
         </Grid>

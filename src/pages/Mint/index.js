@@ -166,7 +166,7 @@ const MintView = () => {
               </Typography>
               &nbsp;
               <Typography variant="h4" component="span" color="primary">
-                {mintPrice}E
+                {mintPrice}Ξ
               </Typography>
             </Typography>
             <Box my={3}>

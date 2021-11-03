@@ -11,7 +11,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
 } from "@material-ui/core";
 
 import useStyles from "config/styles";
@@ -20,8 +19,10 @@ import { formatId } from "utils";
 import nftService from "services/nft";
 
 const GiveawayTable = ({ tokens }) => {
+  const classes = useStyles();
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tablePrimary}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>

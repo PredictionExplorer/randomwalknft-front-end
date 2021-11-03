@@ -12,7 +12,6 @@ import {
   TableRow,
   TableCell,
   TableBody,
-  Paper,
   Button,
 } from "@material-ui/core";
 
@@ -61,7 +60,7 @@ const OfferRow = ({ offerId, library }) => {
           {offer.tokenName || formatId(offer.tokenId)}
         </Link>
       </TableCell>
-      <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
+      <TableCell>{offer.price.toFixed(4)}Ξ</TableCell>
       <TableCell align="right">
         <Button variant="contained" color="primary" onClick={handleCancel}>
           Cancel
@@ -72,8 +71,10 @@ const OfferRow = ({ offerId, library }) => {
 };
 
 const OfferTable = ({ offers, library }) => {
+  const classes = useStyles();
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer className={classes.tablePrimary}>
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -84,9 +85,15 @@ const OfferTable = ({ offers, library }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {offers.map((id, i) => (
-            <OfferRow offerId={id} key={i} library={library} />
-          ))}
+          {offers.length > 0 ? (
+            offers.map((id, i) => (
+              <OfferRow offerId={id} key={i} library={library} />
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={4}>No offers yet</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>

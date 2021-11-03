@@ -17,7 +17,7 @@ const Offer = ({ offer }) => {
             {formatId(offer.tokenId)}
           </Typography>
           <Typography className={classes.nftPrice} variant="body1">
-            {offer.price.toFixed(4)} Ξ
+            {offer.price.toFixed(4)}Ξ
           </Typography>
         </div>
       </CardActionArea>

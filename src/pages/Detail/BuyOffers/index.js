@@ -53,7 +53,7 @@ const OfferRow = ({ offerId, isOwner, account, library }) => {
     <TableRow>
       <TableCell>{offer.id}</TableCell>
       <TableCell>{offer.buyer}</TableCell>
-      <TableCell>{offer.price.toFixed(4)} Ξ</TableCell>
+      <TableCell>{offer.price.toFixed(4)}Ξ</TableCell>
       <TableCell>
         {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
         offer.seller.toLowerCase() === account.toLowerCase() ? (

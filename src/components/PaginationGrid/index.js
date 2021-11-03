@@ -4,10 +4,7 @@ import {
   Box,
   TextField,
   Button,
-  Select,
   CircularProgress,
-  MenuItem,
-  FormControl,
   Typography,
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
@@ -19,7 +16,7 @@ const PaginationGrid = ({ loading, data }) => {
   const [searchId, setSearchId] = useState(null);
   const [searchResult, setSearchResult] = useState(false);
   const [collection, setCollection] = useState([]);
-  const [perPage, setPerPage] = useState(20);
+  const [perPage] = useState(15);
   const [curPage, setCurPage] = useState(1);
 
   const handleSearchChange = async (e) => {
@@ -88,24 +85,14 @@ const PaginationGrid = ({ loading, data }) => {
             )}
           </Grid>
           {!searchId && (
-            <Box display="flex" justifyContent="center" py={3}>
-              <FormControl style={{ minWidth: 120 }}>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={perPage}
-                  onChange={(e) => setPerPage(e.target.value)}
-                >
-                  <MenuItem value={20}>20</MenuItem>
-                  <MenuItem value={50}>50</MenuItem>
-                  <MenuItem value={100}>100</MenuItem>
-                </Select>
-              </FormControl>
-
+            <Box display="flex" justifyContent="center" mt={4}>
               <Pagination
+                color="primary"
                 page={curPage}
                 onChange={(e, page) => setCurPage(page)}
                 count={Math.ceil(collection.length / perPage)}
+                showFirstButton
+                showLastButton
               />
             </Box>
           )}

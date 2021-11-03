@@ -22,7 +22,7 @@ const PaginationOfferGrid = ({ loading, data }) => {
       )}
       {data.length > 0 && (
         <>
-          <Grid spacing={2} container>
+          <Grid spacing={4} container>
             {collection
               .slice((curPage - 1) * perPage, curPage * perPage)
               .map((offer, i) => (
@@ -33,7 +33,6 @@ const PaginationOfferGrid = ({ loading, data }) => {
           </Grid>
           <Box display="flex" justifyContent="center" py={3}>
             <Pagination
-              variant="outlined"
               color="primary"
               page={curPage}
               onChange={(e, page) => setCurPage(page)}

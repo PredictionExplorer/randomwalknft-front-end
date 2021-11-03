@@ -1,4 +1,5 @@
 const ROUTES = [
+  { path: "/mint", name: "Mint" },
   { path: "/gallery", name: "Gallery" },
   { path: "/detail/:id", name: "Detail" },
   { path: "/for-sale", name: "For Sale" },

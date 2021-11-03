@@ -18,7 +18,7 @@ import useStyles from "config/styles";
 import ConnectWalletButton from "components/ConnectWalletButton";
 import { useActiveWeb3React } from "hooks/web3";
 
-import logoImage from "assets/svg/logo.svg";
+import logoImage from "assets/logo.svg";
 
 const NavBar = () => {
   const classes = useStyles();
@@ -48,7 +48,7 @@ const NavBar = () => {
 
   const renderDesktop = () => {
     return (
-      <Toolbar>
+      <Toolbar disableGutters>
         <img src={logoImage} alt="RandomWalkNFT" />
         {NAV_SECTIONS.map(
           (nav, i) =>

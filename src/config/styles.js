@@ -91,8 +91,6 @@ const useStyles = makeStyles(
     root: {
       paddingTop: theme.spacing(28),
       paddingBottom: theme.spacing(24),
-      paddingLeft: 0,
-      paddingRight: 0,
       overflow: "hidden",
       lineHeight: 1,
     },
@@ -161,6 +159,19 @@ const useStyles = makeStyles(
       justifyContent: "center",
       paddingTop: theme.spacing(3),
       paddingBottom: theme.spacing(3),
+    },
+    mintButton: {
+      width: 128,
+      height: 128,
+      borderRadius: "100%",
+      border: "1px solid #fff",
+    },
+    mintActiveButton: {
+      width: 128,
+      height: 128,
+      borderRadius: "100%",
+      border: "1px solid #F4BFFF",
+      backgroundColor: "#303030",
     },
   }),
   { index: 1 }

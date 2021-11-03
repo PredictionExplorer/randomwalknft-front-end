@@ -1,49 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Box, Container } from "@material-ui/core";
-import Alert from "@material-ui/lab/Alert";
+import React from "react";
+import { Container, Box, Typography, Button } from "@material-ui/core";
 
+import whiteLineImage from "assets/white_line.png";
 import useStyles from "config/styles";
-import nftService from "services/nft";
-
-import SalesSection from "./SalesSection";
-import Mint from "./Mint";
 
 const Home = (props) => {
   const classes = useStyles();
-  const [finishedCount, setFinishedCount] = useState(null);
-  const [runningCount, setRunningCount] = useState(null);
-
-  useEffect(() => {
-    const getResult = async () => {
-      const { finished_count, running_count } = await nftService.result();
-
-      setFinishedCount(finished_count);
-      setRunningCount(running_count);
-    };
-
-    getResult();
-
-    return () => {
-      setFinishedCount(null);
-      setRunningCount(null);
-    };
-  }, []);
 
   return (
-    <Container maxWidth={false} className={classes.root}>
-      <Box
-        className={classes.gridContainer}
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-      >
-        {runningCount > 0 && (
-          <Alert severity="info">
-            {`Images generated: ${finishedCount}, image generation in progress: ${runningCount}`}
-          </Alert>
-        )}
-        <SalesSection />
-        <Mint />
+    <Container className={classes.root}>
+      <Typography variant="h4">
+        <Typography variant="h4" component="span" color="primary">
+          RANDOM
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span">
+          WALK
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span" color="secondary">
+          NFT
+        </Typography>
+      </Typography>
+      <Box mt={3}>
+        <Typography variant="body1" gutterBottom>
+          Minting starts November x at 7:00pm EST on Arbitrum.
+        </Typography>
+        <Typography variant="body1" gutterBottom>
+          Price starts at 0.001 ΞTH and increases after each mint.
+        </Typography>
+      </Box>
+      <Box mt={3} display="flex" alignItems="center">
+        <Button className={classes.mintButton} component="a" href="/mint">
+          Mint now
+        </Button>
+        <div
+          style={{
+            background: `url(${whiteLineImage}) left top`,
+            width: 64,
+            height: 8,
+          }}
+        ></div>
       </Box>
     </Container>
   );

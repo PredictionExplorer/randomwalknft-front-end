@@ -113,7 +113,7 @@ export const BuyOffers = ({ offers, nft, account, library, sellTokenIds }) => {
   return (
     <Box py={8}>
       <Container>
-        <Box>
+        <Typography variant="h4">
           <Typography variant="h4" component="span" gutterBottom>
             BUY
           </Typography>
@@ -126,7 +126,7 @@ export const BuyOffers = ({ offers, nft, account, library, sellTokenIds }) => {
           >
             OFFERS
           </Typography>
-        </Box>
+        </Typography>
         <OfferTable
           offers={offers}
           isOwner={

@@ -5,6 +5,7 @@ import routes from "config/routes";
 
 const pageComponents = {
   Home: lazy(() => import("pages/Home")),
+  Mint: lazy(() => import("pages/Mint")),
   Gallery: lazy(() => import("pages/Gallery")),
   "For Sale": lazy(() => import("pages/ForSale")),
   Giveaway: lazy(() => import("pages/Giveaway")),

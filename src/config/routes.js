@@ -4,7 +4,7 @@ const ROUTES = [
   { path: "/detail/:id", name: "Detail" },
   { path: "/for-sale", name: "For Sale" },
   { path: "/giveaway", name: "Giveaway" },
-  { path: "/withdraw", name: "Withdraw" },
+  { path: "/redeem", name: "Redeem" },
   { path: "/my-nfts", name: "My NFTs" },
   { path: "/my-offers", name: "My Offers" },
   { path: "/code", name: "Generation Code" },

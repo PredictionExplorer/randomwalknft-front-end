@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
+import useStyles from "config/styles";
 import NFT from "components/NFT";
 
 const PaginationGrid = ({ loading, data }) => {
@@ -18,6 +19,7 @@ const PaginationGrid = ({ loading, data }) => {
   const [collection, setCollection] = useState([]);
   const [perPage] = useState(15);
   const [curPage, setCurPage] = useState(1);
+  const classes = useStyles();
 
   const handleSearchChange = async (e) => {
     setNftId(e.target.value);
@@ -38,11 +40,11 @@ const PaginationGrid = ({ loading, data }) => {
 
   return (
     <Box mt={4}>
-      <Box display="flex" pb={4} justifyContent="center">
+      <Box className={classes.searchBar}>
         <TextField
           variant="filled"
           placeholder="Enter NFT ID"
-          style={{ marginRight: 10, width: 360 }}
+          className={classes.searchField}
           color="secondary"
           value={nftId}
           onChange={handleSearchChange}
@@ -51,6 +53,7 @@ const PaginationGrid = ({ loading, data }) => {
           size="large"
           variant="contained"
           color="primary"
+          className={classes.searchButton}
           onClick={handleSearch}
         >
           Search

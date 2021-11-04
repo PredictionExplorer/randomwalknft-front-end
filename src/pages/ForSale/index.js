@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Box } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import marketABI from "abis/market";
@@ -51,26 +51,24 @@ const ForSale = () => {
 
   return (
     <Container className={classes.root}>
-      <Box>
-        <Typography variant="h4" gutterBottom align="center">
-          <Typography variant="h4" component="span">
-            RANDOM
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span" color="primary">
-            WALK
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span">
-            NFTS
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span" color="secondary">
-            FOR SALE
-          </Typography>
+      <Typography variant="h4" className={classes.sectionTitle}>
+        <Typography variant="h4" component="span">
+          RANDOM
         </Typography>
-        <PaginationOfferGrid loading={loading} data={collection} />
-      </Box>
+        &nbsp;
+        <Typography variant="h4" component="span" color="primary">
+          WALK
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span">
+          NFTS
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span" color="secondary">
+          FOR SALE
+        </Typography>
+      </Typography>
+      <PaginationOfferGrid loading={loading} data={collection} />
     </Container>
   );
 };

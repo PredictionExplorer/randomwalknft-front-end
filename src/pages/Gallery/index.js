@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Container, Typography, Box } from "@material-ui/core";
+import { Container, Typography } from "@material-ui/core";
 import { ethers } from "ethers";
 
 import abi from "abis/nft";
@@ -41,26 +41,24 @@ const Gallery = () => {
 
   return (
     <Container className={classes.root}>
-      <Box>
-        <Typography variant="h4" align="center">
-          <Typography variant="h4" component="span">
-            RANDOM
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span" color="primary">
-            WALK
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span">
-            NFT
-          </Typography>
-          &nbsp;
-          <Typography variant="h4" component="span" color="secondary">
-            GALLERY
-          </Typography>
+      <Typography variant="h4" className={classes.sectionTitle}>
+        <Typography variant="h4" component="span">
+          RANDOM
         </Typography>
-        <PaginationGrid loading={loading} data={collection} />
-      </Box>
+        &nbsp;
+        <Typography variant="h4" component="span" color="primary">
+          WALK
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span">
+          NFT
+        </Typography>
+        &nbsp;
+        <Typography variant="h4" component="span" color="secondary">
+          GALLERY
+        </Typography>
+      </Typography>
+      <PaginationGrid loading={loading} data={collection} />
     </Container>
   );
 };

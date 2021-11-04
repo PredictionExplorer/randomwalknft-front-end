@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 
 import {
   AppBar,
@@ -10,6 +9,7 @@ import {
   List,
   ListItem,
   Container,
+  Link,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 
@@ -54,7 +54,7 @@ const NavBar = () => {
           (nav, i) =>
             (!nav.auth || account) && (
               <Box ml={3} key={i}>
-                <Link className={classes.navItem} to={nav.route}>
+                <Link className={classes.navItem} href={nav.route}>
                   {nav.title}
                 </Link>
               </Box>
@@ -73,25 +73,30 @@ const NavBar = () => {
 
     return (
       <Toolbar>
+        <img src={logoImage} alt="RandomWalkNFT" />
         <IconButton
           aria-label="menu"
           aria-haspopup="true"
           edge="start"
           color="inherit"
           onClick={handleDrawerOpen}
+          style={{ marginLeft: "auto" }}
         >
           <MenuIcon />
         </IconButton>
 
-        <Drawer anchor="left" open={drawerOpen} onClose={handleDrawerClose}>
-          <List>
+        <Drawer anchor="right" open={drawerOpen} onClose={handleDrawerClose}>
+          <List className={classes.drawerList}>
+            <ListItem>
+              <ConnectWalletButton isMobileView />
+            </ListItem>
             {NAV_SECTIONS.map(
               (nav, i) =>
                 !nav.auth && (
-                  <ListItem key={i}>
+                  <ListItem key={i} style={{ justifyContent: "center" }}>
                     <Link
                       className={classes.navItem}
-                      to={nav.route}
+                      href={nav.route}
                       onClick={handleDrawerClose}
                     >
                       {nav.title}
@@ -99,10 +104,26 @@ const NavBar = () => {
                   </ListItem>
                 )
             )}
+            <ListItem style={{ justifyContent: "center" }}>
+              <Link
+                className={classes.navItem}
+                href="/my-nfts"
+                onClick={handleDrawerClose}
+              >
+                My NFTs
+              </Link>
+            </ListItem>
+            <ListItem style={{ justifyContent: "center" }}>
+              <Link
+                className={classes.navItem}
+                href="/my-offers"
+                onClick={handleDrawerClose}
+              >
+                My Offers
+              </Link>
+            </ListItem>
           </List>
         </Drawer>
-
-        <ConnectWalletButton />
       </Toolbar>
     );
   };

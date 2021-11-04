@@ -45,7 +45,7 @@ export const theme = createTheme({
         textTransform: "none",
       },
       sizeLarge: {
-        padding: "10px 28px",
+        padding: "9px 28px",
       },
     },
     MuiInputBase: {
@@ -99,36 +99,55 @@ const useStyles = makeStyles(
       paddingBottom: theme.spacing(24),
       overflow: "hidden",
       lineHeight: 1,
-    },
-    gridContainer: {
-      padding: theme.spacing(8),
-      [theme.breakpoints.down("md")]: {
-        padding: theme.spacing(6),
-      },
       [theme.breakpoints.down("sm")]: {
-        padding: theme.spacing(3),
+        textAlign: "center",
       },
-      [theme.breakpoints.down("xs")]: {
-        padding: theme.spacing(2),
-      },
-      paddingBottom: 0,
+    },
+    drawerList: {
+      paddingTop: theme.spacing(2),
+      width: 265,
+      height: "100%",
+      backgroundColor: "#200C31",
+      borderLeft: "1px solid #F4BFFF",
     },
     appBar: {
       backgroundColor: "#000",
       paddingTop: theme.spacing(3),
     },
-    toolbarButtons: {
+    connectBtn: {
       marginLeft: "auto",
+    },
+    connectBtnMobile: {
+      margin: "0 auto",
     },
     wallet: {
       marginLeft: "auto",
       padding: 8,
       height: "auto",
     },
+    walletMobile: {
+      margin: "0 auto",
+      padding: 8,
+      height: "auto",
+    },
     navItem: {
       color: "#fff",
-      textDecoration: "none",
       textTransform: "uppercase",
+    },
+    sectionTitle: {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    centerMobile: {
+      display: "flex",
+      flexWrap: "wrap",
+      alignItems: "center",
+      justifyContent: "flex-start",
+      [theme.breakpoints.down("sm")]: {
+        justifyContent: "center",
+      },
     },
     nftImage: {
       width: "100%",
@@ -196,6 +215,29 @@ const useStyles = makeStyles(
     },
     tableSecondary: {
       backgroundColor: "#242424",
+    },
+    searchBar: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: theme.spacing(4),
+      [theme.breakpoints.down("xs")]: {
+        flexDirection: "column",
+      },
+    },
+    searchField: {
+      marginRight: theme.spacing(1),
+      width: 360,
+      [theme.breakpoints.down("xs")]: {
+        marginRight: 0,
+        marginBottom: theme.spacing(2),
+        width: "100%",
+      },
+    },
+    searchButton: {
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
     },
   }),
   { index: 1 }

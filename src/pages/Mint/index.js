@@ -13,6 +13,7 @@ import {
   CardMedia,
   Button,
   Link as MuiLink,
+  Hidden,
 } from "@material-ui/core";
 import { Fade } from "react-slideshow-image";
 
@@ -152,7 +153,7 @@ const MintView = () => {
       {saleSeconds === 0 ? (
         <Grid container spacing={4}>
           <Grid item xs={12} sm={12} md={6} lg={7}>
-            <Typography variant="h4">
+            <Typography variant="h4" className={classes.centerMobile}>
               <Typography variant="h4" component="span">
                 GET A
               </Typography>
@@ -195,14 +196,16 @@ const MintView = () => {
                 </MuiLink>
               </Typography>
             </Box>
-            <Box display="flex" alignItems="center">
-              <div
-                style={{
-                  background: `url(${pinkLineImage}) left top`,
-                  width: 64,
-                  height: 8,
-                }}
-              ></div>
+            <Box className={classes.centerMobile}>
+              <Hidden smDown>
+                <div
+                  style={{
+                    background: `url(${pinkLineImage}) left top`,
+                    width: 64,
+                    height: 8,
+                  }}
+                ></div>
+              </Hidden>
               <Button className={classes.mintActiveButton} onClick={handleMint}>
                 Mint now
               </Button>

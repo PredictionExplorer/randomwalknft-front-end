@@ -10,7 +10,7 @@ import { injected, walletconnect } from "connectors";
 import { useActiveWeb3React } from "hooks/web3";
 import { formatAddress } from "utils";
 
-const ConnectWalletButton = () => {
+const ConnectWalletButton = ({ isMobileView }) => {
   const classes = useStyles();
   const { account, activate } = useActiveWeb3React();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,7 +31,19 @@ const ConnectWalletButton = () => {
   };
 
   if (account) {
-    return (
+    return isMobileView ? (
+      <Chip
+        variant="outlined"
+        color="secondary"
+        label={
+          <Box display="flex" alignItems="center">
+            {formatAddress(account)}
+          </Box>
+        }
+        className={classes.walletMobile}
+        onClick={handleMenuOpen}
+      />
+    ) : (
       <>
         <Chip
           variant="outlined"
@@ -82,7 +94,7 @@ const ConnectWalletButton = () => {
       color="secondary"
       size="large"
       onClick={handleConnectWallet}
-      className={classes.toolbarButtons}
+      className={isMobileView ? classes.connectBtnMobile : classes.connectBtn}
     >
       Connect to wallet
     </Button>

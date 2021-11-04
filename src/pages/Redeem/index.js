@@ -16,6 +16,14 @@ import { NFT_ADDRESS } from "constants/app";
 import { useActiveWeb3React } from "hooks/web3";
 
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
+  const counterWrapper = {
+    display: "flex",
+    justifyContent: "space-between",
+    "@media (max-width: 959.95px)": {
+      flexDirection: "column",
+    },
+  };
+
   const counterItem = {
     width: "20%",
     padding: "8px 0",
@@ -30,7 +38,7 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
     return <></>;
   } else {
     return (
-      <Box display="flex" justifyContent="space-between">
+      <Box style={counterWrapper}>
         <Box style={counterItem}>
           <Typography align="center" component="p" variant="h4" color="primary">
             {padZero(days)}
@@ -68,7 +76,7 @@ const Counter = ({ days, hours, minutes, seconds, completed }) => {
   }
 };
 
-const Withdraw = () => {
+const Redeem = () => {
   const classes = useStyles();
   const [withdrawalSeconds, setWithdrawalSeconds] = useState(0);
   const [lastMinter, setLastMinter] = useState(null);
@@ -120,7 +128,7 @@ const Withdraw = () => {
 
   return (
     <Container className={classes.root}>
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h4" className={classes.sectionTitle}>
         <Typography variant="h4" component="span">
           WITHDRAWAL
         </Typography>
@@ -180,4 +188,4 @@ const Withdraw = () => {
   );
 };
 
-export default Withdraw;
+export default Redeem;

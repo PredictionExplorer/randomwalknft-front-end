@@ -4,6 +4,7 @@ import {
   AppBar,
   Toolbar,
   Box,
+  Grid,
   Typography,
   IconButton,
   Container,
@@ -20,28 +21,54 @@ const Footer = () => {
     <AppBar position="fixed" color="primary" className={classes.footer}>
       <Toolbar>
         <Container maxWidth="lg">
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="caption" color="primary">
-              Arcu lacinia commodo tempus nibh varius.
-            </Typography>
-            <Box>
-              <IconButton
-                href="https://twitter.com/RandomWalkNFT"
-                target="_blank"
+          <Box py={1}>
+            <Grid container>
+              <Grid
+                container
+                item
+                sm={12}
+                md={4}
+                alignItems="center"
+                justifyContent="center"
               >
-                <FontAwesomeIcon icon={faTwitter} size="xs" color="#C676D7" />
-              </IconButton>
-              <IconButton href="https://discord.gg/bGnPn96Qwt" target="_blank">
-                <FontAwesomeIcon icon={faDiscord} size="xs" color="#C676D7" />
-              </IconButton>
-            </Box>
-            <Typography variant="caption" color="primary">
-              &copy; Copyright. All rights are reserved, 2021 NFT
-            </Typography>
+                <Typography variant="caption" color="primary">
+                  Arcu lacinia commodo tempus nibh varius.
+                </Typography>
+              </Grid>
+              <Grid
+                container
+                item
+                sm={12}
+                md={4}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <IconButton
+                  href="https://twitter.com/RandomWalkNFT"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faTwitter} size="xs" color="#C676D7" />
+                </IconButton>
+                <IconButton
+                  href="https://discord.gg/bGnPn96Qwt"
+                  target="_blank"
+                >
+                  <FontAwesomeIcon icon={faDiscord} size="xs" color="#C676D7" />
+                </IconButton>
+              </Grid>
+              <Grid
+                container
+                item
+                sm={12}
+                md={4}
+                alignItems="center"
+                justifyContent="center"
+              >
+                <Typography variant="caption" color="primary">
+                  &copy; Copyright. All rights are reserved, 2021 NFT
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
         </Container>
       </Toolbar>

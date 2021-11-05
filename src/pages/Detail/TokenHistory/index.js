@@ -20,6 +20,7 @@ import { useOffer } from "hooks/useOffer";
 
 const OfferRow = ({ offerId, isOwner, account, library }) => {
   const offer = useOffer(offerId);
+  const classes = useStyles();
 
   const handleAcceptBuy = async () => {
     const signer = library.getSigner();
@@ -52,7 +53,7 @@ const OfferRow = ({ offerId, isOwner, account, library }) => {
   return (
     <TableRow>
       <TableCell>{offer.id}</TableCell>
-      <TableCell>{offer.buyer}</TableCell>
+      <TableCell className={classes.wrap}>{offer.buyer}</TableCell>
       <TableCell>{offer.price.toFixed(4)}Ξ</TableCell>
       <TableCell>
         {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
@@ -124,8 +125,9 @@ export const TokenHistory = ({
   library,
   sellTokenIds,
 }) => {
+  const classes = useStyles();
   return (
-    <Box py={8} style={{ backgroundColor: "#141414" }}>
+    <Box className={classes.section2}>
       <Container>
         <Box mb={4}>
           <Typography variant="h4">

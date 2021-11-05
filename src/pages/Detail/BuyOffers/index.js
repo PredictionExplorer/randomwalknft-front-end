@@ -20,6 +20,7 @@ import { useOffer } from "hooks/useOffer";
 
 const OfferRow = ({ offerId, isOwner, account, library }) => {
   const offer = useOffer(offerId);
+  const classes = useStyles();
 
   const handleAcceptBuy = async () => {
     const signer = library.getSigner();
@@ -52,30 +53,32 @@ const OfferRow = ({ offerId, isOwner, account, library }) => {
   return (
     <TableRow>
       <TableCell>{offer.id}</TableCell>
-      <TableCell>{offer.buyer}</TableCell>
+      <TableCell className={classes.wrap}>{offer.buyer}</TableCell>
       <TableCell>{offer.price.toFixed(4)}Ξ</TableCell>
-      <TableCell>
-        {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
-        offer.seller.toLowerCase() === account.toLowerCase() ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleAcceptBuy}
-          >
-            Accept
-          </Button>
-        ) : (
-          offer.buyer.toLowerCase() === account.toLowerCase() && (
+      {account && (
+        <TableCell>
+          {(isOwner && offer.buyer.toLowerCase() !== account.toLowerCase()) ||
+          offer.seller.toLowerCase() === account.toLowerCase() ? (
             <Button
               variant="contained"
-              color="primary"
-              onClick={handleCancelBuy}
+              color="secondary"
+              onClick={handleAcceptBuy}
             >
-              Cancel
+              Accept
             </Button>
-          )
-        )}
-      </TableCell>
+          ) : (
+            offer.buyer.toLowerCase() === account.toLowerCase() && (
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCancelBuy}
+              >
+                Cancel
+              </Button>
+            )
+          )}
+        </TableCell>
+      )}
     </TableRow>
   );
 };
@@ -119,8 +122,9 @@ const OfferTable = ({ offers, isOwner, account, library }) => {
 };
 
 export const BuyOffers = ({ offers, nft, account, library, sellTokenIds }) => {
+  const classes = useStyles();
   return (
-    <Box py={8}>
+    <Box className={classes.section1}>
       <Container>
         <Box mb={4}>
           <Typography variant="h4">

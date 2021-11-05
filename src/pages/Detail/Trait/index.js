@@ -209,7 +209,7 @@ export const Trait = ({ nft, darkTheme }) => {
 
   return (
     <Box>
-      <Box py={8}>
+      <Box className={classes.section1}>
         <Container>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={7} md={4} lg={4}>
@@ -245,18 +245,38 @@ export const Trait = ({ nft, darkTheme }) => {
             </Grid>
             <Grid item xs={12} sm={5} md={4} lg={3}>
               <Box mb={3}>
-                <Typography variant="body1" color="secondary" gutterBottom>
+                <Typography
+                  align="left"
+                  variant="body1"
+                  color="secondary"
+                  gutterBottom
+                >
                   Owner
                 </Typography>
-                <Typography variant="body2" color="textPrimary" gutterBottom>
+                <Typography
+                  align="left"
+                  variant="body2"
+                  color="textPrimary"
+                  gutterBottom
+                >
                   {owner}
                 </Typography>
               </Box>
               <Box>
-                <Typography variant="body1" color="secondary" gutterBottom>
+                <Typography
+                  align="left"
+                  variant="body1"
+                  color="secondary"
+                  gutterBottom
+                >
                   Seed
                 </Typography>
-                <Typography variant="body2" color="textPrimary" gutterBottom>
+                <Typography
+                  align="left"
+                  variant="body2"
+                  color="textPrimary"
+                  gutterBottom
+                >
                   {seed}
                 </Typography>
               </Box>
@@ -389,7 +409,7 @@ export const Trait = ({ nft, darkTheme }) => {
           </Grid>
         </Container>
       </Box>
-      <Box py={8} style={{ backgroundColor: "#141414" }}>
+      <Box className={classes.section2}>
         <Container>
           <Box mb={4}>
             <Typography variant="h4" align="center">

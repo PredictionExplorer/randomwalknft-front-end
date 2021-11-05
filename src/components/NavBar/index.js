@@ -32,7 +32,7 @@ const NavBar = () => {
 
   useEffect(() => {
     const setResponsiveness = () => {
-      return window.innerWidth < 768
+      return window.innerWidth < 992
         ? setState((prevState) => ({ ...prevState, mobileView: true }))
         : setState((prevState) => ({ ...prevState, mobileView: false }));
     };

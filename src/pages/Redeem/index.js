@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { ethers } from "ethers";
 import Countdown from "react-countdown";
+import { isMobile } from "react-device-detect";
 
 import useStyles from "config/styles";
 import abi from "abis/nft";
@@ -18,18 +19,18 @@ import { useActiveWeb3React } from "hooks/web3";
 const Counter = ({ days, hours, minutes, seconds, completed }) => {
   const counterWrapper = {
     display: "flex",
-    justifyContent: "space-between",
-    "@media (max-width: 959.95px)": {
-      flexDirection: "column",
-    },
+    flexDirection: isMobile ? "column" : "rpw",
+    justifyContent: isMobile ? "center" : "space-between",
+    alignItems: "center",
   };
 
   const counterItem = {
-    width: "20%",
+    width: isMobile ? "80%" : "20%",
     padding: "8px 0",
     border: "2px solid #F4BFFF",
     boxSizing: "border-box",
     boxShadow: "0px 0px 10px #C676D7",
+    marginBottom: isMobile ? 24 : 0,
   };
 
   const padZero = (x) => x.toString().padStart(2, "0");

@@ -77,7 +77,7 @@ const FAQ = () => {
         Get answered to all question which you may have
       </Typography>
       <Box mt={4}>
-        <Grid container spacing={4}>
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={8}>
             {items.map(({ summary, detail }, i) => (
               <Accordion
@@ -107,6 +107,7 @@ const FAQ = () => {
                 <AccordionDetails>
                   <Typography
                     variant="body2"
+                    align="left"
                     dangerouslySetInnerHTML={{ __html: detail }}
                   />
                 </AccordionDetails>
@@ -119,10 +120,12 @@ const FAQ = () => {
                 <Typography variant="h5" gutterBottom>
                   Have a question?
                 </Typography>
-                <Typography variant="body2" gutterBottom>
-                  Have more questions, reach out to us on
-                </Typography>
-                <Typography variant="body2" gutterBottom>
+                <Typography
+                  variant="body2"
+                  gutterBottom
+                  style={{ lineHeight: 2 }}
+                >
+                  Have more questions, reach out to us on&nbsp;
                   <Link color="primary" href="https://twitter.com">
                     Twitter
                   </Link>

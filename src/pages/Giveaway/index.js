@@ -34,8 +34,8 @@ const GiveawayTable = ({ tokens }) => {
         <TableBody>
           {tokens.map((token, i) => (
             <TableRow key={i}>
-              <TableCell>{token.seed}</TableCell>
-              <TableCell>{token.owner}</TableCell>
+              <TableCell className={classes.wrap}>{token.seed}</TableCell>
+              <TableCell className={classes.wrap}>{token.owner}</TableCell>
               <TableCell>
                 <Link
                   to={`/detail/${token.id}`}

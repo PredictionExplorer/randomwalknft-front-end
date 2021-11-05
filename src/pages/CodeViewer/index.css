@@ -2,6 +2,7 @@
   height: 640px;
   padding: 8px;
   border: 1px dashed #ffffff;
+  text-align: left;
 }
 
 .cm-s-material.CodeMirror,

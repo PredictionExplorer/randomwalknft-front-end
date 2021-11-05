@@ -71,7 +71,7 @@ export const theme = createTheme({
         fontSize: 14,
       },
       head: {
-        fontSize: 24,
+        fontSize: 20,
       },
     },
     MuiAccordion: {
@@ -101,6 +101,8 @@ const useStyles = makeStyles(
       lineHeight: 1,
       [theme.breakpoints.down("sm")]: {
         textAlign: "center",
+        paddingTop: theme.spacing(18),
+        paddingBottom: theme.spacing(18),
       },
     },
     drawerList: {
@@ -112,7 +114,8 @@ const useStyles = makeStyles(
     },
     appBar: {
       backgroundColor: "#000",
-      paddingTop: theme.spacing(3),
+      paddingTop: theme.spacing(2),
+      paddingBottom: theme.spacing(2),
     },
     connectBtn: {
       marginLeft: "auto",
@@ -238,6 +241,26 @@ const useStyles = makeStyles(
       [theme.breakpoints.down("xs")]: {
         width: "100%",
       },
+    },
+    section1: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+      [theme.breakpoints.down("sm")]: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+      },
+    },
+    section2: {
+      paddingTop: theme.spacing(8),
+      paddingBottom: theme.spacing(8),
+      background: "#141414",
+      [theme.breakpoints.down("sm")]: {
+        paddingTop: theme.spacing(4),
+        paddingBottom: theme.spacing(4),
+      },
+    },
+    wrap: {
+      overflowWrap: "anywhere",
     },
   }),
   { index: 1 }

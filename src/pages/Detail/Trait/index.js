@@ -286,7 +286,7 @@ export const Trait = ({ nft, darkTheme }) => {
                 {account === nft.owner ? (
                   <>
                     <Box mb={3}>
-                      <Typography gutterBottom variant="h6">
+                      <Typography gutterBottom variant="h6" align="left">
                         TRANSFER
                       </Typography>
                       <Box display="flex">
@@ -309,7 +309,7 @@ export const Trait = ({ nft, darkTheme }) => {
                       </Box>
                     </Box>
                     <Box mb={3}>
-                      <Typography gutterBottom variant="h6">
+                      <Typography gutterBottom variant="h6" align="left">
                         PUT ON SALE
                       </Typography>
                       <Box display="flex">
@@ -333,7 +333,7 @@ export const Trait = ({ nft, darkTheme }) => {
                       </Box>
                     </Box>
                     <Box mb={3}>
-                      <Typography gutterBottom variant="h6">
+                      <Typography gutterBottom variant="h6" align="left">
                         RENAME
                       </Typography>
                       <Box display="flex">
@@ -360,7 +360,7 @@ export const Trait = ({ nft, darkTheme }) => {
                   <>
                     {!sellTokenIds.includes(id) && (
                       <Box mb={3}>
-                        <Typography gutterBottom variant="h6">
+                        <Typography gutterBottom variant="h6" align="left">
                           BID
                         </Typography>
                         <Box display="flex">

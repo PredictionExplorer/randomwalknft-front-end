@@ -60,7 +60,7 @@ const Home = (props) => {
           <ul>
             <li>
               <Typography align="left" variant="body1" gutterBottom>
-                Minting starts November 10 at 7:00pm EST on Arbitrum.
+                Minting starts 11/11/2021 at 7:00pm EST on Arbitrum.
               </Typography>
             </li>
             <li>
@@ -70,7 +70,7 @@ const Home = (props) => {
             </li>
             <li>
               <Typography align="left" variant="body1" gutterBottom>
-                100% of the ETH spent on minting goes back to the minters. Check
+                100% of the ΞTH spent on minting goes back to the minters. Check
                 the&nbsp;
                 <Link href="/redeem" style={{ cursor: "pointer" }}>
                   redeem

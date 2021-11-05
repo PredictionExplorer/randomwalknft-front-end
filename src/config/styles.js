@@ -28,7 +28,7 @@ export const theme = createTheme({
   overrides: {
     MuiTypography: {
       root: {
-        overflowWrap: "anywhere",
+        overflowWrap: "break-word",
       },
     },
     MuiCard: {
@@ -260,7 +260,7 @@ const useStyles = makeStyles(
       },
     },
     wrap: {
-      overflowWrap: "anywhere",
+      overflowWrap: "break-word",
     },
   }),
   { index: 1 }

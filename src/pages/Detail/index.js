@@ -12,7 +12,6 @@ import { useActiveWeb3React } from "hooks/web3";
 
 import { Trait } from "./Trait";
 import { BuyOffers } from "./BuyOffers";
-import { TokenHistory } from "./TokenHistory";
 
 import "./index.css";
 
@@ -36,8 +35,8 @@ const Detail = () => {
         style={{ paddingLeft: 0, paddingRight: 0 }}
       >
         {location.state && location.state.message && (
-          <Box pt={4}>
-            <Alert elevation={6} variant="filled" severity="success">
+          <Box px={8} mb={2}>
+            <Alert variant="outlined" severity="success">
               {location.state.message}
             </Alert>
           </Box>
@@ -62,13 +61,6 @@ const Detail = () => {
         <Trait nft={nft} darkTheme={darkTheme} />
         <BuyOffers
           offers={buyOffers}
-          nft={nft}
-          account={account}
-          library={library}
-          sellTokenIds={sellTokenIds}
-        />
-        <TokenHistory
-          histories={[]}
           nft={nft}
           account={account}
           library={library}

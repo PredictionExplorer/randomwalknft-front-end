@@ -81,7 +81,6 @@ const MintView = () => {
   const [saleSeconds, setSaleSeconds] = useState(0);
   const [mintPrice, setMintPrice] = useState(0);
   const [tokenIds, setTokenIds] = useState([]);
-  const [finishedCount, setFinishedCount] = useState(null);
   const [runningCount, setRunningCount] = useState(null);
 
   const { account, library } = useActiveWeb3React();
@@ -131,17 +130,13 @@ const MintView = () => {
       const seconds = (await contract.timeUntilSale()).toNumber();
       setSaleSeconds(seconds);
 
-      console.log(seconds);
-
       const balance = await contract.totalSupply();
       const tokenIds = [...Array(balance.toNumber()).keys()]
         .sort(() => 0.5 - Math.random())
         .slice(0, 3);
       setTokenIds(tokenIds);
 
-      const { finished_count, running_count } = await nftService.result();
-
-      setFinishedCount(finished_count);
+      const { running_count } = await nftService.result();
       setRunningCount(running_count);
     };
 
@@ -237,8 +232,7 @@ const MintView = () => {
             {runningCount > 0 && (
               <Box mt={3}>
                 <Typography variant="body2" color="textPrimary">
-                  Images generated: {finishedCount}, image generation in
-                  progress: {runningCount}
+                  Image generation in progress: {runningCount}
                 </Typography>
               </Box>
             )}

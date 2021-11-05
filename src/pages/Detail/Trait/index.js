@@ -282,79 +282,37 @@ export const Trait = ({ nft, darkTheme }) => {
               </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={5}>
-              <Typography variant="h5">PUT ON SALE</Typography>
-              <Box my={2}>
-                <Typography variant="body2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Scelerisque mauris, molestie faucibus elit. Convallis egestas
-                  facilisis adipiscing fames id. Aliquam ac arcu, facilisis amet
-                  viverra. Blandit eget vestibulum, eu nunc praesent nibh
-                  semper. Nunc malesuada id sed.
-                </Typography>
-              </Box>
               <Box>
                 {account === nft.owner ? (
                   <>
-                    <Box mb={3} display="flex">
-                      <TextField
-                        variant="filled"
-                        color="secondary"
-                        placeholder="Enter address here"
-                        fullWidth
-                        size="small"
-                        value={address}
-                        onChange={(e) => setAddress(e.target.value)}
-                      />
-                      <Button
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleTransfer}
-                      >
-                        Send
-                      </Button>
+                    <Box mb={3}>
+                      <Typography gutterBottom variant="h6">
+                        TRANSFER
+                      </Typography>
+                      <Box display="flex">
+                        <TextField
+                          variant="filled"
+                          color="secondary"
+                          placeholder="Enter address here"
+                          fullWidth
+                          size="small"
+                          value={address}
+                          onChange={(e) => setAddress(e.target.value)}
+                        />
+                        <Button
+                          color="secondary"
+                          variant="contained"
+                          onClick={handleTransfer}
+                        >
+                          Send
+                        </Button>
+                      </Box>
                     </Box>
-                    <Box mb={3} display="flex">
-                      <TextField
-                        type="number"
-                        variant="filled"
-                        color="secondary"
-                        placeholder="Enter ETH price here"
-                        value={price}
-                        size="small"
-                        style={{ flex: 1 }}
-                        onChange={(e) => setPrice(e.target.value)}
-                      />
-                      <Button
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleMakeSell}
-                      >
-                        Sell
-                      </Button>
-                    </Box>
-                    <Box mb={3} display="flex">
-                      <TextField
-                        variant="filled"
-                        color="secondary"
-                        placeholder="Enter token name here"
-                        value={tokenName}
-                        size="small"
-                        fullWidth
-                        onChange={(e) => setTokenName(e.target.value)}
-                      />
-                      <Button
-                        color="secondary"
-                        variant="contained"
-                        onClick={handleSetTokenName}
-                      >
-                        Update
-                      </Button>
-                    </Box>
-                  </>
-                ) : (
-                  <>
-                    {!sellTokenIds.includes(id) && (
-                      <Box mb={3} display="flex">
+                    <Box mb={3}>
+                      <Typography gutterBottom variant="h6">
+                        PUT ON SALE
+                      </Typography>
+                      <Box display="flex">
                         <TextField
                           type="number"
                           variant="filled"
@@ -368,10 +326,62 @@ export const Trait = ({ nft, darkTheme }) => {
                         <Button
                           color="secondary"
                           variant="contained"
-                          onClick={handleMakeBuy}
+                          onClick={handleMakeSell}
                         >
-                          Make Offer
+                          Sell
                         </Button>
+                      </Box>
+                    </Box>
+                    <Box mb={3}>
+                      <Typography gutterBottom variant="h6">
+                        RENAME
+                      </Typography>
+                      <Box display="flex">
+                        <TextField
+                          variant="filled"
+                          color="secondary"
+                          placeholder="Enter token name here"
+                          value={tokenName}
+                          size="small"
+                          fullWidth
+                          onChange={(e) => setTokenName(e.target.value)}
+                        />
+                        <Button
+                          color="secondary"
+                          variant="contained"
+                          onClick={handleSetTokenName}
+                        >
+                          Update
+                        </Button>
+                      </Box>
+                    </Box>
+                  </>
+                ) : (
+                  <>
+                    {!sellTokenIds.includes(id) && (
+                      <Box mb={3}>
+                        <Typography gutterBottom variant="h6">
+                          BID
+                        </Typography>
+                        <Box display="flex">
+                          <TextField
+                            type="number"
+                            variant="filled"
+                            color="secondary"
+                            placeholder="Enter ETH price here"
+                            value={price}
+                            size="small"
+                            style={{ flex: 1 }}
+                            onChange={(e) => setPrice(e.target.value)}
+                          />
+                          <Button
+                            color="secondary"
+                            variant="contained"
+                            onClick={handleMakeBuy}
+                          >
+                            Make Offer
+                          </Button>
+                        </Box>
                       </Box>
                     )}
                     {sellTokenIds.includes(id) ? (
@@ -432,7 +442,7 @@ export const Trait = ({ nft, darkTheme }) => {
               />
               <Box mt={4}>
                 <Typography variant="body1" align="center">
-                  {darkTheme ? "Black" : "White"} Single Video
+                  Single Video
                 </Typography>
               </Box>
             </Grid>
@@ -445,7 +455,7 @@ export const Trait = ({ nft, darkTheme }) => {
               />
               <Box mt={4}>
                 <Typography variant="body1" align="center">
-                  {darkTheme ? "Black" : "White"} Triple Video
+                  Triple Video
                 </Typography>
               </Box>
             </Grid>

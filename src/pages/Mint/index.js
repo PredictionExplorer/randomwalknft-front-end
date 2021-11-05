@@ -130,10 +130,7 @@ const MintView = () => {
       const seconds = (await contract.timeUntilSale()).toNumber();
       setSaleSeconds(seconds);
 
-      const balance = await contract.totalSupply();
-      const tokenIds = [...Array(balance.toNumber()).keys()]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, 3);
+      const tokenIds = await nftService.random();
       setTokenIds(tokenIds);
 
       const { running_count } = await nftService.result();

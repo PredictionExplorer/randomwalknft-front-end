@@ -23,12 +23,44 @@ const FAQ = () => {
     {
       summary: "How do I mint Random Walk NFTs?",
       detail:
-        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum using <a style='color: #fff' href='https://hop.exchange'>Hop</a> or <a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a>.",
+        "You need <a style='color: #fff' href='https://metamask.io'>MetaMask</a> extension installed in your browser. " +
+        "You need some ETH on Arbitrum. You can transfer ETH from Ethereum to Arbitrum using <a style='color: #fff' href='https://hop.exchange'>Hop</a>, " +
+        "<a style='color: #fff' href='https://bridge.arbitrum.io'>Arbitrum Bridge</a> or you can withdraw from exchanged directly to Arbitrum using <a style='color: #fff' href='https://www.layerswap.io'>LayerSwap</a>.",
+    },
+    {
+      summary: "How do I add Arbitrum to my MetaMask?",
+      detail:
+        "Check out this <a style='color: #fff' href='https://help.uniswap.org/en/articles/5538707-how-to-connect-to-arbitrum'>simple guide</a>.",
+    },
+    {
+      summary: "How many Ranom Walk NFTs will there be?",
+      detail:
+        "Every time an NFT is minted, the price of the next mint increases by about 0.1%. After 5,000 NFTs are minted, mint price would be 0.24 ETH. After 10,000 NFTs are minted, mint price would be about 60 ETH. " +
+        "Given the exponential increase in price, it's hard to imagine there being more than a few thousand NFTs in existence.",
+    },
+    {
+      summary: "Where does the ETH go that people paid for minting?",
+      detail:
+        "We are doing a social experiment with it! " +
+        "ETH will be distributed to some of the minters. After there hasn't been a mint for 30 days, the last minter is eligible to withdraw half of the ETH in the NFT contract. " +
+        "The other half would stay in the contract and would be distributed using the same mechanism. For example, suppose Minter A is the last minter and there is 100 ETH in the contract. " +
+        "There is no mint for 30 days and Minter A withdraws 50 ETH. Minter B now mints and there is no mint for 30 days. Minter B can now withdraw 25 ETH. It would take many withdrawal events " +
+        "to get all the ETH from the contract.",
+    },
+    {
+      summary: "Are the contracts verified on Etherscan?",
+      detail:
+        "Yes (TODO: Add links)",
+    },
+    {
+      summary: "What is the fee for using the market to buy and sell NFTs?",
+      detail:
+        "The fee is 0.00%! (It's free)",
     },
     {
       summary: "How are the NFT images generated?",
       detail:
-        "When you mint, a random number (called a seed) is generated for each NFT by the smart contract. We use the seed in the Python script to generate an image and videos .",
+        "When you mint, a random number (called a seed) is generated for each NFT by the smart contract. We use the seed in the Python script to generate an image and videos.",
     },
     {
       summary: "What is a Random Walk",
@@ -40,16 +72,6 @@ const FAQ = () => {
       summary: "How are the colors generated?",
       detail:
         "By doing a random walk in the color space! At each step we modify the value of red, blue and green. So we are actually doing a random walk in a 5 dimensional space (2 spacial dimensions and 3 color dimensions).",
-    },
-    {
-      summary: "How many Ranom Walk NFTs will there be?",
-      detail:
-        "Every time an NFT is minted, the price of the next mint increases. After 5,000 NFTs are minted, the mint price will be 0.24 ETH. After 10,000 NFTs are minted, mint price will be about 60 ETH.",
-    },
-    {
-      summary: "Where does the ETH go that people paid for minting?",
-      detail:
-        "The ETH will be distributed to some of the minters. After there hasn't been a mint for 30 days, the last minter is eligible to withdraw half of the ETH in the NFT contract. ",
     },
     {
       summary: "Does the creator of the NFT get any special privileges?",

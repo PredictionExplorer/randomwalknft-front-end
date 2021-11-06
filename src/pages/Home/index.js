@@ -60,7 +60,15 @@ const Home = (props) => {
           <ul>
             <li>
               <Typography align="left" variant="body1" gutterBottom>
-                Minting starts 11/11/2021 at 7:00pm EST on Arbitrum.
+                Minting starts 11/11/2021 at 7:00pm EST on{" "}
+                <Link
+                  target="_blank"
+                  href="https://arbitrum.io"
+                  style={{ cursor: "pointer" }}
+                >
+                  Arbitrum
+                </Link>
+                .
               </Typography>
             </li>
             <li>
@@ -80,7 +88,7 @@ const Home = (props) => {
             </li>
             <li>
               <Typography align="left" variant="body1" gutterBottom>
-                Trade your NFTs on the 0% fee marketplace after November 10.
+                Trade your NFTs on the 0% fee marketplace after November 11.
               </Typography>
             </li>
             <li>

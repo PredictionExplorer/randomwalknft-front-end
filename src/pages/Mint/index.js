@@ -139,7 +139,7 @@ const MintView = () => {
               </Box>
             </Grid>
           )}
-          <Grid item xs={12} sm={12} md={6} lg={saleSeconds === 0 ? 7 : 6}>
+          <Grid item xs={12} sm={12} md={6} lg={saleSeconds <= 0 ? 7 : 6}>
             <Box mb={3}>
               <Typography variant="body1" color="secondary" gutterBottom>
                 Verified NFT Contract
@@ -168,7 +168,7 @@ const MintView = () => {
                 </MuiLink>
               </Typography>
             </Box>
-            {saleSeconds === 0 && (
+            {saleSeconds <= 0 && (
               <Box className={classes.centerMobile}>
                 <Hidden smDown>
                   <div
@@ -188,7 +188,7 @@ const MintView = () => {
               </Box>
             )}
           </Grid>
-          {saleSeconds === 0 && (
+          {saleSeconds <= 0 && (
             <Grid item xs={12} sm={12} md={6} lg={5}>
               <Fade autoplay arrows={false}>
                 {tokenIds.map((id, i) => {

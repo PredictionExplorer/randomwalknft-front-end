@@ -17,6 +17,9 @@ import {
 } from "@material-ui/core";
 import { Fade } from "react-slideshow-image";
 
+import Countdown from "react-countdown";
+import Counter from "components/Counter";
+
 import abi from "abis/nft";
 import pinkLineImage from "assets/pink_line.png";
 import useStyles from "config/styles";
@@ -27,58 +30,8 @@ import { formatId } from "utils";
 
 import "react-slideshow-image/dist/styles.css";
 
-/*
-const Counter = ({ days, hours, minutes, seconds, completed }) => {
-  if (completed) {
-    return <></>;
-  } else {
-    return (
-      <Box mb={2}>
-        <Typography align="center" variant="h4" gutterBottom>
-          Sale opens in
-        </Typography>
-        <Box display="flex" justifyContent="center">
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {days}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Days
-            </Typography>
-          </Box>
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {hours}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Hours
-            </Typography>
-          </Box>
-          <Box mx={2}>
-            <Typography align="center" variant="h6">
-              {minutes}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Minutes
-            </Typography>
-          </Box>
-          <Box>
-            <Typography align="center" variant="h6">
-              {seconds}
-            </Typography>
-            <Typography align="center" variant="body2">
-              Seconds
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
-};
-*/
-
 const MintView = () => {
-  const [saleSeconds, setSaleSeconds] = useState(0);
+  const [saleSeconds, setSaleSeconds] = useState(null);
   const [mintPrice, setMintPrice] = useState(0);
   const [tokenIds, setTokenIds] = useState([]);
   const [runningCount, setRunningCount] = useState(null);
@@ -140,35 +93,60 @@ const MintView = () => {
     getData();
   }, [library]);
 
+  if (saleSeconds === null) return null;
+
   return (
     <Container className={classes.root}>
-      {saleSeconds === 0 ? (
+      {saleSeconds > 0 ? (
+        <Typography variant="h4" className={classes.centerMobile}>
+          <Typography variant="h4" component="span">
+            SALE
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            OPENS IN
+          </Typography>
+        </Typography>
+      ) : (
+        <Typography variant="h4" className={classes.centerMobile}>
+          <Typography variant="h4" component="span">
+            GET A
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            RANDOM WALK
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span">
+            NFT AT
+          </Typography>
+          &nbsp;
+          <Typography variant="h4" component="span" color="primary">
+            {mintPrice}Ξ
+          </Typography>
+        </Typography>
+      )}
+      <Box mt={3}>
         <Grid container spacing={4}>
-          <Grid item xs={12} sm={12} md={6} lg={7}>
-            <Typography variant="h4" className={classes.centerMobile}>
-              <Typography variant="h4" component="span">
-                GET A
-              </Typography>
-              &nbsp;
-              <Typography variant="h4" component="span" color="primary">
-                RANDOM WALK
-              </Typography>
-              &nbsp;
-              <Typography variant="h4" component="span">
-                NFT AT
-              </Typography>
-              &nbsp;
-              <Typography variant="h4" component="span" color="primary">
-                {mintPrice}Ξ
-              </Typography>
-            </Typography>
-            <Box my={3}>
+          {saleSeconds > 0 && (
+            <Grid item xs={12} sm={12} md={6} lg={6}>
+              <Box mb={2}>
+                <Countdown
+                  date={Date.now() + saleSeconds * 1000}
+                  renderer={Counter}
+                />
+              </Box>
+            </Grid>
+          )}
+          <Grid item xs={12} sm={12} md={6} lg={saleSeconds === 0 ? 7 : 6}>
+            <Box mb={3}>
               <Typography variant="body1" color="secondary" gutterBottom>
                 Verified NFT Contract
               </Typography>
               <Typography variant="body2" gutterBottom>
                 <MuiLink
                   color="textPrimary"
+                  target="_blank"
                   href={`https://arbiscan.io/address/${NFT_ADDRESS}`}
                 >
                   {NFT_ADDRESS}
@@ -182,62 +160,68 @@ const MintView = () => {
               <Typography variant="body2" gutterBottom>
                 <MuiLink
                   color="textPrimary"
+                  target="_blank"
                   href={`https://arbiscan.io/address/${MARKET_ADDRESS}`}
                 >
                   {MARKET_ADDRESS}
                 </MuiLink>
               </Typography>
             </Box>
-            <Box className={classes.centerMobile}>
-              <Hidden smDown>
-                <div
-                  style={{
-                    background: `url(${pinkLineImage}) left top`,
-                    width: 64,
-                    height: 8,
-                  }}
-                ></div>
-              </Hidden>
-              <Button className={classes.mintActiveButton} onClick={handleMint}>
-                Mint now
-              </Button>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6} lg={5}>
-            <Fade autoplay arrows={false}>
-              {tokenIds.map((id, i) => {
-                const fileName = id.toString().padStart(6, "0");
-                return (
-                  <Card key={i} style={{ filter: "none", margin: 2 }}>
-                    <CardActionArea component={Link} to={`/detail/${id}`}>
-                      <CardMedia
-                        className={classes.nftImage}
-                        image={`https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_black_thumb.jpg`}
-                      />
-                      <Typography
-                        color="textPrimary"
-                        className={classes.nftInfo}
-                        variant="body1"
-                      >
-                        {formatId(id)}
-                      </Typography>
-                    </CardActionArea>
-                  </Card>
-                );
-              })}
-            </Fade>
-            {runningCount > 0 && (
-              <Box mt={3}>
-                <Typography variant="body2" color="textPrimary">
-                  Image generation in progress: {runningCount}
-                </Typography>
+            {saleSeconds === 0 && (
+              <Box className={classes.centerMobile}>
+                <Hidden smDown>
+                  <div
+                    style={{
+                      background: `url(${pinkLineImage}) left top`,
+                      width: 64,
+                      height: 8,
+                    }}
+                  ></div>
+                </Hidden>
+                <Button
+                  className={classes.mintActiveButton}
+                  onClick={handleMint}
+                >
+                  Mint now
+                </Button>
               </Box>
             )}
           </Grid>
+          {saleSeconds === 0 && (
+            <Grid item xs={12} sm={12} md={6} lg={5}>
+              <Fade autoplay arrows={false}>
+                {tokenIds.map((id, i) => {
+                  const fileName = id.toString().padStart(6, "0");
+                  return (
+                    <Card key={i} style={{ filter: "none", margin: 2 }}>
+                      <CardActionArea component={Link} to={`/detail/${id}`}>
+                        <CardMedia
+                          className={classes.nftImage}
+                          image={`https://randomwalknft.s3.us-east-2.amazonaws.com/${fileName}_black_thumb.jpg`}
+                        />
+                        <Typography
+                          color="textPrimary"
+                          className={classes.nftInfo}
+                          variant="body1"
+                        >
+                          {formatId(id)}
+                        </Typography>
+                      </CardActionArea>
+                    </Card>
+                  );
+                })}
+              </Fade>
+              {runningCount > 0 && (
+                <Box mt={3}>
+                  <Typography variant="body2" color="textPrimary">
+                    Image generation in progress: {runningCount}
+                  </Typography>
+                </Box>
+              )}
+            </Grid>
+          )}
         </Grid>
-      ) : (
-        <Box></Box>
-      )}
+      </Box>
     </Container>
   );
 };

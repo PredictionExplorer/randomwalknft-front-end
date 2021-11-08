@@ -91,7 +91,9 @@ const OfferTable = ({ offers, library }) => {
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={4}>No offers yet</TableCell>
+              <TableCell colSpan={4} align="center">
+                No offers yet
+              </TableCell>
             </TableRow>
           )}
         </TableBody>

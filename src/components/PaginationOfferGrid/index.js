@@ -44,7 +44,9 @@ const PaginationOfferGrid = ({ loading, data }) => {
         </>
       )}
       {!loading && !data.length && (
-        <Typography variant="h6">Nothing Found!</Typography>
+        <Typography variant="h6" align="center">
+          Nothing Found!
+        </Typography>
       )}
     </Box>
   );

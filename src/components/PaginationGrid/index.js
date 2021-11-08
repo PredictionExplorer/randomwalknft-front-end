@@ -70,7 +70,9 @@ const PaginationGrid = ({ loading, data }) => {
             {searchId ? (
               !searchResult ? (
                 <Grid item>
-                  <Typography variant="h4">Nothing Found!</Typography>
+                  <Typography variant="h6" align="center">
+                    Nothing Found!
+                  </Typography>
                 </Grid>
               ) : (
                 <Grid item xs={6} sm={4}>
@@ -102,7 +104,9 @@ const PaginationGrid = ({ loading, data }) => {
         </>
       )}
       {!loading && !data.length && (
-        <Typography variant="h4">Nothing Found!</Typography>
+        <Typography variant="h6" align="center">
+          Nothing Found!
+        </Typography>
       )}
     </Box>
   );

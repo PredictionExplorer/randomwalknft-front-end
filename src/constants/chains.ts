@@ -5,7 +5,7 @@ export enum SupportedChainId {
   ARBITRUM_RINKEBY = 421611,
 }
 
-export const DEFAULT_CHAIN_ID = SupportedChainId.ARBITRUM_RINKEBY;
+export const DEFAULT_CHAIN_ID = SupportedChainId.ARBITRUM_ONE;
 
 export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = [
   SupportedChainId.ARBITRUM_ONE,

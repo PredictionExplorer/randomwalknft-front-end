@@ -540,19 +540,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "newSaleTime",
-        "type": "uint256"
-      }
-    ],
-    "name": "setSaleTime",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
       },
@@ -563,19 +550,6 @@
       }
     ],
     "name": "setTokenName",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "newTime",
-        "type": "uint256"
-      }
-    ],
-    "name": "setWithdrawalWait",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

@@ -32,6 +32,7 @@ import "react-slideshow-image/dist/styles.css";
 
 const MintView = () => {
   const [saleSeconds, setSaleSeconds] = useState(null);
+  const [countdownCompleted, setCountdownCompleted] = useState(false);
   const [mintPrice, setMintPrice] = useState(0);
   const [tokenIds, setTokenIds] = useState([]);
   const [runningCount, setRunningCount] = useState(null);
@@ -43,6 +44,10 @@ const MintView = () => {
   const handleMint = async () => {
     if (library && account) {
       try {
+        if (saleSeconds > 0 || !countdownCompleted) {
+          alert("The sale is not open yet.");
+          return;
+        }
         const signer = library.getSigner();
         const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
@@ -100,7 +105,7 @@ const MintView = () => {
 
   return (
     <Container className={classes.root}>
-      {saleSeconds > 0 ? (
+      {saleSeconds > 0 || !countdownCompleted ? (
         <Typography variant="h4" className={classes.centerMobile}>
           <Typography variant="h4" component="span">
             SALE
@@ -131,12 +136,13 @@ const MintView = () => {
       )}
       <Box mt={3}>
         <Grid container spacing={4}>
-          {saleSeconds > 0 && (
+          {saleSeconds > 0 && !countdownCompleted && (
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <Box mb={2}>
                 <Countdown
                   date={Date.now() + saleSeconds * 1000}
                   renderer={Counter}
+                  onComplete={() => setCountdownCompleted(true)}
                 />
               </Box>
             </Grid>
@@ -170,27 +176,22 @@ const MintView = () => {
                 </MuiLink>
               </Typography>
             </Box>
-            {saleSeconds <= 0 && (
-              <Box className={classes.centerMobile}>
-                <Hidden smDown>
-                  <div
-                    style={{
-                      background: `url(${pinkLineImage}) left top`,
-                      width: 64,
-                      height: 8,
-                    }}
-                  ></div>
-                </Hidden>
-                <Button
-                  className={classes.mintActiveButton}
-                  onClick={handleMint}
-                >
-                  Mint now
-                </Button>
-              </Box>
-            )}
+            <Box className={classes.centerMobile}>
+              <Hidden smDown>
+                <div
+                  style={{
+                    background: `url(${pinkLineImage}) left top`,
+                    width: 64,
+                    height: 8,
+                  }}
+                ></div>
+              </Hidden>
+              <Button className={classes.mintActiveButton} onClick={handleMint}>
+                Mint now
+              </Button>
+            </Box>
           </Grid>
-          {saleSeconds <= 0 && (
+          {(saleSeconds <= 0 || countdownCompleted) && tokenIds.length > 0 && (
             <Grid item xs={12} sm={12} md={6} lg={5}>
               <Fade autoplay arrows={false}>
                 {tokenIds.map((id, i) => {

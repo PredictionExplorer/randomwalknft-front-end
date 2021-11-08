@@ -21,6 +21,7 @@ import nftService from "services/nft";
 const GiveawayTable = ({ tokens }) => {
   const classes = useStyles();
 
+  console.log(tokens);
   return (
     <TableContainer className={classes.tablePrimary}>
       <Table aria-label="simple table">
@@ -48,6 +49,13 @@ const GiveawayTable = ({ tokens }) => {
               </TableCell>
             </TableRow>
           ))}
+          {tokens.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={3} align="center">
+                No tokens yet
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
@@ -56,7 +64,7 @@ const GiveawayTable = ({ tokens }) => {
 
 const Giveaway = () => {
   const classes = useStyles();
-  const [tokens, setTokens] = useState([]);
+  const [tokens, setTokens] = useState(null);
 
   useEffect(() => {
     const getGiveawayTokens = async () => {
@@ -97,7 +105,7 @@ const Giveaway = () => {
           </Typography>
         </Typography>
       </Box>
-      <GiveawayTable tokens={tokens} />
+      {tokens !== null && <GiveawayTable tokens={tokens} />}
     </Container>
   );
 };

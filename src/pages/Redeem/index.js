@@ -19,7 +19,7 @@ import { useActiveWeb3React } from "hooks/web3";
 
 const Redeem = () => {
   const classes = useStyles();
-  const [withdrawalSeconds, setWithdrawalSeconds] = useState(0);
+  const [withdrawalSeconds, setWithdrawalSeconds] = useState(null);
   const [lastMinter, setLastMinter] = useState(null);
   const [withdrawalAmount, setWithdrawalAmount] = useState(null);
 
@@ -66,6 +66,8 @@ const Redeem = () => {
 
     getData();
   }, [library]);
+
+  if (withdrawalSeconds === null) return null;
 
   return (
     <Container className={classes.root}>

@@ -19,7 +19,7 @@ if (typeof INFURA_KEY === "undefined") {
 }
 
 const NETWORK_URLS: { [key in SupportedChainId]: string } = {
-  [SupportedChainId.ARBITRUM_ONE]: `https://198.58.105.159:8545`,
+  [SupportedChainId.ARBITRUM_ONE]: `https://arbitrum-mainnet.infura.io/v3/${INFURA_KEY}`,
   [SupportedChainId.ARBITRUM_RINKEBY]: `https://arbitrum-rinkeby.infura.io/v3/${INFURA_KEY}`,
 };
 

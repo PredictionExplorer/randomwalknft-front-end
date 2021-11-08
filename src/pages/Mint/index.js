@@ -62,9 +62,11 @@ const MintView = () => {
             "Media files are being generated. Please refrersh the page in a few minutes.",
         });
       } catch (err) {
-        console.log(err);
-        if (err.code !== 4001) {
-          alert("The sale is not open yet.");
+        const { data } = err;
+        if (data && data.message) {
+          alert(data.message);
+        } else {
+          alert("There's an error");
         }
       }
     } else {

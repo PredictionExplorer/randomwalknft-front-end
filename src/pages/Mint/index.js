@@ -105,7 +105,7 @@ const MintView = () => {
 
   return (
     <Container className={classes.root}>
-      {saleSeconds > 0 || !countdownCompleted ? (
+      {saleSeconds > 0 && !countdownCompleted ? (
         <Typography variant="h4" className={classes.centerMobile}>
           <Typography variant="h4" component="span">
             SALE

@@ -81,7 +81,7 @@ const MintView = () => {
       );
 
       let seconds = (await contract.timeUntilSale()).toNumber();
-      seconds = seconds - (3 * 3600 * 24 + 3 * 3600);
+      seconds = seconds - (3 * 3600 * 24 + 2 * 3600);
       setSaleSeconds(seconds);
 
       const tokenIds = await nftService.random();

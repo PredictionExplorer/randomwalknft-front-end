@@ -44,7 +44,7 @@ const MintView = () => {
   const handleMint = async () => {
     if (library && account) {
       try {
-        if (saleSeconds > 0 || !countdownCompleted) {
+        if (saleSeconds > 0 && !countdownCompleted) {
           alert("The sale is not open yet.");
           return;
         }

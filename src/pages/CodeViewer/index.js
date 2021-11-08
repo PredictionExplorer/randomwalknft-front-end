@@ -39,9 +39,9 @@ const CodeViewer = () => {
             <Typography variant="body2">
               <Link
                 color="textPrimary"
-                href="https://cloudflare-ipfs.com/ipfs/QmWEao2HjCvyHJSbYnWLyZj8HfFardxzuNh7AUk1jgyXTm"
+                href="https://cloudflare-ipfs.com/ipfs/QmP7Z8VbQLpytzXnceeAAc4D5tX39XVzoEeUZwEK8aPk8W"
               >
-                ipfs://QmWEao2HjCvyHJSbYnWLyZj8HfFardxzuNh7AUk1jgyXTm
+                ipfs://QmP7Z8VbQLpytzXnceeAAc4D5tX39XVzoEeUZwEK8aPk8W
               </Link>
             </Typography>
           </Box>
@@ -79,8 +79,10 @@ def random_int(largest, gen):
         num = (num << 1) + next(gen)
     return num % largest
 
-def create_media(file_name, seed):
+def create_media(file_name, seed, background_color):
     '''Generate a PNG image and 2 MP4 videos.'''
+
+    file_name += '_' + background_color
 
     gen = random_generator(seed)
 
@@ -167,7 +169,7 @@ def create_media(file_name, seed):
     border = int(target_size[1] * BORDER_PERCENT)
 
     final_size = tuple(x + 2 * border for x in target_size)
-    im = Image.new('RGB', final_size, 'white')
+    im = Image.new('RGB', final_size, background_color)
     draw = ImageDraw.Draw(im)
 
     for i, step in enumerate(path):
@@ -183,7 +185,7 @@ def create_media(file_name, seed):
         '''Generate a video. num_walkers is the number of starting points for
         the random walk.'''
         images = []
-        im = Image.new('RGB', final_size, 'white')
+        im = Image.new('RGB', final_size, background_color)
         images.append(im)
         draw = ImageDraw.Draw(im)
 
@@ -234,7 +236,7 @@ def create_media(file_name, seed):
             '''Add a few seconds before and at the end of the video.'''
             result = []
             INIT_HOLD_SECONDS = 0.3
-            blank = Image.new('RGB', final_size, 'white')
+            blank = Image.new('RGB', final_size, background_color)
 
             for _ in range(int(INIT_HOLD_SECONDS * VIDEO_FPS)):
                 result.append(blank)
@@ -273,7 +275,8 @@ def create_media(file_name, seed):
 
 if __name__ == "__main__":
     seed = sys.argv[1]
-    create_media("out", seed) `}
+    create_media("out", seed, "black")
+    create_media("out", seed, "white")`}
             options={{
               mode: "python",
               theme: "material",

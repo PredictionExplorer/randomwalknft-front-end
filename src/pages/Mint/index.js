@@ -80,7 +80,8 @@ const MintView = () => {
         (parseFloat(ethers.utils.formatEther(mintPrice)) * 1.05).toFixed(4)
       );
 
-      const seconds = (await contract.timeUntilSale()).toNumber();
+      let seconds = (await contract.timeUntilSale()).toNumber();
+      seconds = seconds - (3 * 3600 * 24 + 3 * 3600);
       setSaleSeconds(seconds);
 
       const tokenIds = await nftService.random();
@@ -147,7 +148,7 @@ const MintView = () => {
                 <MuiLink
                   color="textPrimary"
                   target="_blank"
-                  href={`https://arbiscan.io/address/${NFT_ADDRESS}`}
+                  href={`https://arbiscan.io/address/${NFT_ADDRESS}#code`}
                 >
                   {NFT_ADDRESS}
                 </MuiLink>
@@ -161,7 +162,7 @@ const MintView = () => {
                 <MuiLink
                   color="textPrimary"
                   target="_blank"
-                  href={`https://arbiscan.io/address/${MARKET_ADDRESS}`}
+                  href={`https://arbiscan.io/address/${MARKET_ADDRESS}#code`}
                 >
                   {MARKET_ADDRESS}
                 </MuiLink>

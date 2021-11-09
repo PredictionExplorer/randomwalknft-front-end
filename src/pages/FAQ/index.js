@@ -50,7 +50,8 @@ const FAQ = () => {
     {
       summary: "Are the contracts verified on Etherscan?",
       detail:
-        "Yes (TODO: Add links)",
+        "Check out this <a style='color: #fff' href='https://arbiscan.io/address/0x895a6F444BE4ba9d124F61DF736605792B35D66b#code'>NFT Contract</a>, " +
+        "<a style='color: #fff' href='https://arbiscan.io/address/0x47eF85Dfb775aCE0934fBa9EEd09D22e6eC0Cc08#code'>Market Contract</a>.",
     },
     {
       summary: "What is the fee for using the market to buy and sell NFTs?",

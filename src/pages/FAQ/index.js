@@ -33,7 +33,7 @@ const FAQ = () => {
         "Check out this <a style='color: #fff' href='https://help.uniswap.org/en/articles/5538707-how-to-connect-to-arbitrum'>simple guide</a>.",
     },
     {
-      summary: "How many Ranom Walk NFTs will there be?",
+      summary: "How many Random Walk NFTs will there be?",
       detail:
         "Every time an NFT is minted, the price of the next mint increases by about 0.1%. After 5,000 NFTs are minted, mint price would be 0.24 ETH. After 10,000 NFTs are minted, mint price would be about 60 ETH. " +
         "Given the exponential increase in price, it's hard to imagine there being more than a few thousand NFTs in existence.",

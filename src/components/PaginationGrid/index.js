@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation, useHistory } from "react-router-dom";
 import {
   Grid,
   Box,
@@ -21,6 +22,9 @@ const PaginationGrid = ({ loading, data }) => {
   const [curPage, setCurPage] = useState(1);
   const classes = useStyles();
 
+  const location = useLocation();
+  const history = useHistory();
+
   const handleSearchChange = async (e) => {
     setNftId(e.target.value);
     if (!e.target.value) {
@@ -37,6 +41,12 @@ const PaginationGrid = ({ loading, data }) => {
   useEffect(() => {
     setCollection(data);
   }, [data]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const page = parseInt(params.get("page")) || 1;
+    setCurPage(page);
+  }, [location]);
 
   return (
     <Box mt={4}>
@@ -94,7 +104,9 @@ const PaginationGrid = ({ loading, data }) => {
               <Pagination
                 color="primary"
                 page={curPage}
-                onChange={(e, page) => setCurPage(page)}
+                onChange={(e, page) =>
+                  history.push(`${location.pathname}?page=${page}`)
+                }
                 count={Math.ceil(collection.length / perPage)}
                 showFirstButton
                 showLastButton

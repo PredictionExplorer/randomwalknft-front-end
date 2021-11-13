@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { Container, Box, Divider } from "@material-ui/core";
 import { Alert, ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
@@ -9,6 +10,7 @@ import useStyles from "config/styles";
 import { useNFT } from "hooks/useNFT";
 import { useBuyOfferIds, useSellTokenIds } from "hooks/useOffer";
 import { useActiveWeb3React } from "hooks/web3";
+import { formatId } from "utils";
 
 import { Trait } from "./Trait";
 import { BuyOffers } from "./BuyOffers";
@@ -29,6 +31,33 @@ const Detail = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Randomw Walk NFT: Details for {formatId(id)}</title>
+        <meta
+          property="og:title"
+          content={`Random Walk NFT: Details for ${formatId(id)}`}
+        />
+        <meta property="og:image" content={nft.black_image} />
+        <meta
+          property="og:description"
+          content={`Programmatically generated Random Walk image and video NFTs. ETH spent on minting goes back to the minters. These are the details for ${formatId(
+            id
+          )}}`}
+        />
+        <meta name="twitter:card" content="summary" />
+        <meta
+          name="twitter:title"
+          content={`Random Walkn NFT: Details for Punk ${formatId(id)}`}
+        />
+        <meta name="twitter:site" content="@RandomWalkNFT" />
+        <meta name="twitter:image" content={nft.black_image} />
+        <meta
+          name="twitter:description"
+          content={`Programmatically generated Random Walk image and video NFTs. ETH spent on minting goes back to the minters. These are the details for ${formatId(
+            id
+          )}}`}
+        />
+      </Helmet>
       <Container
         maxWidth={false}
         className={classes.root}

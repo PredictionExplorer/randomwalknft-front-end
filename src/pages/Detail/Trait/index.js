@@ -244,13 +244,8 @@ export const Trait = ({ nft, darkTheme }) => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={5} md={4} lg={3}>
-              <Box mb={3}>
-                <Typography
-                  align="left"
-                  variant="body1"
-                  color="secondary"
-                  gutterBottom
-                >
+              <Box>
+                <Typography align="left" variant="body1" color="secondary">
                   Owner
                 </Typography>
                 <Typography
@@ -263,12 +258,7 @@ export const Trait = ({ nft, darkTheme }) => {
                 </Typography>
               </Box>
               <Box>
-                <Typography
-                  align="left"
-                  variant="body1"
-                  color="secondary"
-                  gutterBottom
-                >
+                <Typography align="left" variant="body1" color="secondary">
                   Seed
                 </Typography>
                 <Typography
@@ -280,6 +270,21 @@ export const Trait = ({ nft, darkTheme }) => {
                   {seed}
                 </Typography>
               </Box>
+              {name && (
+                <Box>
+                  <Typography align="left" variant="body1" color="secondary">
+                    Name
+                  </Typography>
+                  <Typography
+                    align="left"
+                    variant="body2"
+                    color="textPrimary"
+                    gutterBottom
+                  >
+                    {name}
+                  </Typography>
+                </Box>
+              )}
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={5}>
               <Box>

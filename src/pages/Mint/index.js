@@ -34,6 +34,7 @@ const MintView = () => {
   const [saleSeconds, setSaleSeconds] = useState(null);
   const [countdownCompleted, setCountdownCompleted] = useState(false);
   const [mintPrice, setMintPrice] = useState(0);
+  const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [tokenIds, setTokenIds] = useState([]);
   const [runningCount, setRunningCount] = useState(null);
 
@@ -85,6 +86,11 @@ const MintView = () => {
       const mintPrice = await contract.getMintPrice();
       setMintPrice(
         (parseFloat(ethers.utils.formatEther(mintPrice)) * 1.05).toFixed(4)
+      );
+
+      const withdrawalAmount = await contract.withdrawalAmount();
+      setWithdrawalAmount(
+        parseFloat(ethers.utils.formatEther(withdrawalAmount)).toFixed(4)
       );
 
       let seconds = (await contract.timeUntilSale()).toNumber();
@@ -147,6 +153,26 @@ const MintView = () => {
             </Grid>
           )}
           <Grid item xs={12} sm={12} md={6} lg={saleSeconds <= 0 ? 7 : 6}>
+            <Box mb={3}>
+              <Typography variant="body1" color="secondary" gutterBottom>
+                Redeem Amount
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                <span
+                  style={{
+                    backgroundColor: "#C676D7",
+                    marginRight: 8,
+                    padding: "2px 4px",
+                    borderRadius: 2,
+                  }}
+                >
+                  {withdrawalAmount}Ξ
+                </span>
+                <span>
+                  ({((withdrawalAmount / mintPrice) * 100).toFixed(2)}%)
+                </span>
+              </Typography>
+            </Box>
             <Box mb={3}>
               <Typography variant="body1" color="secondary" gutterBottom>
                 Verified NFT Contract

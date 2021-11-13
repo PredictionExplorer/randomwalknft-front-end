@@ -155,22 +155,10 @@ const MintView = () => {
           <Grid item xs={12} sm={12} md={6} lg={saleSeconds <= 0 ? 7 : 6}>
             <Box mb={3}>
               <Typography variant="body1" color="secondary" gutterBottom>
-                Redeem Amount
+                Potential Return on Investment
               </Typography>
               <Typography variant="body2" gutterBottom>
-                <span
-                  style={{
-                    backgroundColor: "#C676D7",
-                    marginRight: 8,
-                    padding: "2px 4px",
-                    borderRadius: 2,
-                  }}
-                >
-                  {withdrawalAmount}Ξ
-                </span>
-                <span>
-                  ({((withdrawalAmount / mintPrice) * 100).toFixed(2)}%)
-                </span>
+                <span>{(withdrawalAmount / mintPrice).toFixed(2)} x</span>
               </Typography>
             </Box>
             <Box mb={3}>

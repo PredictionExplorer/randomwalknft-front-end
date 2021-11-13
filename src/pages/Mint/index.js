@@ -36,7 +36,6 @@ const MintView = () => {
   const [mintPrice, setMintPrice] = useState(0);
   const [withdrawalAmount, setWithdrawalAmount] = useState(0);
   const [tokenIds, setTokenIds] = useState([]);
-  const [runningCount, setRunningCount] = useState(null);
 
   const { account, library } = useActiveWeb3React();
   const history = useHistory();
@@ -98,9 +97,6 @@ const MintView = () => {
 
       const tokenIds = await nftService.random();
       setTokenIds(tokenIds);
-
-      const { running_count } = await nftService.result();
-      setRunningCount(running_count);
     };
 
     getData();
@@ -228,13 +224,6 @@ const MintView = () => {
                   );
                 })}
               </Fade>
-              {runningCount > 0 && (
-                <Box mt={3}>
-                  <Typography variant="body2" color="textPrimary">
-                    Image generation in progress: {runningCount}
-                  </Typography>
-                </Box>
-              )}
             </Grid>
           )}
         </Grid>

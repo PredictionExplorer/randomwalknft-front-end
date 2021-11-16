@@ -91,7 +91,7 @@ const Home = (props) => {
                 Trade your NFTs on the 0% fee marketplace after November 11.
               </Typography>
             </li>
-            <li>
+            {/* <li>
               <Typography align="left" variant="body1" gutterBottom>
                 Those who mint during the first 48 hours may be eligible to
                 receive a prize, check out the&nbsp;
@@ -100,7 +100,7 @@ const Home = (props) => {
                 </Link>
                 .
               </Typography>
-            </li>
+            </li> */}
           </ul>
         </Box>
         <Box mt={3} className={classes.centerMobile}>

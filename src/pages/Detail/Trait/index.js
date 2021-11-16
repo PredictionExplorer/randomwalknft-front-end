@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
+import { CopyToClipboard } from "react-copy-to-clipboard";
 import Lightbox from "react-awesome-lightbox";
 import "react-awesome-lightbox/build/style.css";
 
@@ -224,7 +225,7 @@ export const Trait = ({ nft, darkTheme }) => {
                       className={classes.nftId}
                       variant="body1"
                       gutterBottom
-                      color={darkTheme ? "textPrimary" : "textSecondary"}
+                      style={{ color: darkTheme ? "#FFFFFF" : "#000000" }}
                     >
                       {formatId(id)}
                     </Typography>
@@ -235,13 +236,24 @@ export const Trait = ({ nft, darkTheme }) => {
                     )}
                   </div>
                 </CardActionArea>
-                {imageOpen && (
-                  <Lightbox
-                    image={darkTheme ? black_image : white_image}
-                    onClose={() => setImageOpen(false)}
-                  />
-                )}
               </Card>
+              <Box mt={2}>
+                <CopyToClipboard text={window.location.href}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ width: "100%" }}
+                  >
+                    Copy link
+                  </Button>
+                </CopyToClipboard>
+              </Box>
+              {imageOpen && (
+                <Lightbox
+                  image={darkTheme ? black_image : white_image}
+                  onClose={() => setImageOpen(false)}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={5} md={4} lg={3}>
               <Box>

@@ -8,6 +8,7 @@ import {
   Paper,
 } from "@material-ui/core";
 import { ethers } from "ethers";
+import moment from "moment";
 
 import Countdown from "react-countdown";
 import Counter from "components/Counter";
@@ -55,6 +56,8 @@ const Redeem = () => {
       const seconds = (await contract.timeUntilWithdrawal()).toNumber();
       setWithdrawalSeconds(seconds);
 
+      console.log(seconds);
+
       const lastMinter = await contract.lastMinter();
       setLastMinter(lastMinter);
 
@@ -101,7 +104,15 @@ const Redeem = () => {
               </Typography>
               <Typography variant="body2">{lastMinter}</Typography>
             </Box>
-            <Box mt={4}>
+            <Box mt={2}>
+              <Typography variant="body1" color="primary">
+                Withdrawal Date
+              </Typography>
+              <Typography variant="body2">
+                {moment().add(withdrawalSeconds, "seconds").format("llll")}
+              </Typography>
+            </Box>
+            <Box mt={2}>
               <Typography variant="body1" color="primary">
                 Withdrawal Amount
               </Typography>

@@ -109,7 +109,6 @@ const FAQ = () => {
                 onChange={handleChange(i)}
               >
                 <AccordionSummary
-                  color="textSecondary"
                   expandIcon={
                     expanded === i ? (
                       <RemoveIcon color="primary" fontSize="small" />

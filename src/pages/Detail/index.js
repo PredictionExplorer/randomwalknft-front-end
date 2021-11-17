@@ -57,7 +57,7 @@ const Detail = () => {
           <ToggleButton value={false}>White theme</ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      <Trait nft={nft} darkTheme={darkTheme} seller={location.state.seller} />
+      <Trait nft={nft} darkTheme={darkTheme} seller={location.state ? location.state.seller : null} />
       <BuyOffers
         offers={buyOffers}
         nft={nft}

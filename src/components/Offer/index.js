@@ -10,7 +10,13 @@ const Offer = ({ offer }) => {
 
   return (
     <Card>
-      <CardActionArea component={Link} to={`/detail/${offer.tokenId}`}>
+      <CardActionArea
+        component={Link}
+        to={{
+          pathname: `/detail/${offer.tokenId}`,
+          state: { seller: offer.seller },
+        }}
+      >
         <CardMedia className={classes.nftImage} image={offer.image_thumb} />
         <div className={classes.nftInfo}>
           <Typography className={classes.nftId} variant="body1" gutterBottom>

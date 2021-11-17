@@ -62,7 +62,7 @@ const useCustomStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Trait = ({ nft, darkTheme }) => {
+export const Trait = ({ nft, darkTheme, seller }) => {
   const {
     id,
     name,
@@ -196,6 +196,14 @@ export const Trait = ({ nft, darkTheme }) => {
     }
   };
 
+  const handlePrev = () => history.push(`/detail/${Math.max(id - 1, 0)}`);
+
+  const handleNext = async () => {
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
+    const totalSupply = await contract.totalSupply();
+    history.push(`/detail/${Math.min(id + 1, totalSupply.toNumber() - 1)}`);
+  };
+
   useEffect(() => {
     const getSellOffer = async (id) => {
       const offer = await getOfferById(library, id);
@@ -238,15 +246,28 @@ export const Trait = ({ nft, darkTheme }) => {
                 </CardActionArea>
               </Card>
               <Box mt={2}>
-                <CopyToClipboard text={window.location.href}>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    style={{ width: "100%" }}
-                  >
-                    Copy link
-                  </Button>
-                </CopyToClipboard>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      style={{ width: "100%" }}
+                      onClick={handlePrev}
+                    >
+                      Prev
+                    </Button>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button
+                      variant="outlined"
+                      color="primary"
+                      style={{ width: "100%" }}
+                      onClick={handleNext}
+                    >
+                      Next
+                    </Button>
+                  </Grid>
+                </Grid>
               </Box>
               {imageOpen && (
                 <Lightbox
@@ -266,7 +287,7 @@ export const Trait = ({ nft, darkTheme }) => {
                   color="textPrimary"
                   gutterBottom
                 >
-                  {owner}
+                  {seller ? seller : owner}
                 </Typography>
               </Box>
               <Box>
@@ -297,6 +318,17 @@ export const Trait = ({ nft, darkTheme }) => {
                   </Typography>
                 </Box>
               )}
+              <Box mt={2}>
+                <CopyToClipboard text={window.location.href}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ width: "100%" }}
+                  >
+                    Copy link
+                  </Button>
+                </CopyToClipboard>
+              </Box>
             </Grid>
             <Grid item xs={12} sm={12} md={4} lg={5}>
               <Box>

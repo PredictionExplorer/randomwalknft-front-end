@@ -28,13 +28,22 @@ const Footer = () => {
             alignItems="center"
           >
             <Box mr={2}>
-              <Typography variant="body2">
+              <Typography variant="body2" component="p">
+                <Typography
+                  variant="body2"
+                  component="span"
+                  color="textSecondary"
+                >
+                  Member of
+                </Typography>
+                &nbsp;
                 <Link
                   color="textSecondary"
                   target="_blank"
                   href={`https://www.nftalliance.xyz`}
+                  style={{ textDecoration: "underline" }}
                 >
-                  Member of Arbitrum NFT Alliance
+                  Arbitrum NFT Alliance
                 </Link>
               </Typography>
             </Box>

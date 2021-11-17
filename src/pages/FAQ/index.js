@@ -97,7 +97,7 @@ const FAQ = () => {
         FAQ
       </Typography>
       <Typography variatn="body1" gutterBottom>
-        Get answered to all question which you may have
+        Get answers to the most common questions
       </Typography>
       <Box mt={4}>
         <Grid container spacing={2}>

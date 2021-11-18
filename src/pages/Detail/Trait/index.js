@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
+import { useHistory, useLocation } from "react-router";
+import { Link } from "react-router-dom";
 import { ethers } from "ethers";
 import {
   Box,
@@ -80,6 +81,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
   const [imageOpen, setImageOpen] = useState(false);
   const [videoPath, setVideoPath] = useState(null);
   const [sellPrice, setSellPrice] = useState(null);
+  const [theme, setTheme] = useState(darkTheme ? "black" : "white");
   const [price, setPrice] = useState("");
   const [tokenName, setTokenName] = useState(name);
   const [address, setAddress] = useState("");
@@ -88,11 +90,13 @@ export const Trait = ({ nft, darkTheme, seller }) => {
   const customClasses = useCustomStyles();
   const { account, library } = useActiveWeb3React();
   const history = useHistory();
+  const location = useLocation();
 
   const sellOfferIds = useSellOfferIds(id);
   const sellTokenIds = useSellTokenIds(account);
 
-  const handlePlay = (videoPath) => () => {
+  const handlePlay = (videoPath) => {
+    console.log(videoPath);
     fetch(videoPath).then((res) => {
       if (res.ok) {
         setVideoPath(videoPath);
@@ -205,6 +209,40 @@ export const Trait = ({ nft, darkTheme, seller }) => {
   };
 
   useEffect(() => {
+    setTheme(darkTheme ? "black" : "white");
+  }, [darkTheme]);
+
+  useEffect(() => {
+    const { hash } = location;
+    if (hash === "#black_image" || hash === "#white_image") {
+      setTheme(hash.includes("black") ? "black" : "white");
+      setImageOpen(true);
+    } else if (
+      hash === "#black_single_video" ||
+      hash === "#white_single_video"
+    ) {
+      setTheme(hash.includes("black") ? "black" : "white");
+      handlePlay(
+        hash.includes("black") ? black_single_video : white_single_video
+      );
+    } else if (
+      hash === "#black_triple_video" ||
+      hash === "#white_triple_video"
+    ) {
+      setTheme(hash.includes("black") ? "black" : "white");
+      handlePlay(
+        hash.includes("black") ? black_triple_video : white_triple_video
+      );
+    }
+  }, [
+    location,
+    black_single_video,
+    white_single_video,
+    black_triple_video,
+    white_triple_video,
+  ]);
+
+  useEffect(() => {
     const getSellOffer = async (id) => {
       const offer = await getOfferById(library, id);
       setSellPrice(offer.price);
@@ -226,14 +264,16 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                 <CardActionArea onClick={() => setImageOpen(true)}>
                   <CardMedia
                     className={classes.nftImage}
-                    image={darkTheme ? black_image : white_image}
+                    image={theme === "black" ? black_image : white_image}
                   />
                   <div className={classes.nftInfo}>
                     <Typography
                       className={classes.nftId}
                       variant="body1"
                       gutterBottom
-                      style={{ color: darkTheme ? "#FFFFFF" : "#000000" }}
+                      style={{
+                        color: theme === "black" ? "#FFFFFF" : "#000000",
+                      }}
                     >
                       {formatId(id)}
                     </Typography>
@@ -271,7 +311,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
               </Box>
               {imageOpen && (
                 <Lightbox
-                  image={darkTheme ? black_image : white_image}
+                  image={theme === "black" ? black_image : white_image}
                   onClose={() => setImageOpen(false)}
                 />
               )}
@@ -287,7 +327,12 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                   color="textPrimary"
                   gutterBottom
                 >
-                  {seller ? seller : owner}
+                  <Link
+                    style={{ color: "#fff" }}
+                    to={`/gallery?address=${seller ? seller : owner}`}
+                  >
+                    {seller ? seller : owner}
+                  </Link>
                 </Typography>
               </Box>
               <Box>
@@ -484,10 +529,12 @@ export const Trait = ({ nft, darkTheme, seller }) => {
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
               <NFTVideo
-                image_thumb={darkTheme ? black_image : white_image}
-                onClick={handlePlay(
-                  darkTheme ? black_single_video : white_single_video
-                )}
+                image_thumb={theme === "black" ? black_image : white_image}
+                onClick={() =>
+                  handlePlay(
+                    theme === "black" ? black_single_video : white_single_video
+                  )
+                }
               />
               <Box mt={4}>
                 <Typography variant="body1" align="center">
@@ -497,10 +544,12 @@ export const Trait = ({ nft, darkTheme, seller }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <NFTVideo
-                image_thumb={darkTheme ? black_image : white_image}
-                onClick={handlePlay(
-                  darkTheme ? black_triple_video : white_triple_video
-                )}
+                image_thumb={theme === "black" ? black_image : white_image}
+                onClick={() =>
+                  handlePlay(
+                    theme === "black" ? black_triple_video : white_triple_video
+                  )
+                }
               />
               <Box mt={4}>
                 <Typography variant="body1" align="center">

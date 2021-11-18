@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 import { useParams } from "react-router-dom";
 
@@ -24,6 +24,24 @@ const Detail = () => {
   const { account, library } = useActiveWeb3React();
   const sellTokenIds = useSellTokenIds(account);
   const [darkTheme, setDarkTheme] = useState(true);
+
+  useEffect(() => {
+    const darkModes = [
+      "#black_image",
+      "#black_single_video",
+      "#black_triple_video",
+    ];
+    const lightModes = [
+      "#white_image",
+      "#white_single_video",
+      "#white_triple_video",
+    ];
+    if (darkModes.includes(location.hash)) {
+      setDarkTheme(true);
+    } else if (lightModes.includes(location.hash)) {
+      setDarkTheme(false);
+    }
+  }, [location]);
 
   if (!nft) return <></>;
 
@@ -57,7 +75,11 @@ const Detail = () => {
           <ToggleButton value={false}>White theme</ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      <Trait nft={nft} darkTheme={darkTheme} seller={location.state ? location.state.seller : null} />
+      <Trait
+        nft={nft}
+        darkTheme={darkTheme}
+        seller={location.state ? location.state.seller : null}
+      />
       <BuyOffers
         offers={buyOffers}
         nft={nft}

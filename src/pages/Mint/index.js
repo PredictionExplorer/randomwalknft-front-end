@@ -52,7 +52,7 @@ const MintView = () => {
         const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
 
         const mintPrice = await contract.getMintPrice();
-        const newPrice = ethers.utils.formatEther(mintPrice) * 1.05;
+        const newPrice = ethers.utils.formatEther(mintPrice) * 1.01;
 
         const receipt = await contract
           .mint({ value: ethers.utils.parseEther(newPrice.toFixed(4)) })
@@ -84,7 +84,10 @@ const MintView = () => {
     const getData = async () => {
       const mintPrice = await contract.getMintPrice();
       setMintPrice(
-        (parseFloat(ethers.utils.formatEther(mintPrice)) * 1.05).toFixed(4)
+        (
+          parseFloat(ethers.utils.formatEther(mintPrice)) * 1.01 +
+          0.008
+        ).toFixed(4)
       );
 
       const withdrawalAmount = await contract.withdrawalAmount();

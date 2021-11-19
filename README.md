@@ -1,3 +1,3 @@
 # Random Walk NFT
 
-A simple NFT launching website
+Front end code for https://randomwalknft.com

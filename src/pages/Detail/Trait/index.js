@@ -85,6 +85,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
   const [price, setPrice] = useState("");
   const [tokenName, setTokenName] = useState(name);
   const [address, setAddress] = useState("");
+  const [accountTokenIds, setAccountTokenIds] = useState([]);
 
   const classes = useStyles();
   const customClasses = useCustomStyles();
@@ -208,6 +209,20 @@ export const Trait = ({ nft, darkTheme, seller }) => {
     history.push(`/detail/${Math.min(id + 1, totalSupply.toNumber() - 1)}`);
   };
 
+  const handlePrevInWallet = () => {
+    const index = accountTokenIds.indexOf(id);
+    history.push(`/detail/${accountTokenIds[Math.max(index - 1, 0)]}`);
+  };
+
+  const handleNextInWallet = async () => {
+    const index = accountTokenIds.indexOf(id);
+    history.push(
+      `/detail/${
+        accountTokenIds[Math.min(index + 1, accountTokenIds.length - 1)]
+      }`
+    );
+  };
+
   useEffect(() => {
     setTheme(darkTheme ? "black" : "white");
   }, [darkTheme]);
@@ -253,6 +268,17 @@ export const Trait = ({ nft, darkTheme, seller }) => {
 
     return () => setSellPrice(null);
   }, [library, sellOfferIds]);
+
+  useEffect(() => {
+    const getAccountTokenIds = async () => {
+      const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
+      const tokenIds = await contract.walletOfOwner(account);
+      setAccountTokenIds(tokenIds.map((tokenId) => tokenId.toNumber()));
+    };
+    if (account) {
+      getAccountTokenIds();
+    }
+  }, [account, library]);
 
   return (
     <Box>
@@ -309,6 +335,32 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                   </Grid>
                 </Grid>
               </Box>
+              {account === (seller || owner) && accountTokenIds.length > 0 && (
+                <Box mt={1}>
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        style={{ width: "100%" }}
+                        onClick={handlePrevInWallet}
+                      >
+                        Prev In Wallet
+                      </Button>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        style={{ width: "100%" }}
+                        onClick={handleNextInWallet}
+                      >
+                        Next In Wallet
+                      </Button>
+                    </Grid>
+                  </Grid>
+                </Box>
+              )}
               {imageOpen && (
                 <Lightbox
                   image={theme === "black" ? black_image : white_image}
@@ -329,9 +381,9 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                 >
                   <Link
                     style={{ color: "#fff" }}
-                    to={`/gallery?address=${seller ? seller : owner}`}
+                    to={`/gallery?address=${seller || owner}`}
                   >
-                    {seller ? seller : owner}
+                    {seller || owner}
                   </Link>
                 </Typography>
               </Box>

@@ -9,6 +9,7 @@ import useStyles from "config/styles";
 import { injected, walletconnect } from "connectors";
 import { useActiveWeb3React } from "hooks/web3";
 import { formatAddress } from "utils";
+import { switchNetwork } from "utils/switchNetwork";
 
 const ConnectWalletButton = ({ isMobileView }) => {
   const classes = useStyles();
@@ -17,8 +18,14 @@ const ConnectWalletButton = ({ isMobileView }) => {
 
   const handleConnectWallet = useCallback(async () => {
     const connector = isMobile ? walletconnect : injected;
-    await activate(connector, (err) => {
-      alert("Please switch your MetaMask to Arbitrum network");
+    await activate(connector, async (err) => {
+      if (
+        err.name === "UnsupportedChainIdError" &&
+        window.confirm("Switch to the Arbitrum network?")
+      ) {
+        await switchNetwork();
+        window.location.reload();
+      }
     });
   }, [activate]);
 

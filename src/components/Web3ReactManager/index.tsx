@@ -6,6 +6,7 @@ import { network } from "connectors";
 import { useEagerConnect, useInactiveListener } from "hooks/web3";
 import { NetworkContextName } from "constants/misc";
 import Loader from "components/Loader";
+import { switchNetwork } from "utils/switchNetwork";
 
 const MessageWrapper = styled.div`
   display: flex;
@@ -32,6 +33,12 @@ export default function Web3ReactManager({
 
   // try to eagerly connect to an injected provider, if it exists and has granted access already
   const triedEager = useEagerConnect();
+
+  useEffect(() => {
+    if (!active) {
+      switchNetwork();
+    }
+  }, [active]);
 
   // after eagerly trying injected, if the network connect ever isn't active or in an error state, activate itd
   useEffect(() => {

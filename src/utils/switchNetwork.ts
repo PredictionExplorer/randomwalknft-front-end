@@ -1,3 +1,7 @@
+const accountRequest = (ethereum: any) => {
+  return ethereum.request({ method: "eth_requestAccounts" });
+};
+
 const switchRequest = (ethereum: any) => {
   return ethereum.request({
     method: "wallet_switchEthereumChain",
@@ -28,6 +32,7 @@ export const switchNetwork = async () => {
   const { ethereum } = window;
   if (ethereum) {
     try {
+      await accountRequest(ethereum);
       await switchRequest(ethereum);
     } catch (error: any) {
       if (error.code === 4902) {

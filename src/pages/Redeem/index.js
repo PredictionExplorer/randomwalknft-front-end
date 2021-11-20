@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Button,
   Box,
@@ -102,7 +103,14 @@ const Redeem = () => {
               <Typography variant="body1" color="primary">
                 Last Minter Address
               </Typography>
-              <Typography variant="body2">{lastMinter}</Typography>
+              <Typography variant="body2">
+                <Link
+                  style={{ color: "#fff" }}
+                  to={`/gallery?address=${lastMinter}`}
+                >
+                  {lastMinter}
+                </Link>
+              </Typography>
             </Box>
             <Box mt={2}>
               <Typography variant="body1" color="primary">
@@ -124,11 +132,10 @@ const Redeem = () => {
       <Paper>
         <Box my={4} p={3}>
           <Typography variant="body2" style={{ lineHeight: 2 }}>
-            If nobody mints for 30 days after the last mint,
-            last minter can withdraw 50% of all the ETH that was
-            spent on minting up to that point. (ETH spent on minting does not go to the
-            creators of the NFT, it goes back to the minters through this
-            mechanism.)
+            If nobody mints for 30 days after the last mint, last minter can
+            withdraw 50% of all the ETH that was spent on minting up to that
+            point. (ETH spent on minting does not go to the creators of the NFT,
+            it goes back to the minters through this mechanism.)
           </Typography>
         </Box>
       </Paper>

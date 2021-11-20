@@ -40,10 +40,9 @@ export const switchNetwork = async () => {
           await addChainRequest(ethereum);
           await switchRequest(ethereum);
         } catch (addError) {
-          console.log(error);
+          console.log(addError);
         }
       }
-      console.log(error);
     }
   }
 };

@@ -9,7 +9,7 @@ import { useActiveWeb3React } from "hooks/web3";
 import { getOfferById } from "hooks/useOffer";
 import PaginationOfferGrid from "components/PaginationOfferGrid";
 
-const ForSale = () => {
+const Marketplace = () => {
   const classes = useStyles();
   const [loading, setLoading] = useState(true);
   const [collection, setCollection] = useState([]);
@@ -65,7 +65,7 @@ const ForSale = () => {
         </Typography>
         &nbsp;
         <Typography variant="h4" component="span" color="secondary">
-          FOR SALE
+          MARKETPLACE
         </Typography>
       </Typography>
       <PaginationOfferGrid loading={loading} data={collection} />
@@ -73,4 +73,4 @@ const ForSale = () => {
   );
 };
 
-export default ForSale;
+export default Marketplace;

@@ -53,51 +53,31 @@ const Home = (props) => {
             </Typography>
           </Typography>
           <Box mt={3}>
-            <ul>
-              <li>
-                <Typography align="left" variant="body1" gutterBottom>
-                  Minting starts 11/11/2021 at 7:00pm EST on{" "}
-                  <Link
-                    target="_blank"
-                    href="https://arbitrum.io"
-                    style={{ cursor: "pointer" }}
-                  >
-                    Arbitrum
-                  </Link>
-                  .
-                </Typography>
-              </li>
-              <li>
-                <Typography align="left" variant="body1" gutterBottom>
-                  Price starts at 0.001 ΞTH and increases after each mint.
-                </Typography>
-              </li>
-              <li>
-                <Typography align="left" variant="body1" gutterBottom>
-                  100% of the ΞTH spent on minting goes back to the minters.
-                  Check the&nbsp;
-                  <Link href="/redeem" style={{ cursor: "pointer" }}>
-                    redeem
-                  </Link>{" "}
-                  page.
-                </Typography>
-              </li>
-              <li>
-                <Typography align="left" variant="body1" gutterBottom>
-                  Trade your NFTs on the 0% fee marketplace after November 11.
-                </Typography>
-              </li>
-              {/* <li>
-              <Typography align="left" variant="body1" gutterBottom>
-                Those who mint during the first 48 hours may be eligible to
-                receive a prize, check out the&nbsp;
-                <Link href="/giveaway" style={{ cursor: "pointer" }}>
-                  giveaway
-                </Link>
-                .
-              </Typography>
-            </li> */}
-            </ul>
+            <Typography align="left" variant="body1" gutterBottom>
+              Minting starts 11/11/2021 at 7:00pm EST on{" "}
+              <Link
+                target="_blank"
+                href="https://arbitrum.io"
+                style={{ cursor: "pointer" }}
+              >
+                Arbitrum
+              </Link>
+              .
+            </Typography>
+            <Typography align="left" variant="body1" gutterBottom>
+              Price starts at 0.001 ΞTH and increases after each mint.
+            </Typography>
+            <Typography align="left" variant="body1" gutterBottom>
+              100% of the ΞTH spent on minting goes back to the minters. Check
+              the&nbsp;
+              <Link href="/redeem" style={{ cursor: "pointer" }}>
+                redeem
+              </Link>{" "}
+              page.
+            </Typography>
+            <Typography align="left" variant="body1" gutterBottom>
+              Trade your NFTs on the 0% fee marketplace after November 11.
+            </Typography>
           </Box>
           <Box mt={3} className={classes.centerMobile}>
             <Button className={classes.mintButton} component="a" href="/mint">

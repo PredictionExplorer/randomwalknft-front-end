@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useHistory, useLocation } from "react-router";
-import { Link } from "react-router-dom";
-import { ethers } from "ethers";
+import React, { useState, useEffect } from 'react'
+import { useHistory, useLocation } from 'react-router'
+import { Link } from 'react-router-dom'
+import { ethers } from 'ethers'
 import {
   Box,
   Container,
@@ -12,56 +12,56 @@ import {
   Button,
   TextField,
   Grid,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+} from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
 
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import Lightbox from "react-awesome-lightbox";
-import "react-awesome-lightbox/build/style.css";
+import { CopyToClipboard } from 'react-copy-to-clipboard'
+import Lightbox from 'react-awesome-lightbox'
+import 'react-awesome-lightbox/build/style.css'
 
-import ModalVideo from "react-modal-video";
-import "react-modal-video/css/modal-video.min.css";
+import ModalVideo from 'react-modal-video'
+import 'react-modal-video/css/modal-video.min.css'
 
-import abi from "abis/nft";
-import marketABI from "abis/market";
-import { MARKET_ADDRESS, NFT_ADDRESS } from "constants/app";
-import useStyles from "config/styles";
-import NFTVideo from "components/NFTVideo";
-import { useActiveWeb3React } from "hooks/web3";
-import { useSellTokenIds, useSellOfferIds, getOfferById } from "hooks/useOffer";
-import { formatId } from "utils";
+import abi from 'abis/nft'
+import marketABI from 'abis/market'
+import { MARKET_ADDRESS, NFT_ADDRESS } from 'constants/app'
+import useStyles from 'config/styles'
+import NFTVideo from 'components/NFTVideo'
+import { useActiveWeb3React } from 'hooks/web3'
+import { useSellTokenIds, useSellOfferIds, getOfferById } from 'hooks/useOffer'
+import { formatId } from 'utils'
 
 const useCustomStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    width: "100%",
-    [theme.breakpoints.down("xs")]: {
-      flexDirection: "column",
+    display: 'flex',
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
     },
   },
   details: {
-    display: "flex",
-    flexDirection: "column",
-    width: "60%",
+    display: 'flex',
+    flexDirection: 'column',
+    width: '60%',
     padding: theme.spacing(2),
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
     },
   },
   content: {
-    flex: "1 0 auto",
+    flex: '1 0 auto',
     padding: theme.spacing(1),
-    [theme.breakpoints.down("xs")]: {
-      minHeight: "300px",
+    [theme.breakpoints.down('xs')]: {
+      minHeight: '300px',
     },
   },
   coverWrapper: {
-    width: "40%",
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
+    width: '40%',
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
     },
   },
-}));
+}))
 
 export const Trait = ({ nft, darkTheme, seller }) => {
   const {
@@ -75,179 +75,180 @@ export const Trait = ({ nft, darkTheme, seller }) => {
     white_triple_video,
     black_triple_video,
     owner,
-  } = nft;
+  } = nft
 
-  const [open, setOpen] = useState(false);
-  const [imageOpen, setImageOpen] = useState(false);
-  const [videoPath, setVideoPath] = useState(null);
-  const [sellPrice, setSellPrice] = useState(null);
-  const [theme, setTheme] = useState(darkTheme ? "black" : "white");
-  const [price, setPrice] = useState("");
-  const [tokenName, setTokenName] = useState(name);
-  const [address, setAddress] = useState("");
-  const [accountTokenIds, setAccountTokenIds] = useState([]);
+  const [open, setOpen] = useState(false)
+  const [imageOpen, setImageOpen] = useState(false)
+  const [videoPath, setVideoPath] = useState(null)
+  const [sellPrice, setSellPrice] = useState(null)
+  const [theme, setTheme] = useState(darkTheme ? 'black' : 'white')
+  const [price, setPrice] = useState('')
+  const [tokenName, setTokenName] = useState(name)
+  const [address, setAddress] = useState('')
+  const [accountTokenIds, setAccountTokenIds] = useState([])
 
-  const classes = useStyles();
-  const customClasses = useCustomStyles();
-  const { account, library } = useActiveWeb3React();
-  const history = useHistory();
-  const location = useLocation();
+  const classes = useStyles()
+  const customClasses = useCustomStyles()
+  const { account, library } = useActiveWeb3React()
+  const history = useHistory()
+  const location = useLocation()
 
-  const sellOfferIds = useSellOfferIds(id);
-  const sellTokenIds = useSellTokenIds(account);
+  const sellOfferIds = useSellOfferIds(id)
+  const sellTokenIds = useSellTokenIds(account)
 
   const handlePlay = (videoPath) => {
-    console.log(videoPath);
+    console.log(videoPath)
     fetch(videoPath).then((res) => {
       if (res.ok) {
-        setVideoPath(videoPath);
-        setOpen(true);
+        setVideoPath(videoPath)
+        setOpen(true)
       } else {
-        alert("Video is being generated, come back later");
+        alert('Video is being generated, come back later')
       }
-    });
-  };
+    })
+  }
 
   const handleMakeSell = async () => {
-    const signer = library.getSigner();
-    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
-    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    const signer = library.getSigner()
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer)
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer)
 
     try {
       const approvedAll = await contract.isApprovedForAll(
         account,
-        MARKET_ADDRESS
-      );
+        MARKET_ADDRESS,
+      )
       if (!approvedAll) {
         await contract
           .setApprovalForAll(MARKET_ADDRESS, true)
-          .then((tx) => tx.wait());
+          .then((tx) => tx.wait())
       }
       await market
         .makeSellOffer(NFT_ADDRESS, id, ethers.utils.parseEther(price))
-        .then((tx) => tx.wait());
-      window.location.reload();
+        .then((tx) => tx.wait())
+      window.location.reload()
     } catch (err) {
-      console.log(err);
+      alert(err.data ? err.data.message : err.message)
     }
-  };
+  }
 
   const handleMakeBuy = async () => {
-    const signer = library.getSigner();
-    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    const signer = library.getSigner()
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer)
 
     try {
       await market
         .makeBuyOffer(NFT_ADDRESS, id, {
           value: ethers.utils.parseEther(price),
         })
-        .then((tx) => tx.wait());
-      window.location.reload();
+        .then((tx) => tx.wait())
+      window.location.reload()
     } catch (err) {
-      console.log(err);
+      alert(err.data ? err.data.message : err.message)
     }
-  };
+  }
 
   const handleCancelSell = async () => {
-    const signer = library.getSigner();
-    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    const signer = library.getSigner()
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer)
     try {
-      await market.cancelSellOffer(sellOfferIds[0]).then((tx) => tx.wait());
-      window.location.reload();
+      await market.cancelSellOffer(sellOfferIds[0]).then((tx) => tx.wait())
+      window.location.reload()
     } catch (err) {
-      console.log(err);
+      alert(err.data ? err.data.message : err.message)
     }
-  };
+  }
 
   const handleAcceptSell = async () => {
-    const signer = library.getSigner();
-    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer);
+    const signer = library.getSigner()
+    const market = new ethers.Contract(MARKET_ADDRESS, marketABI, signer)
 
     try {
-      const offerId = sellOfferIds[0];
-      const offer = await market.offers(offerId);
+      const offerId = sellOfferIds[0]
+      const offer = await market.offers(offerId)
+      console.log(offer)
       await market
         .acceptSellOffer(offerId, {
           value: ethers.BigNumber.from(offer.price),
         })
-        .then((tx) => tx.wait());
-      history.push("/my-nfts");
+        .then((tx) => tx.wait())
+      history.push('/my-nfts')
     } catch (err) {
-      console.log(err);
+      alert(err.data ? err.data.message : err.message)
     }
-  };
+  }
 
   const handleTransfer = async () => {
-    const signer = library.getSigner();
-    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
+    const signer = library.getSigner()
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer)
 
     try {
-      await contract.transferFrom(account, address, id).then((tx) => tx.wait());
-      history.push("/my-nfts");
+      await contract.transferFrom(account, address, id).then((tx) => tx.wait())
+      history.push('/my-nfts')
     } catch (err) {
-      console.log(err);
+      console.log(err)
     }
-  };
+  }
 
   const handleSetTokenName = async () => {
-    const signer = library.getSigner();
-    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer);
+    const signer = library.getSigner()
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, signer)
 
     try {
-      await contract.setTokenName(id, tokenName).then((tx) => tx.wait());
-      history.push("/my-nfts");
+      await contract.setTokenName(id, tokenName).then((tx) => tx.wait())
+      history.push('/my-nfts')
     } catch (err) {
-      console.log(err);
+      alert(err.data ? err.data.message : err.message)
     }
-  };
+  }
 
-  const handlePrev = () => history.push(`/detail/${Math.max(id - 1, 0)}`);
+  const handlePrev = () => history.push(`/detail/${Math.max(id - 1, 0)}`)
 
   const handleNext = async () => {
-    const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
-    const totalSupply = await contract.totalSupply();
-    history.push(`/detail/${Math.min(id + 1, totalSupply.toNumber() - 1)}`);
-  };
+    const contract = new ethers.Contract(NFT_ADDRESS, abi, library)
+    const totalSupply = await contract.totalSupply()
+    history.push(`/detail/${Math.min(id + 1, totalSupply.toNumber() - 1)}`)
+  }
 
   const handlePrevInWallet = () => {
-    const index = accountTokenIds.indexOf(id);
-    history.push(`/detail/${accountTokenIds[Math.max(index - 1, 0)]}`);
-  };
+    const index = accountTokenIds.indexOf(id)
+    history.push(`/detail/${accountTokenIds[Math.max(index - 1, 0)]}`)
+  }
 
   const handleNextInWallet = async () => {
-    const index = accountTokenIds.indexOf(id);
+    const index = accountTokenIds.indexOf(id)
     history.push(
       `/detail/${
         accountTokenIds[Math.min(index + 1, accountTokenIds.length - 1)]
-      }`
-    );
-  };
+      }`,
+    )
+  }
 
   useEffect(() => {
-    setTheme(darkTheme ? "black" : "white");
-  }, [darkTheme]);
+    setTheme(darkTheme ? 'black' : 'white')
+  }, [darkTheme])
 
   useEffect(() => {
-    const { hash } = location;
-    if (hash === "#black_image" || hash === "#white_image") {
-      setTheme(hash.includes("black") ? "black" : "white");
-      setImageOpen(true);
+    const { hash } = location
+    if (hash === '#black_image' || hash === '#white_image') {
+      setTheme(hash.includes('black') ? 'black' : 'white')
+      setImageOpen(true)
     } else if (
-      hash === "#black_single_video" ||
-      hash === "#white_single_video"
+      hash === '#black_single_video' ||
+      hash === '#white_single_video'
     ) {
-      setTheme(hash.includes("black") ? "black" : "white");
+      setTheme(hash.includes('black') ? 'black' : 'white')
       handlePlay(
-        hash.includes("black") ? black_single_video : white_single_video
-      );
+        hash.includes('black') ? black_single_video : white_single_video,
+      )
     } else if (
-      hash === "#black_triple_video" ||
-      hash === "#white_triple_video"
+      hash === '#black_triple_video' ||
+      hash === '#white_triple_video'
     ) {
-      setTheme(hash.includes("black") ? "black" : "white");
+      setTheme(hash.includes('black') ? 'black' : 'white')
       handlePlay(
-        hash.includes("black") ? black_triple_video : white_triple_video
-      );
+        hash.includes('black') ? black_triple_video : white_triple_video,
+      )
     }
   }, [
     location,
@@ -255,30 +256,30 @@ export const Trait = ({ nft, darkTheme, seller }) => {
     white_single_video,
     black_triple_video,
     white_triple_video,
-  ]);
+  ])
 
   useEffect(() => {
     const getSellOffer = async (id) => {
-      const offer = await getOfferById(library, id);
-      setSellPrice(offer.price);
-    };
+      const offer = await getOfferById(library, id)
+      setSellPrice(offer.price)
+    }
     if (sellOfferIds.length > 0) {
-      getSellOffer(sellOfferIds[0]);
+      getSellOffer(sellOfferIds[0])
     }
 
-    return () => setSellPrice(null);
-  }, [library, sellOfferIds]);
+    return () => setSellPrice(null)
+  }, [library, sellOfferIds])
 
   useEffect(() => {
     const getAccountTokenIds = async () => {
-      const contract = new ethers.Contract(NFT_ADDRESS, abi, library);
-      const tokenIds = await contract.walletOfOwner(account);
-      setAccountTokenIds(tokenIds.map((tokenId) => tokenId.toNumber()));
-    };
-    if (account) {
-      getAccountTokenIds();
+      const contract = new ethers.Contract(NFT_ADDRESS, abi, library)
+      const tokenIds = await contract.walletOfOwner(account)
+      setAccountTokenIds(tokenIds.map((tokenId) => tokenId.toNumber()))
     }
-  }, [account, library]);
+    if (account) {
+      getAccountTokenIds()
+    }
+  }, [account, library])
 
   return (
     <Box>
@@ -290,7 +291,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                 <CardActionArea onClick={() => setImageOpen(true)}>
                   <CardMedia
                     className={classes.nftImage}
-                    image={theme === "black" ? black_image : white_image}
+                    image={theme === 'black' ? black_image : white_image}
                   />
                   <div className={classes.nftInfo}>
                     <Typography
@@ -298,7 +299,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                       variant="body1"
                       gutterBottom
                       style={{
-                        color: theme === "black" ? "#FFFFFF" : "#000000",
+                        color: theme === 'black' ? '#FFFFFF' : '#000000',
                       }}
                     >
                       {formatId(id)}
@@ -317,7 +318,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                     <Button
                       variant="outlined"
                       color="primary"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                       onClick={handlePrev}
                     >
                       Prev
@@ -327,7 +328,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                     <Button
                       variant="outlined"
                       color="primary"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                       onClick={handleNext}
                     >
                       Next
@@ -342,7 +343,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         onClick={handlePrevInWallet}
                       >
                         Prev In Wallet
@@ -352,7 +353,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                       <Button
                         variant="outlined"
                         color="primary"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         onClick={handleNextInWallet}
                       >
                         Next In Wallet
@@ -363,7 +364,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
               )}
               {imageOpen && (
                 <Lightbox
-                  image={theme === "black" ? black_image : white_image}
+                  image={theme === 'black' ? black_image : white_image}
                   onClose={() => setImageOpen(false)}
                 />
               )}
@@ -380,7 +381,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                   gutterBottom
                 >
                   <Link
-                    style={{ color: "#fff" }}
+                    style={{ color: '#fff' }}
                     to={`/gallery?address=${seller || owner}`}
                   >
                     {seller || owner}
@@ -420,7 +421,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                   <Button
                     variant="outlined"
                     color="primary"
-                    style={{ width: "100%" }}
+                    style={{ width: '100%' }}
                   >
                     Copy link
                   </Button>
@@ -537,7 +538,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                           variant="contained"
                           onClick={handleCancelSell}
                           size="large"
-                          style={{ height: "100%" }}
+                          style={{ height: '100%' }}
                         >
                           Cancel Sell Offer
                         </Button>
@@ -551,7 +552,7 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                             variant="contained"
                             onClick={handleAcceptSell}
                             size="large"
-                            style={{ height: "100%" }}
+                            style={{ height: '100%' }}
                           >
                             Buy Now for {sellPrice && sellPrice.toFixed(4)}Ξ
                           </Button>
@@ -581,10 +582,10 @@ export const Trait = ({ nft, darkTheme, seller }) => {
           <Grid container spacing={4}>
             <Grid item xs={12} sm={6}>
               <NFTVideo
-                image_thumb={theme === "black" ? black_image : white_image}
+                image_thumb={theme === 'black' ? black_image : white_image}
                 onClick={() =>
                   handlePlay(
-                    theme === "black" ? black_single_video : white_single_video
+                    theme === 'black' ? black_single_video : white_single_video,
                   )
                 }
               />
@@ -596,10 +597,10 @@ export const Trait = ({ nft, darkTheme, seller }) => {
             </Grid>
             <Grid item xs={12} sm={6}>
               <NFTVideo
-                image_thumb={theme === "black" ? black_image : white_image}
+                image_thumb={theme === 'black' ? black_image : white_image}
                 onClick={() =>
                   handlePlay(
-                    theme === "black" ? black_triple_video : white_triple_video
+                    theme === 'black' ? black_triple_video : white_triple_video,
                   )
                 }
               />
@@ -619,5 +620,5 @@ export const Trait = ({ nft, darkTheme, seller }) => {
         </Container>
       </Box>
     </Box>
-  );
-};
+  )
+}

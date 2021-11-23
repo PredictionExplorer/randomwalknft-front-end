@@ -51,11 +51,7 @@ const Detail = () => {
       className={classes.root}
       style={{
         paddingLeft: 0,
-        paddingRight: 0,
-        backgroundImage: `url(${nft.black_image})`,
-        backgroundSize: 'cover',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center center',
+        paddingRight: 0
       }}
     >
       {location.state && location.state.message && (

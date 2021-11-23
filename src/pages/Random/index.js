@@ -25,10 +25,14 @@ const Random = (props) => {
     <div
       style={{
         backgroundImage: `url(${blackImage})`,
-        backgroundSize: 'cover',
+        backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center center',
-        height: '100vh',
+        position: 'absolute',
+        top: 125,
+        bottom: 64,
+        left: 0,
+        right: 0,
       }}
     >
       {tokenId && (

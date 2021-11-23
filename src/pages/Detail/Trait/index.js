@@ -282,141 +282,37 @@ export const Trait = ({ nft, darkTheme, seller }) => {
   }, [account, library])
 
   return (
-    <Box>
-      <Box className={classes.section1}>
-        <Container>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={7} md={4} lg={4}>
-              <Card className={customClasses.root}>
-                <CardActionArea onClick={() => setImageOpen(true)}>
-                  <CardMedia
-                    className={classes.nftImage}
-                    image={theme === 'black' ? black_image : white_image}
-                  />
-                  <div className={classes.nftInfo}>
-                    <Typography
-                      className={classes.nftId}
-                      variant="body1"
-                      gutterBottom
-                      style={{
-                        color: theme === 'black' ? '#FFFFFF' : '#000000',
-                      }}
-                    >
-                      {formatId(id)}
-                    </Typography>
-                    {sellPrice && (
-                      <Typography className={classes.nftPrice} variant="body1">
-                        {sellPrice.toFixed(4)}Ξ
-                      </Typography>
-                    )}
-                  </div>
-                </CardActionArea>
-              </Card>
-              <Box mt={2}>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      style={{ width: '100%' }}
-                      onClick={handlePrev}
-                    >
-                      Prev
-                    </Button>
-                  </Grid>
-                  <Grid item xs={6}>
-                    <Button
-                      variant="outlined"
-                      color="primary"
-                      style={{ width: '100%' }}
-                      onClick={handleNext}
-                    >
-                      Next
-                    </Button>
-                  </Grid>
-                </Grid>
-              </Box>
-              {account === (seller || owner) && accountTokenIds.length > 0 && (
-                <Box mt={1}>
-                  <Grid container spacing={2}>
-                    <Grid item xs={6}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        style={{ width: '100%' }}
-                        onClick={handlePrevInWallet}
-                      >
-                        Prev In Wallet
-                      </Button>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        style={{ width: '100%' }}
-                        onClick={handleNextInWallet}
-                      >
-                        Next In Wallet
-                      </Button>
-                    </Grid>
-                  </Grid>
-                </Box>
-              )}
-              {imageOpen && (
-                <Lightbox
-                  image={theme === 'black' ? black_image : white_image}
-                  onClose={() => setImageOpen(false)}
-                />
-              )}
-            </Grid>
-            <Grid item xs={12} sm={5} md={4} lg={3}>
-              <Box>
-                <Typography align="left" variant="body1" color="secondary">
-                  Owner
-                </Typography>
+    <Container className={classes.section1}>
+      <Grid container spacing={4} justifyContent="center">
+        <Grid item xs={12} sm={8} md={6}>
+          <Card className={customClasses.root}>
+            <CardActionArea onClick={() => setImageOpen(true)}>
+              <CardMedia
+                className={classes.nftImage}
+                image={theme === 'black' ? black_image : white_image}
+              />
+              <div className={classes.nftInfo}>
                 <Typography
-                  align="left"
-                  variant="body2"
-                  color="textPrimary"
+                  className={classes.nftId}
+                  variant="body1"
                   gutterBottom
+                  style={{
+                    color: theme === 'black' ? '#FFFFFF' : '#000000',
+                  }}
                 >
-                  <Link
-                    style={{ color: '#fff' }}
-                    to={`/gallery?address=${seller || owner}`}
-                  >
-                    {seller || owner}
-                  </Link>
+                  {formatId(id)}
                 </Typography>
-              </Box>
-              <Box>
-                <Typography align="left" variant="body1" color="secondary">
-                  Seed
-                </Typography>
-                <Typography
-                  align="left"
-                  variant="body2"
-                  color="textPrimary"
-                  gutterBottom
-                >
-                  {seed}
-                </Typography>
-              </Box>
-              {name && (
-                <Box>
-                  <Typography align="left" variant="body1" color="secondary">
-                    Name
+                {sellPrice && (
+                  <Typography className={classes.nftPrice} variant="body1">
+                    {sellPrice.toFixed(4)}Ξ
                   </Typography>
-                  <Typography
-                    align="left"
-                    variant="body2"
-                    color="textPrimary"
-                    gutterBottom
-                  >
-                    {name}
-                  </Typography>
-                </Box>
-              )}
-              <Box mt={2}>
+                )}
+              </div>
+            </CardActionArea>
+          </Card>
+          <Box mt={2}>
+            <Grid container spacing={2}>
+              <Grid item xs={4}>
                 <CopyToClipboard text={window.location.href}>
                   <Button
                     variant="outlined"
@@ -426,38 +322,207 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                     Copy link
                   </Button>
                 </CopyToClipboard>
-              </Box>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ width: '100%' }}
+                  onClick={handlePrev}
+                >
+                  Prev
+                </Button>
+              </Grid>
+              <Grid item xs={4}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  style={{ width: '100%' }}
+                  onClick={handleNext}
+                >
+                  Next
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={12} md={4} lg={5}>
-              <Box>
-                {account === nft.owner ? (
-                  <>
-                    <Box mb={3}>
-                      <Typography gutterBottom variant="h6" align="left">
-                        TRANSFER
-                      </Typography>
-                      <Box display="flex">
-                        <TextField
-                          variant="filled"
-                          color="secondary"
-                          placeholder="Enter address here"
-                          fullWidth
-                          size="small"
-                          value={address}
-                          onChange={(e) => setAddress(e.target.value)}
-                        />
-                        <Button
-                          color="secondary"
-                          variant="contained"
-                          onClick={handleTransfer}
-                        >
-                          Send
-                        </Button>
-                      </Box>
+          </Box>
+          {account === (seller || owner) && accountTokenIds.length > 0 && (
+            <Box mt={1}>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ width: '100%' }}
+                    onClick={handlePrevInWallet}
+                  >
+                    Prev In Wallet
+                  </Button>
+                </Grid>
+                <Grid item xs={6}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    style={{ width: '100%' }}
+                    onClick={handleNextInWallet}
+                  >
+                    Next In Wallet
+                  </Button>
+                </Grid>
+              </Grid>
+            </Box>
+          )}
+          {imageOpen && (
+            <Lightbox
+              image={theme === 'black' ? black_image : white_image}
+              onClose={() => setImageOpen(false)}
+            />
+          )}
+        </Grid>
+        <Grid item xs={12} sm={8} md={6}>
+          <NFTVideo
+            image_thumb={theme === 'black' ? black_image : white_image}
+            onClick={() =>
+              handlePlay(
+                theme === 'black' ? black_single_video : white_single_video,
+              )
+            }
+          />
+          <Box mt={2}>
+            <Typography variant="body1" align="center">
+              Single Video
+            </Typography>
+          </Box>
+        </Grid>
+      </Grid>
+      <Box mt={3}>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} sm={8} md={6}>
+            <NFTVideo
+              image_thumb={theme === 'black' ? black_image : white_image}
+              onClick={() =>
+                handlePlay(
+                  theme === 'black' ? black_triple_video : white_triple_video,
+                )
+              }
+            />
+            <Box mt={2}>
+              <Typography variant="body1" align="center">
+                Triple Video
+              </Typography>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={8} md={6}>
+            <Box mb={3}>
+              <Typography align="left" variant="body1" color="secondary">
+                Owner
+              </Typography>
+              <Typography align="left" variant="body2" color="textPrimary">
+                <Link
+                  style={{ color: '#fff' }}
+                  to={`/gallery?address=${seller || owner}`}
+                >
+                  {seller || owner}
+                </Link>
+              </Typography>
+            </Box>
+            <Box mb={3}>
+              <Typography align="left" variant="body1" color="secondary">
+                Seed
+              </Typography>
+              <Typography align="left" variant="body2" color="textPrimary">
+                {seed}
+              </Typography>
+            </Box>
+            {name && (
+              <Box mb={3}>
+                <Typography align="left" variant="body1" color="secondary">
+                  Name
+                </Typography>
+                <Typography align="left" variant="body2" color="textPrimary">
+                  {name}
+                </Typography>
+              </Box>
+            )}
+            <Box>
+              {account === nft.owner ? (
+                <>
+                  <Box mb={3}>
+                    <Typography gutterBottom variant="h6" align="left">
+                      TRANSFER
+                    </Typography>
+                    <Box display="flex">
+                      <TextField
+                        variant="filled"
+                        color="secondary"
+                        placeholder="Enter address here"
+                        fullWidth
+                        size="small"
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
+                      />
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleTransfer}
+                      >
+                        Send
+                      </Button>
                     </Box>
+                  </Box>
+                  <Box mb={3}>
+                    <Typography gutterBottom variant="h6" align="left">
+                      PUT ON SALE
+                    </Typography>
+                    <Box display="flex">
+                      <TextField
+                        type="number"
+                        variant="filled"
+                        color="secondary"
+                        placeholder="Enter ETH price here"
+                        value={price}
+                        size="small"
+                        style={{ flex: 1 }}
+                        onChange={(e) => setPrice(e.target.value)}
+                      />
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleMakeSell}
+                      >
+                        Sell
+                      </Button>
+                    </Box>
+                  </Box>
+                  <Box mb={3}>
+                    <Typography gutterBottom variant="h6" align="left">
+                      RENAME
+                    </Typography>
+                    <Box display="flex">
+                      <TextField
+                        variant="filled"
+                        color="secondary"
+                        placeholder="Enter token name here"
+                        value={tokenName}
+                        size="small"
+                        fullWidth
+                        onChange={(e) => setTokenName(e.target.value)}
+                      />
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleSetTokenName}
+                      >
+                        Update
+                      </Button>
+                    </Box>
+                  </Box>
+                </>
+              ) : (
+                <>
+                  {!sellTokenIds.includes(id) && (
                     <Box mb={3}>
                       <Typography gutterBottom variant="h6" align="left">
-                        PUT ON SALE
+                        BID
                       </Typography>
                       <Box display="flex">
                         <TextField
@@ -473,152 +538,53 @@ export const Trait = ({ nft, darkTheme, seller }) => {
                         <Button
                           color="secondary"
                           variant="contained"
-                          onClick={handleMakeSell}
+                          onClick={handleMakeBuy}
                         >
-                          Sell
+                          Make Offer
                         </Button>
                       </Box>
                     </Box>
+                  )}
+                  {sellTokenIds.includes(id) ? (
                     <Box mb={3}>
-                      <Typography gutterBottom variant="h6" align="left">
-                        RENAME
-                      </Typography>
-                      <Box display="flex">
-                        <TextField
-                          variant="filled"
-                          color="secondary"
-                          placeholder="Enter token name here"
-                          value={tokenName}
-                          size="small"
-                          fullWidth
-                          onChange={(e) => setTokenName(e.target.value)}
-                        />
-                        <Button
-                          color="secondary"
-                          variant="contained"
-                          onClick={handleSetTokenName}
-                        >
-                          Update
-                        </Button>
-                      </Box>
+                      <Button
+                        color="secondary"
+                        variant="contained"
+                        onClick={handleCancelSell}
+                        size="large"
+                        style={{ height: '100%' }}
+                      >
+                        Cancel Sell Offer
+                      </Button>
                     </Box>
-                  </>
-                ) : (
-                  <>
-                    {!sellTokenIds.includes(id) && (
-                      <Box mb={3}>
-                        <Typography gutterBottom variant="h6" align="left">
-                          BID
-                        </Typography>
-                        <Box display="flex">
-                          <TextField
-                            type="number"
-                            variant="filled"
-                            color="secondary"
-                            placeholder="Enter ETH price here"
-                            value={price}
-                            size="small"
-                            style={{ flex: 1 }}
-                            onChange={(e) => setPrice(e.target.value)}
-                          />
-                          <Button
-                            color="secondary"
-                            variant="contained"
-                            onClick={handleMakeBuy}
-                          >
-                            Make Offer
-                          </Button>
-                        </Box>
-                      </Box>
-                    )}
-                    {sellTokenIds.includes(id) ? (
+                  ) : (
+                    nft.owner.toLowerCase() ===
+                      MARKET_ADDRESS.toLowerCase() && (
                       <Box mb={3}>
                         <Button
                           color="secondary"
                           variant="contained"
-                          onClick={handleCancelSell}
+                          onClick={handleAcceptSell}
                           size="large"
                           style={{ height: '100%' }}
                         >
-                          Cancel Sell Offer
+                          Buy Now for {sellPrice && sellPrice.toFixed(4)}Ξ
                         </Button>
                       </Box>
-                    ) : (
-                      nft.owner.toLowerCase() ===
-                        MARKET_ADDRESS.toLowerCase() && (
-                        <Box mb={3}>
-                          <Button
-                            color="secondary"
-                            variant="contained"
-                            onClick={handleAcceptSell}
-                            size="large"
-                            style={{ height: '100%' }}
-                          >
-                            Buy Now for {sellPrice && sellPrice.toFixed(4)}Ξ
-                          </Button>
-                        </Box>
-                      )
-                    )}
-                  </>
-                )}
-              </Box>
-            </Grid>
+                    )
+                  )}
+                </>
+              )}
+            </Box>
           </Grid>
-        </Container>
+        </Grid>
       </Box>
-      <Box className={classes.section2}>
-        <Container>
-          <Box mb={4}>
-            <Typography variant="h4" align="center">
-              <Typography component="span" variant="h4" color="secondary">
-                VIDEO
-              </Typography>
-              &nbsp;
-              <Typography component="span" variant="h4">
-                GALLERY
-              </Typography>
-            </Typography>
-          </Box>
-          <Grid container spacing={4}>
-            <Grid item xs={12} sm={6}>
-              <NFTVideo
-                image_thumb={theme === 'black' ? black_image : white_image}
-                onClick={() =>
-                  handlePlay(
-                    theme === 'black' ? black_single_video : white_single_video,
-                  )
-                }
-              />
-              <Box mt={4}>
-                <Typography variant="body1" align="center">
-                  Single Video
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <NFTVideo
-                image_thumb={theme === 'black' ? black_image : white_image}
-                onClick={() =>
-                  handlePlay(
-                    theme === 'black' ? black_triple_video : white_triple_video,
-                  )
-                }
-              />
-              <Box mt={4}>
-                <Typography variant="body1" align="center">
-                  Triple Video
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-          <ModalVideo
-            channel="custom"
-            url={videoPath}
-            isOpen={open}
-            onClose={() => setOpen(false)}
-          />
-        </Container>
-      </Box>
-    </Box>
+      <ModalVideo
+        channel="custom"
+        url={videoPath}
+        isOpen={open}
+        onClose={() => setOpen(false)}
+      />
+    </Container>
   )
 }

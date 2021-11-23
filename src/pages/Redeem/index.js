@@ -64,7 +64,7 @@ const Redeem = () => {
 
       const amount = await contract.withdrawalAmount();
       setWithdrawalAmount(
-        parseFloat(ethers.utils.formatEther(amount)).toFixed(4)
+        parseFloat(ethers.utils.formatEther(amount)).toFixed(1)
       );
     };
 

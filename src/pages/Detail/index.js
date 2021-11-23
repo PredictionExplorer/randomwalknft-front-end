@@ -1,55 +1,62 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router'
+import { useParams } from 'react-router-dom'
 
-import { Container, Box, Divider } from "@material-ui/core";
-import { Alert, ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { Container, Box, Divider } from '@material-ui/core'
+import { Alert, ToggleButton, ToggleButtonGroup } from '@material-ui/lab'
 
-import useStyles from "config/styles";
-import { useNFT } from "hooks/useNFT";
-import { useBuyOfferIds, useSellTokenIds } from "hooks/useOffer";
-import { useActiveWeb3React } from "hooks/web3";
+import useStyles from 'config/styles'
+import { useNFT } from 'hooks/useNFT'
+import { useBuyOfferIds, useSellTokenIds } from 'hooks/useOffer'
+import { useActiveWeb3React } from 'hooks/web3'
 
-import { Trait } from "./Trait";
-import { BuyOffers } from "./BuyOffers";
+import { Trait } from './Trait'
+import { BuyOffers } from './BuyOffers'
 
-import "./index.css";
+import './index.css'
 
 const Detail = () => {
-  const classes = useStyles();
-  const { id } = useParams();
-  const { location } = useHistory();
-  const nft = useNFT(id);
-  const buyOffers = useBuyOfferIds(id);
-  const { account, library } = useActiveWeb3React();
-  const sellTokenIds = useSellTokenIds(account);
-  const [darkTheme, setDarkTheme] = useState(true);
+  const classes = useStyles()
+  const { id } = useParams()
+  const { location } = useHistory()
+  const nft = useNFT(id)
+  const buyOffers = useBuyOfferIds(id)
+  const { account, library } = useActiveWeb3React()
+  const sellTokenIds = useSellTokenIds(account)
+  const [darkTheme, setDarkTheme] = useState(true)
 
   useEffect(() => {
     const darkModes = [
-      "#black_image",
-      "#black_single_video",
-      "#black_triple_video",
-    ];
+      '#black_image',
+      '#black_single_video',
+      '#black_triple_video',
+    ]
     const lightModes = [
-      "#white_image",
-      "#white_single_video",
-      "#white_triple_video",
-    ];
+      '#white_image',
+      '#white_single_video',
+      '#white_triple_video',
+    ]
     if (darkModes.includes(location.hash)) {
-      setDarkTheme(true);
+      setDarkTheme(true)
     } else if (lightModes.includes(location.hash)) {
-      setDarkTheme(false);
+      setDarkTheme(false)
     }
-  }, [location]);
+  }, [location])
 
-  if (!nft) return <></>;
+  if (!nft) return <></>
 
   return (
     <Container
       maxWidth={false}
       className={classes.root}
-      style={{ paddingLeft: 0, paddingRight: 0 }}
+      style={{
+        paddingLeft: 0,
+        paddingRight: 0,
+        backgroundImage: `url(${nft.black_image})`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center',
+      }}
     >
       {location.state && location.state.message && (
         <Box px={8} mb={2}>
@@ -62,14 +69,14 @@ const Detail = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
-        style={{ position: "relative", height: 60 }}
+        style={{ position: 'relative', height: 60 }}
       >
-        <Divider style={{ background: "#121212", width: "100%" }} />
+        <Divider style={{ background: '#121212', width: '100%' }} />
         <ToggleButtonGroup
           value={darkTheme}
           exclusive
           onChange={() => setDarkTheme(!darkTheme)}
-          style={{ position: "absolute" }}
+          style={{ position: 'absolute' }}
         >
           <ToggleButton value={true}>Dark theme</ToggleButton>
           <ToggleButton value={false}>White theme</ToggleButton>
@@ -88,7 +95,7 @@ const Detail = () => {
         sellTokenIds={sellTokenIds}
       />
     </Container>
-  );
-};
+  )
+}
 
-export default Detail;
+export default Detail

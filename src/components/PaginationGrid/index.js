@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useHistory } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useLocation, useHistory } from 'react-router-dom'
 import {
   Grid,
   Box,
@@ -7,46 +7,52 @@ import {
   Button,
   CircularProgress,
   Typography,
-} from "@material-ui/core";
-import Pagination from "@material-ui/lab/Pagination";
+} from '@material-ui/core'
+import Pagination from '@material-ui/lab/Pagination'
 
-import useStyles from "config/styles";
-import NFT from "components/NFT";
+import useStyles from 'config/styles'
+import NFT from 'components/NFT'
 
 const PaginationGrid = ({ loading, data }) => {
-  const [nftId, setNftId] = useState("");
-  const [searchId, setSearchId] = useState(null);
-  const [searchResult, setSearchResult] = useState(false);
-  const [collection, setCollection] = useState([]);
-  const [perPage] = useState(15);
-  const [curPage, setCurPage] = useState(1);
-  const classes = useStyles();
+  const [nftId, setNftId] = useState('')
+  const [searchId, setSearchId] = useState(null)
+  const [searchResult, setSearchResult] = useState(false)
+  const [collection, setCollection] = useState([])
+  const [perPage] = useState(15)
+  const [curPage, setCurPage] = useState(1)
+  const classes = useStyles()
 
-  const location = useLocation();
-  const history = useHistory();
+  const location = useLocation()
+  const history = useHistory()
+
+  const handleNextPage = (page) => {
+    const searchParams = new URLSearchParams(location.search)
+    searchParams.set('page', page)
+    history.push(`${location.pathname}?${searchParams.toString()}`)
+  }
 
   const handleSearchChange = async (e) => {
-    setNftId(e.target.value);
+    setNftId(e.target.value)
     if (!e.target.value) {
-      setSearchId(null);
-      setSearchResult(false);
+      setSearchId(null)
+      setSearchResult(false)
     }
-  };
+  }
 
   const handleSearch = async () => {
-    setSearchId(nftId);
-    setSearchResult(collection.includes(parseInt(nftId)));
-  };
+    setSearchId(nftId)
+    setSearchResult(collection.includes(parseInt(nftId)))
+  }
 
   useEffect(() => {
-    setCollection(data);
-  }, [data]);
+    setCollection(data)
+  }, [data])
 
   useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const page = parseInt(params.get("page")) || 1;
-    setCurPage(page);
-  }, [location]);
+    const params = new URLSearchParams(location.search)
+    const page = parseInt(params.get('page')) || 1
+    setCurPage(page)
+  }, [location])
 
   return (
     <Box mt={4}>
@@ -104,9 +110,7 @@ const PaginationGrid = ({ loading, data }) => {
               <Pagination
                 color="primary"
                 page={curPage}
-                onChange={(e, page) =>
-                  history.push(`${location.pathname}?page=${page}`)
-                }
+                onChange={(e, page) => handleNextPage(page)}
                 count={Math.ceil(collection.length / perPage)}
                 showFirstButton
                 showLastButton
@@ -121,7 +125,7 @@ const PaginationGrid = ({ loading, data }) => {
         </Typography>
       )}
     </Box>
-  );
-};
+  )
+}
 
-export default PaginationGrid;
+export default PaginationGrid

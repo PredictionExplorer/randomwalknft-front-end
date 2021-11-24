@@ -30,7 +30,7 @@ const Gallery = () => {
         let tokenIds = []
         if (address) {
           const tokens = await contract.walletOfOwner(address)
-          tokenIds = tokens.map((t) => t.toNumber())
+          tokenIds = tokens.map((t) => t.toNumber()).reverse()
         } else {
           setAddress(address)
           const balance = await contract.totalSupply()

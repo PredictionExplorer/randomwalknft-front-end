@@ -12,6 +12,7 @@ const routes = [
   { path: "/code", component: lazy(() => import("pages/CodeViewer")) },
   { path: "/faq", component: lazy(() => import("pages/FAQ")) },
   { path: "/random", component: lazy(() => import("pages/Random")) },
+  { path: "/random-video", component: lazy(() => import("pages/RandomVideo")) },
   { path: "/", component: lazy(() => import("pages/Home")) },
 ];
 

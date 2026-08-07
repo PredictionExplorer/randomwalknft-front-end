@@ -1,0 +1,98 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-panel-elevated: var(--panel-elevated);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-highlight: var(--highlight);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-sans);
+  --font-mono:
+    ui-monospace, SFMono-Regular, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  --font-display: var(--font-display);
+  --radius-xl: 1.5rem;
+}
+
+:root {
+  --background: #060609;
+  --foreground: #f7f2fa;
+  --canvas: #050507;
+  --panel: rgba(15, 15, 24, 0.82);
+  --panel-elevated: rgba(22, 22, 34, 0.96);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(244, 191, 255, 0.4);
+  --muted: rgba(247, 242, 250, 0.68);
+  --accent: #c676d7;
+  --accent-soft: rgba(198, 118, 215, 0.16);
+  --highlight: #f4bfff;
+  --success: #6dd3a3;
+  --danger: #ff7a94;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgba(198, 118, 215, 0.18), transparent 32%),
+    linear-gradient(180deg, #040405 0%, #060609 33%, #111118 100%);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+a {
+  color: inherit;
+}
+
+::selection {
+  background: rgba(244, 191, 255, 0.25);
+  color: #fff;
+}
+
+.glass-panel {
+  background: var(--panel);
+  backdrop-filter: blur(18px);
+}
+
+.noise-overlay {
+  position: relative;
+}
+
+.noise-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

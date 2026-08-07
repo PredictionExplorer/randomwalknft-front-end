@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+      - "codex/**"
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      MOCK_APP_DATA: "1"
+      NEXT_PUBLIC_CHAIN_ID: "42161"
+      NEXT_PUBLIC_NFT_ADDRESS: "0x895a6F444BE4ba9d124F61DF736605792B35D66b"
+      NEXT_PUBLIC_MARKET_ADDRESS: "0x47eF85Dfb775aCE0934fBa9EEd09D22e6eC0Cc08"
+      NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID: "11111111111111111111111111111111"
+      RPC_URL: "https://arb1.arbitrum.io/rpc"
+      MEDIA_BASE_URL: "https://randomwalknft.s3.us-east-2.amazonaws.com"
+      NFT_API_BASE_URL: "https://randomwalknft-api.com"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.13.1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium webkit
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit and component tests
+        run: pnpm test
+
+      - name: End-to-end tests
+        run: pnpm test:e2e
+
+      - name: Build
+        run: pnpm build
